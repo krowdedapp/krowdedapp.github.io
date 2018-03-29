@@ -1,0 +1,122 @@
+/* Overall Container */
+
+#container {
+	background-color: #333;
+	color: white;
+	font-size: 1em; 
+	margin: -.55em -.55em 0 -4.1em;
+	padding-left: .625em;
+	height: 3.25em; 
+}
+
+/* Plain Buttons */
+.nodrop {
+	display: inline-block;
+	padding: 1em;
+}
+
+li a {
+	color: white;
+	text-decoration: none;
+	}
+	
+
+/* Dropdown Button */
+.dropbtn {
+	background-color: #333;
+	padding: 1.1em 1.42em 1.1em 1.3em;
+	margin-left: -4px;
+	margin-right: -1px;
+    color: white;
+    border: none;
+    cursor: pointer;
+	font-size: .97em; 
+	min-width: 8em;
+	}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+	position: relative;
+	display: inline-block;
+    }
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f2f2f2;
+	margin-top: -1em;
+	margin-bottom: -1px;
+	padding-right: -2px;
+    min-width: 11em;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+/* Links inside the dropdown */
+.dropdown-content a {
+	color: black;
+    padding: .77em 1.1em;
+    text-decoration: none;
+    display: block;
+ }
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover, li a:hover { 
+	background-color: #d9d9d9;	 }
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #1a1a1a;
+}
+
+
+#logo {
+	display: inline;
+	cursor: default;
+	width: 7em;
+	height: 2.4em;
+	padding-right: 20px;
+	margin-top: .45em;
+	float: right;
+	margin-bottom: -1.3em;
+	}
+	
+#greeting {
+	display: inline;
+	margin-left: 3.5em;
+}
+
+#usergreeting {
+	display: inline;
+	margin-left: 3.5em;
+	float: right;
+	margin-right: 2em;
+	}
+
+
+
+#curr form button{
+	color: black;
+	background-color: white;
+}
+
+#curr.dropbtn {
+	background-color: white;
+}
+
+#curr div { 
+	display: none;
+	border: 1px solid black;
+	margin-left: -.3em;
+	border-top: none;
+	background-color: white;
+}
+
+#curr:hover div { display:inline; }
+	
+#curr div a { list-style-type: none; }
