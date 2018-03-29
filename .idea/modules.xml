@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CS495CapstoneComputing.iml" filepath="$PROJECT_DIR$/CS495CapstoneComputing.iml" />
+      <module fileurl="file://C:\Users\nathan\Documents\Krowded-Mobile-App\CS495CapstoneComputing.iml" filepath="C:\Users\nathan\Documents\Krowded-Mobile-App\CS495CapstoneComputing.iml" />
       <module fileurl="file://$PROJECT_DIR$/Hello World App/Hello World App.iml" filepath="$PROJECT_DIR$/Hello World App/Hello World App.iml" />
+      <module fileurl="file://C:\Users\nathan\Documents\Krowded-Mobile-App\Hello World App\Hello World App.iml" filepath="C:\Users\nathan\Documents\Krowded-Mobile-App\Hello World App\Hello World App.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Krowded-Mobile-App.iml" filepath="$PROJECT_DIR$/Krowded-Mobile-App.iml" />
     </modules>
   </component>
 </project>
