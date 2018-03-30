@@ -3,6 +3,7 @@ package com.example.thebestteam.cs495capstonecomputing;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,12 +18,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Intent myIntent = new Intent(this, MyActivityName.class);
         //startActivity(myIntent);
-        setContentView(R.layout.activity_maps);
         //setContentView(R.layout.activity_main);
 
         // Example of a call to a native method
         //TextView tv = (TextView) findViewById(R.id.sample_text);
         //tv.setText(stringFromJNI());
+
+
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 
     /**
