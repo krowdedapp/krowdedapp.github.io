@@ -61,6 +61,8 @@ import java.util.List;
 import static android.app.PendingIntent.getActivity;
 
 public class MapsActivity extends FragmentActivity implements LocationListener, OnMapReadyCallback {
+    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;//added
+
     private static final String TAG = "MapsActivity";
     private GoogleMap mGoogleMap;
     Spinner mSprPlaceType;
@@ -115,6 +117,33 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
             fragment.getMapAsync(this);
         }
     }
+
+
+    /*
+    //added by nathan brinda
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+       // switch (requestCode) {
+            //case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(MapsActivity.this, "Permission granted", Toast.LENGTH_LONG).show();
+
+                    // permission was granted
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(MapsActivity.this, "You have to accept to enjoy all app's services!", Toast.LENGTH_LONG).show();
+//                    showAlert(getString(R.string.error), getString(R.string.message));
+                }
+            //}
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        //}
+    }
+*/
 
         @Override
         public void onMapReady(GoogleMap googleMap) {

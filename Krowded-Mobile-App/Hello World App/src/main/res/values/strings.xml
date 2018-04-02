@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CS495CapstoneComputing</string>
     <string name="title_activity_maps">Map</string>
-<!--<<<<<<< HEAD-->
+    <!--<<<<<<< HEAD-->
     <string name="thumbnail">thumbnail</string>
 
     <string name="subtitle_view">subtitle</string>
@@ -9,7 +9,7 @@
     <string name="title_view">title</string>
 
 
-<!--=======-->
+    <!--=======-->
     <string name="str_btn_find">Find</string>
 
     <string-array name="place_type">
@@ -23,5 +23,5 @@
         <item>Movie Theater</item>
         <item>Restaurant</item>
     </string-array>
-<!-->>>>>>> 4c132646770886b0b9adf26c1908f8fc67d1b713-->
+    <!-->>>>>>> 4c132646770886b0b9adf26c1908f8fc67d1b713-->
 </resources>

@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
         //tv.setText(stringFromJNI());
 
 
-        Intent intent = new Intent(this, MapsActivity.class);
+        //Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, LView.class);
         startActivity(intent);
     }
 
