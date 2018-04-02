@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">CS495CapstoneComputing</string>
     <string name="title_activity_maps">Map</string>
+    <string name="thumbnail">thumbnail</string>
+
+    <string name="subtitle_view">subtitle</string>
+    <string name="detail_view">detail</string>
+    <string name="title_view">title</string>
+
+
 </resources>
