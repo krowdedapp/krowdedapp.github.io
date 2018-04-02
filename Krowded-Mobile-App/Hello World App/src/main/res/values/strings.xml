@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">CS495CapstoneComputing</string>
     <string name="title_activity_maps">Map</string>
+    <string name="str_btn_find">Find</string>
+
+    <string-array name="place_type">
+        <item>bar</item>
+        <item>movie_theater</item>
+        <item>restaurant</item>
+    </string-array>
+
+    <string-array name="place_type_name">
+        <item>Bar</item>
+        <item>Movie Theater</item>
+        <item>Restaurant</item>
+    </string-array>
 </resources>
