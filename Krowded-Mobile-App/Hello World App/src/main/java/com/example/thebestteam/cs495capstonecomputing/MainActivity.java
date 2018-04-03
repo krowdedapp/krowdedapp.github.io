@@ -3,8 +3,6 @@ package com.example.thebestteam.cs495capstonecomputing;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         //tv.setText(stringFromJNI());
 
 
-        //Intent intent = new Intent(this, MapsActivity.class);
-        Intent intent = new Intent(this, LView.class);
+        Intent intent = new Intent(this, MapsActivity.class);
+        //Intent intent = new Intent(this, LViewActivity.class);
         startActivity(intent);
     }
 

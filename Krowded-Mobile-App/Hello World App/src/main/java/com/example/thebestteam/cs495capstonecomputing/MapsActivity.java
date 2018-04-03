@@ -55,13 +55,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import static android.app.PendingIntent.getActivity;
 
 public class MapsActivity extends FragmentActivity implements LocationListener, OnMapReadyCallback {
-    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1;//added
 
     private static final String TAG = "MapsActivity";
     private GoogleMap mGoogleMap;
@@ -75,6 +75,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     Button btnFind;
 
     HashMap<String, String> mMarkerPlaceLink = new HashMap<String, String>();
+
+
+    //holds the name, reference, lat, long, and vicinity of everything that gets placed on the map
+    public static List<HashMap<String,String>> allPlaces =  new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,33 +122,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         }
     }
 
-
-    /*
-    //added by nathan brinda
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-       // switch (requestCode) {
-            //case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(MapsActivity.this, "Permission granted", Toast.LENGTH_LONG).show();
-
-                    // permission was granted
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(MapsActivity.this, "You have to accept to enjoy all app's services!", Toast.LENGTH_LONG).show();
-//                    showAlert(getString(R.string.error), getString(R.string.message));
-                }
-            //}
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        //}
-    }
-*/
-
         @Override
         public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
@@ -182,12 +159,17 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
                 @Override
                 public void onInfoWindowClick(Marker arg0) {
+                    //below 2 lines were used to test ListView without having a toggle button
+                    //Intent intent = new Intent(MapsActivity.this, LViewActivity.class);
+                    //startActivity(intent);
+
                     Intent intent = new Intent(getBaseContext(), PlaceDetailsActivity.class);
                     String reference = mMarkerPlaceLink.get(arg0.getId());
                     intent.putExtra("reference", reference);
 
                     // Starting the Place Details Activity
                     startActivity(intent);
+
                 }
             });
 
@@ -347,6 +329,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                 // Linking Marker id and place reference
                 mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
             }
+            allPlaces = list;
         }
     }
 

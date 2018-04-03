@@ -13,6 +13,7 @@ public class PlaceJSONParser {
     /** Receives a JSONObject and returns a list */
     public List<HashMap<String,String>> parse(JSONObject jObject){
 
+
         JSONArray jPlaces = null;
         try {
             /* Retrieves all the elements in the 'places' array */
@@ -62,6 +63,11 @@ public class PlaceJSONParser {
 
             // Extracting Place Vicinity, if available
             if(!jPlace.isNull("vicinity")){
+                vicinity = jPlace.getString("vicinity");
+            }
+
+            // Extracting Place Vicinity, if available
+            if(!jPlace.isNull("url")){
                 vicinity = jPlace.getString("vicinity");
             }
 

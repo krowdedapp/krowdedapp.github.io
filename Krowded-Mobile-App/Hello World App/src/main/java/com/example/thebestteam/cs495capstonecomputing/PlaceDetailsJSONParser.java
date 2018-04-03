@@ -1,5 +1,6 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONException;
@@ -104,6 +105,7 @@ public class PlaceDetailsJSONParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return hPlaceDetails;
     }
 }
