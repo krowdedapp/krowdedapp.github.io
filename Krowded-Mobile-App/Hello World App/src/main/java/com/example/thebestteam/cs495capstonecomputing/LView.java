@@ -36,6 +36,7 @@ public class LView extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         //cannot use ListView as that is a built in class name :/
         setContentView(R.layout.activity_l_view);
