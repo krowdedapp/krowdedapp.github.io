@@ -82,7 +82,7 @@
     <TextView
         android:id="@+id/locationRating"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="19dp"
         android:layout_marginEnd="16dp"
         android:text="RATING"
         app:layout_constraintBaseline_toBaselineOf="@+id/ratingLabel"
@@ -90,12 +90,86 @@
 
     <TextView
         android:id="@+id/ratingLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="95dp"
+        android:layout_height="19dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         android:text="Google Review:"
         app:layout_constraintEnd_toStartOf="@+id/locationRating"
         app:layout_constraintTop_toBottomOf="@+id/websiteLabel" />
+
+    <TextView
+        android:id="@+id/openLabel"
+        android:layout_width="99dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Currently Open:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneLabel" />
+
+    <TextView
+        android:id="@+id/locationOpen"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:text="Yes"
+        app:layout_constraintBaseline_toBaselineOf="@+id/openLabel"
+        app:layout_constraintStart_toEndOf="@+id/openLabel" />
+
+    <TextView
+        android:id="@+id/locationPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="5.0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/priceLabel"
+        app:layout_constraintStart_toEndOf="@+id/priceLabel" />
+
+    <TextView
+        android:id="@+id/priceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginTop="16dp"
+        android:text="Price: "
+        app:layout_constraintStart_toStartOf="@+id/ratingLabel"
+        app:layout_constraintTop_toBottomOf="@+id/locationRating" />
+
+    <TextView
+        android:id="@+id/krowdedLabel"
+        android:layout_width="95dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Krowded Level:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/openLabel" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="5.0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/krowdedLabel"
+        app:layout_constraintStart_toEndOf="@+id/krowdedLabel" />
+
+    <TextView
+        android:id="@+id/coverLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Cover Charge: "
+        app:layout_constraintStart_toStartOf="@+id/priceLabel"
+        app:layout_constraintTop_toBottomOf="@+id/priceLabel" />
+
+    <TextView
+        android:id="@+id/locationCover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="$10.00"
+        app:layout_constraintBaseline_toBaselineOf="@+id/coverLabel"
+        app:layout_constraintStart_toEndOf="@+id/coverLabel" />
 
 </android.support.constraint.ConstraintLayout>
