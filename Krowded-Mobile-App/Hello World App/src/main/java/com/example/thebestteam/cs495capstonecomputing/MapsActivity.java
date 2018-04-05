@@ -78,10 +78,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
     HashMap<String, String> mMarkerPlaceLink = new HashMap<String, String>();
 
-
-    //holds the name, reference, lat, long, and vicinity of everything that gets placed on the map
-    public static List<HashMap<String,String>> allPlaces =  new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -173,6 +169,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                     //below 2 lines were used to test ListView without having a toggle button
                     //Intent intent = new Intent(MapsActivity.this, LViewActivity.class);
                     //startActivity(intent);
+
 
                     Intent intent = new Intent(getBaseContext(), PlaceDetailsActivity.class);
                     String reference = mMarkerPlaceLink.get(arg0.getId());
@@ -299,6 +296,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         }
 
         // Executed after the complete execution of doInBackground() method
+        //called before the JsonParser is called
         @Override
         protected void onPostExecute(List<HashMap<String,String>> list){
 
@@ -340,7 +338,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                 // Linking Marker id and place reference
                 mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
             }
-            allPlaces = list;
+            //allPlaces = list;
         }
     }
 

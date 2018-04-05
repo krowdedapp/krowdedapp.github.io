@@ -1,5 +1,11 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
+import android.graphics.Bitmap;
+
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +15,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PlaceJSONParser {
+
+
+    public static ArrayList<JSONObject> allPlaces = new ArrayList<>();
+
 
     /** Receives a JSONObject and returns a list */
     public List<HashMap<String,String>> parse(JSONObject jObject){
@@ -84,6 +94,8 @@ public class PlaceJSONParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        allPlaces.add(jPlace);
         return place;
     }
 }

@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.Context;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,13 +25,12 @@ public class LViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //cannot use ListView as that is a built in class name :/
         setContentView(R.layout.activity_l_view);
 
         mListView = (ListView) findViewById(R.id.list_view);
 
 
-        LViewAdapter adapter = new LViewAdapter(this, MapsActivity.allPlaces);
+        LViewAdapter adapter = new LViewAdapter(this, PlaceJSONParser.allPlaces);
         mListView.setAdapter(adapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -37,19 +38,13 @@ public class LViewActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //can probably remove URLLinkerActivity and just set intent to the
-                //PlaceDetailsActivity, will need the context to do that though, actually idk
-
                 Intent intent = new Intent(getBaseContext(), PlaceDetailsActivity.class);
-                //String reference = MapsActivity.allPlaces.get(position).get("reference");
-                //pass the reference
-                intent.putExtra("reference", MapsActivity.allPlaces.get(position).get("reference"));
-
+                try {
+                    intent.putExtra("reference",PlaceJSONParser.allPlaces.get(position).getString("reference"));
+                }
+                catch(JSONException e){}
                 // Starting the Place Details Activity
                 startActivity(intent);
-
-                //intent.putExtra("title", "URL title");
-                //intent.putExtra("url", "Actual URL link");
             }
         });
     }

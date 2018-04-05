@@ -126,7 +126,6 @@ public class PlaceDetailsActivity extends Activity {
 
                 // Start parsing Google place details in JSON format
                 hPlaceDetails = placeDetailsJsonParser.parse(jObject);
-
             }catch(Exception e){
                 Log.d("Exception",e.toString());
             }
