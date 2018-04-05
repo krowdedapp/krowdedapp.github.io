@@ -26,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -73,6 +74,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     double mLatitude=0;
     double mLongitude=0;
     Button btnFind;
+    ImageButton listViewIB;
 
     HashMap<String, String> mMarkerPlaceLink = new HashMap<String, String>();
 
@@ -102,7 +104,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         // Setting adapter on Spinner to set place types
         mSprPlaceType.setAdapter(adapter);
 
-
+        //Getting reference to ListViewIB
+        listViewIB = findViewById(R.id.ListViewIB);
 
         // Getting reference to Find Button
         btnFind = (Button) findViewById(R.id.btn_find);
@@ -120,6 +123,14 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
             SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
             fragment.getMapAsync(this);
         }
+
+        //Create on click listener to switch to list view
+        listViewIB.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MapsActivity.this, LViewActivity.class));
+            }
+        });
     }
 
         @Override
