@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -11,12 +12,16 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 
 public class PlaceDetailsActivity extends Activity {
+    HashMap<String, String> locationData;
     WebView mWvPlaceDetails;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +35,7 @@ public class PlaceDetailsActivity extends Activity {
         mWvPlaceDetails.getSettings().setUseWideViewPort(false);
 
         // Getting place reference from the map
-        String reference = getIntent().getStringExtra("reference");
+        final String reference = getIntent().getStringExtra("reference");
 
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?");
         sb.append("reference="+reference);
@@ -43,6 +48,15 @@ public class PlaceDetailsActivity extends Activity {
         // Invokes the "doInBackground()" method of the class PlaceTask
         placesTask.execute(sb.toString());
 
+        final Intent reportIntent = new Intent(this, ReportActivity.class);
+        final Button button = findViewById(R.id.reportsBtn);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                reportIntent.putExtra("locationData", locationData);
+                reportIntent.putExtra("reference", reference);
+                startActivity(reportIntent);
+            }
+        });
     };
 
     /** A method to download json data from url */
@@ -129,6 +143,10 @@ public class PlaceDetailsActivity extends Activity {
             }catch(Exception e){
                 Log.d("Exception",e.toString());
             }
+
+            locationData = new HashMap<String, String>();
+            locationData = hPlaceDetails;
+
             return hPlaceDetails;
         }
 
