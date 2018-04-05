@@ -1,28 +1,33 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
 
 public class PlaceDetailsActivity extends Activity {
     HashMap<String, String> locationData;
     WebView mWvPlaceDetails;
+    String pictureID;
+    Bitmap picture;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -47,6 +52,12 @@ public class PlaceDetailsActivity extends Activity {
 
         // Invokes the "doInBackground()" method of the class PlaceTask
         placesTask.execute(sb.toString());
+
+
+        //Place photo on image view
+        pictureID = LViewAdapter.photoID;
+        ImageView imageView =(ImageView) findViewById(R.id.photo);
+        imageView.setImageBitmap(picture);
 
         final Intent reportIntent = new Intent(this, ReportActivity.class);
         final Button button = findViewById(R.id.reportsBtn);

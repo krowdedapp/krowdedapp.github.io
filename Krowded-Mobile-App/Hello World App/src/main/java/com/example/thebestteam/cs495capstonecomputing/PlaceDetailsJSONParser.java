@@ -1,10 +1,10 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+
 
 public class PlaceDetailsJSONParser {
 
@@ -86,6 +86,7 @@ public class PlaceDetailsJSONParser {
             if(!jPlaceDetails.isNull("url")){
                 url = jPlaceDetails.getString("url");
             }
+
 
             latitude = jPlaceDetails.getJSONObject("geometry").getJSONObject("location").getString("lat");
             longitude = jPlaceDetails.getJSONObject("geometry").getJSONObject("location").getString("lng");

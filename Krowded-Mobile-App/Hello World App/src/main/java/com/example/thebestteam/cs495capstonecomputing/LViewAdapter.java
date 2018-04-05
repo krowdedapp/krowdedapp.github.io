@@ -20,6 +20,7 @@ public class LViewAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     private List<JSONObject>mDataSource;
+    public static String photoID;
 
     //speeds up the rendering of the list
     //smoother scrolling(very needed)
@@ -123,7 +124,6 @@ public class LViewAdapter extends BaseAdapter {
 
         Picasso.get()
                 .load(getURL(position))
-                //.load(URL)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .placeholder(R.drawable.failed1)
                 .config(Bitmap.Config.RGB_565)//affects how many bits are used to store each color
@@ -139,7 +139,9 @@ public class LViewAdapter extends BaseAdapter {
                 .placeholder(R.drawable.failed1)
                 .config(Bitmap.Config.RGB_565)
                 .into(thumbnailImageView);
+
 */
+        photoID = getURL(position);
         return convertView;
     }
 }
