@@ -122,8 +122,8 @@ public class LViewAdapter extends BaseAdapter {
         {}
 
         Picasso.get()
-                //.load(getURL(position))
-                .load(URL)
+                .load(getURL(position))
+                //.load(URL)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .placeholder(R.drawable.failed1)
                 .config(Bitmap.Config.RGB_565)//affects how many bits are used to store each color
