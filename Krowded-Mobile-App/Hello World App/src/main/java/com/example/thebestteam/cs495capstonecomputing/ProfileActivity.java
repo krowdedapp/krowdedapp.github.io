@@ -12,7 +12,7 @@ import static com.example.thebestteam.cs495capstonecomputing.MainActivity.*;
 
 
 public class ProfileActivity extends AppCompatActivity {
-    User user;
+    User user = MainActivity.user;
 
     TextView infoBox;
 
@@ -33,10 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        user = new User();
-        user.logIn("SuperTest","testing123@crimson.ua.edu",22,1,0);
         infoBox = (TextView)findViewById(R.id.txtInfo);
-        infoBox.setText("Name: " + user.name() + "\nEmail: " + user.email() + "\nAge: " + user.age());
+        infoBox.setText("Name: " + user.getName() + "\nEmail: " + user.getEmail() + "\nAge: " + user.getAge());
     }
 
 }

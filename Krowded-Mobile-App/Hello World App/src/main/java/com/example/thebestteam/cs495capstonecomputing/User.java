@@ -6,22 +6,22 @@ package com.example.thebestteam.cs495capstonecomputing;
 
 public class User {
     private boolean loggedIn;
-    public boolean loggedin() { return loggedIn; }
+    public boolean getLoggedIn() { return loggedIn; }
 
     private String name;
-    public String name() { return name; }
+    public String getName() { return name; }
 
     private String email;
-    public String email() { return email; }
+    public String getEmail() { return email; }
 
     private int age;
-    public int age() { return age; }
+    public int getAge() { return age; }
 
     private int sex;
-    public int sex() { return sex; }
+    public int getSex() { return sex; }
 
     private boolean isBusiness;
-    public boolean isBusiness() { return isBusiness; }
+    public boolean getIsBusiness() { return isBusiness; }
 
     public User() {
         loggedIn = false;
