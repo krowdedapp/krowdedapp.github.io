@@ -218,6 +218,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
             br.close();
 
+            //No one will ever see this comment.
         }catch(Exception e){
             Log.d("Exception while downloading url", e.toString());
         }finally{
