@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         String password = passBox.getText().toString();
 
         if (user.getLoggedIn()) {
-            mSessage = "You are already logged in, " + user.getName() + ".";
+            message = "You are already logged in, " + user.getName() + ".";
         } else {
             if (Objects.equals(email, "krowded")) {
                 if (!Objects.equals(password, "123")) {
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void createAccount(View view) throws SQLException {
-        Intent myIntent = new Intent(this, CreateAccount.class);
+        Intent myIntent = new Intent(this, ProfileActivity.class);
         startActivity(myIntent);
     }
 
