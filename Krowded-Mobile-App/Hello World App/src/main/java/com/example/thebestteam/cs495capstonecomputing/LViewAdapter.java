@@ -20,7 +20,7 @@ public class LViewAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     private List<JSONObject>mDataSource;
-    public static String photoID;
+    public static String photoID; //photo for details page fight me Nathan
 
     //speeds up the rendering of the list
     //smoother scrolling(very needed)

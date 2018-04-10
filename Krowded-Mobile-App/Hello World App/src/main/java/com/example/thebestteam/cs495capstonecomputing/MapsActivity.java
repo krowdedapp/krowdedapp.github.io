@@ -1,54 +1,38 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
+import android.R.layout;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.app.Activity;
-import android.R.*;
-import android.view.Menu;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
-import android.content.Intent;
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.view.View.OnClickListener;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,11 +40,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static android.app.PendingIntent.getActivity;
 
 public class MapsActivity extends FragmentActivity implements LocationListener, OnMapReadyCallback {
 
@@ -133,6 +114,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
 
+        //THIS IS SUPPOSED TO CHECK PERMISSIONS I PROMISE FS%*D^&D&^D*(D)(D
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 mGoogleMap.setMyLocationEnabled(true);
@@ -330,7 +312,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
                 // Setting the title for the marker.
                 //This will be displayed on taping the marker
-                markerOptions.title(name + " : " + vicinity);
+                markerOptions.title(name);
 
                 // Placing a marker on the touched position
                 Marker m = mGoogleMap.addMarker(markerOptions);

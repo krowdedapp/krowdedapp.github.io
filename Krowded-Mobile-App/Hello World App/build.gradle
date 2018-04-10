@@ -48,4 +48,7 @@ dependencies {
     implementation 'com.sun.mail:android-mail:1.5.5'
     implementation 'com.sun.mail:android-activation:1.5.5'
 
+    implementation 'com.google.firebase:firebase-database:12.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "592519857163",
+    "firebase_url": "https://krowded-mobile-app.firebaseio.com",
+    "project_id": "krowded-mobile-app",
+    "storage_bucket": "krowded-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592519857163:android:c9d17f04cf2449d4",
+        "android_client_info": {
+          "package_name": "com.example.thebestteam.cs495capstonecomputing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592519857163-fr6efdjk86d17tg2e206h8t40j0km33e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thebestteam.cs495capstonecomputing",
+            "certificate_hash": "3e87bcdf3cad13bc8392cd8dca161f7633860fd6"
+          }
+        },
+        {
+          "client_id": "592519857163-gd92gg9v2gj5o0v9nilqmm5hkav3eunl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXDxCwaiS1A87C6pqRlJAFAgD2XBxzIfA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592519857163-gd92gg9v2gj5o0v9nilqmm5hkav3eunl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
