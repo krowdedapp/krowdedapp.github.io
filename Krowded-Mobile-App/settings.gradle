@@ -1,1 +1,1 @@
-include ':Hello World App'
+include ':Hello World App', ':mysql-connector-java-5.1.46'
