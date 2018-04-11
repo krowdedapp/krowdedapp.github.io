@@ -29,7 +29,8 @@
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="@+id/txtEmail"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/txtEmail"
+        android:layout_marginLeft="1dp" />
 
     <EditText
         android:id="@+id/txtPass2"
@@ -40,7 +41,8 @@
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/txtPass"
-        app:layout_constraintTop_toBottomOf="@+id/txtPass" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPass"
+        android:layout_marginRight="1dp" />
 
     <EditText
         android:id="@+id/intAge"
@@ -63,7 +65,8 @@
         android:inputType="textEmailAddress"
         android:text="example@gmail.com"
         app:layout_constraintEnd_toEndOf="@+id/txtName"
-        app:layout_constraintTop_toBottomOf="@+id/txtName" />
+        app:layout_constraintTop_toBottomOf="@+id/txtName"
+        android:layout_marginRight="1dp" />
 
     <ToggleButton
         android:id="@+id/toggleBusiness"
