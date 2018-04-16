@@ -12,7 +12,7 @@ import static com.example.thebestteam.cs495capstonecomputing.MainActivity.*;
 
 
 public class ProfileActivity extends AppCompatActivity {
-    User user = MainActivity.user;
+    User user = LoginActivity.user;
 
     TextView infoBox;
 
