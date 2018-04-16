@@ -35,7 +35,10 @@ public class PlaceDetailsActivity extends Activity {
         setContentView(R.layout.activity_place_details);
 
         // Getting reference to WebView ( wv_place_details ) of the layout activity_place_details
-        mWvPlaceDetails = (WebView) findViewById(R.id.wv_place_details);
+        /* THIS IS THE OLD WAY WE DID THIS LAYOUT, THIS CODE BLOCK WILL BE REMOVED POST
+           LINKING OTHER DATA TO THE CURRENT LAYOUT
+         */
+        //mWvPlaceDetails = (WebView) findViewById(R.id.wv_place_details);
 
         mWvPlaceDetails.getSettings().setUseWideViewPort(false);
 
@@ -56,7 +59,7 @@ public class PlaceDetailsActivity extends Activity {
 
         //Place photo on image view
         pictureID = LViewAdapter.photoID;
-        ImageView imageView =(ImageView) findViewById(R.id.photo);
+        ImageView imageView =(ImageView) findViewById(R.id.locationImage);
         imageView.setImageBitmap(picture);
 
         final Intent reportIntent = new Intent(this, ReportActivity.class);
