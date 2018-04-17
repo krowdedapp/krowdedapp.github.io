@@ -55,9 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         } else {
                 message = "Login Success";
 
-            if (user.logIn(email,password)) {
-                message = "Passwords match!";
-            } else message = "Login Failed";
+          //  if (user.logIn(email,password)) {
+          //      message = "Passwords match!";
+          //  } else message = "Login Failed";
+            message = user.logIn(email,password);
         }
 
         Toast toast = Toast.makeText(context,message,duration);

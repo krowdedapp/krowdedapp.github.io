@@ -52,6 +52,8 @@ public class User {
         name = "Guest";
     }
 
+
+    // Log current user out (disables user-only functions)
     public void logOut() {
         loggedIn = false;
         email = "nobody@loggedout.com";
@@ -61,6 +63,10 @@ public class User {
         isBusiness = false;
     }
 
+
+
+    // CreateAccount passes information to createUser function, and createUser logs
+    // the new user in and inserts their information into the database
     public void createUser(String uName, String uEmail, String password, int uAge, int uSex, boolean
             isBiz) {
         this.name = uName;
@@ -78,14 +84,27 @@ public class User {
         mRoot.child("user").child(email).setValue(this);
     }
 
-    public boolean logIn(final String email, final String password) {
+
+
+    // Method to Confirm Log Im
+    public String logIn(final String email, final String password) {
         passMatch = false;
 
+        // Check if passwords match
         mRoot.child("auth").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-            String realPass = dataSnapshot.child(email).child("password").getValue(String.class);
-            if (password.equals(realPass)) { passMatch = true; }
+                if (dataSnapshot.child(email) == null) { passMatch = false; } // User does not exist
+                else {
+
+                    // Grab password from FireBase, compare with supplied password
+                    String realPass = dataSnapshot.child(email).child("password").getValue(String.class);
+
+                    if (password.equals(realPass)) {
+                        passMatch = true;
+                    }
+
+                }
             }
 
             @Override
@@ -94,6 +113,7 @@ public class User {
             }
         });
 
+        // If passwords match, log user in
         if (passMatch) {
             mRoot.child("user").child(email).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -106,9 +126,10 @@ public class User {
 
                 }
             });
-        }
+            return "Passwords match.";
+        } else return "Passwords do not match.";
 
-        return passMatch;
+        //return passMatch;
     }
 
     public boolean exists(String email) {
@@ -130,14 +151,16 @@ public class User {
     }
 
 
+    // Check if user exists in database
     private boolean checkExistence (DataSnapshot ds) {
         if (ds == null) return false;
         return true;
     }
 
 
+    // Handle results from password matching segment of logIn()
     private void handleResults(DataSnapshot ds) {
-        this = ds.getValue(User.class);
+      //  this = ds.getValue(User.class);
 
     }
 
