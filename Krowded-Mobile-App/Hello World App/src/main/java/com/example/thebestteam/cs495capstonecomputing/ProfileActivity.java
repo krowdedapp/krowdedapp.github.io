@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import static com.example.thebestteam.cs495capstonecomputing.MainActivity.*;
@@ -24,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,8 +35,12 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        infoBox = (TextView)findViewById(R.id.txtInfo);
-        infoBox.setText("Name: " + user.getName() + "\nEmail: " + user.getEmail() + "\nAge: " + user.getAge());
+        EditText nameBox = (EditText) findViewById(R.id.txtName);
+        EditText emailBox = (EditText) findViewById(R.id.txtEmail);
+
+
     }
 
+    @Override
+    protected void onStart ()
 }

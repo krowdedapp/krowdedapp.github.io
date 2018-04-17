@@ -11,11 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.sql.*;
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
+    public User user;
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -25,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        user = new User();
 
         setContentView(R.layout.activity_main);
         Intent myIntent = new Intent(this, LoginActivity.class);
