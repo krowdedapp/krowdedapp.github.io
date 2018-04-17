@@ -11,11 +11,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.sql.*;
 import java.util.Objects;
 
 
+
 public class LoginActivity extends AppCompatActivity {
+    private DatabaseReference mDatabase;
     private boolean isFirstTime = true;
     public static User user;
 
@@ -29,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         setContentView(R.layout.activity_main);
 
@@ -83,41 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         toast.show();
 
 
-        // Create the DB object
-        // Ordinarily you don't hardcode the password, of course
-        //Connection conn = DriverManager.getConnection("jdbc:mysql://krowdeddtest.cvnoof9d93qc.us-east-2.rds.amazonaws.com:3306/krowded", "krowded", "krowded4pp");
-        //Connection conn = DriverManager.getConnection("jdbc:mysql://cs-sql2014.ua-net.ua.edu/information_schema", "wjtreutel", "11433586");
-/*
-        // Step 2: Allocate a 'Statement' object in the Connection
-        Statement stmt;
-        stmt = conn.createStatement();
-
-        String query = "SELECT email, password FROM user WHERE password='DARLA'";
-
-        ResultSet results = stmt.executeQuery(query);
-        CharSequence loginResult;
-
-        // Check to see if any results are returned
-        if (results.isBeforeFirst() ) {
-            if (results.getString("password") == "DARLA") {
-                loginResult = "Yes!";
-            }
-            // TODO: Change this message to something more professional
-            else {
-                loginResult = "Right name, wrong pass.";
-            }
-        }
-        else loginResult = "No such user was found.";
-
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_LONG;
-
-        Toast toast = Toast.makeText(context,loginResult,duration);
-        toast.show();
-        */
     }
-
-
 
 
     public void createAccount(View view) throws SQLException {
