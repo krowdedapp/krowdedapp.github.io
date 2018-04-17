@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 message = "Login Success";
 
             if (user.logIn(email,password)) {
-                // Successful login
+                message = "Passwords match!";
             } else message = "Login Failed";
         }
 

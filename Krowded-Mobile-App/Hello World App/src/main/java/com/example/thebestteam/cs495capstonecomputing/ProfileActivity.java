@@ -9,10 +9,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import static com.example.thebestteam.cs495capstonecomputing.MainActivity.*;
 
 
 public class ProfileActivity extends AppCompatActivity {
+    private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference mCurrUser;
+
     User user = LoginActivity.user;
 
     TextView infoBox;
@@ -25,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mCurrUser = mRoot.child("user").child(user.getEmail());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -35,12 +45,27 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        EditText nameBox = (EditText) findViewById(R.id.txtName);
-        EditText emailBox = (EditText) findViewById(R.id.txtEmail);
 
+
+
+
+        mCurrUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+            String uEmail = dataSnapshot.child("email").getValue(String.class);
+            String uName = dataSnapshot.child("name").getValue(String.class);
+
+            TextView nameBox  = findViewById(R.id.txtName);
+            TextView emailBox = findViewById(R.id.txtEmail);
+            emailBox.setText(uEmail);
+            nameBox.setText(uName);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
-
-    @Override
-    protected void onStart ()
 }

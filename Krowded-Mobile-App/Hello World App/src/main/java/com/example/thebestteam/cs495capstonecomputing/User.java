@@ -3,12 +3,17 @@ package com.example.thebestteam.cs495capstonecomputing;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by Liam on 03/04/18.
  */
+
+
 
 public class User {
     private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
@@ -19,6 +24,8 @@ public class User {
     private int age;
     private int sex;
     private boolean isBusiness;
+    private boolean passMatch;
+    private boolean doesExist;
 
     public boolean isLoggedIn() { return loggedIn; }
     public void setLoggedIn(boolean loggedIn) { this.loggedIn = loggedIn; }
@@ -71,19 +78,67 @@ public class User {
         mRoot.child("user").child(email).setValue(this);
     }
 
-    public boolean logIn(String email, String password) {
-        /*
-        Context context;
-        int duration = Toast.LENGTH_SHORT;
-        CharSequence message;
-        Toast toast = Toast.makeText(context,message,duration);
-        toast.show();
-        */
-        return false;
+    public boolean logIn(final String email, final String password) {
+        passMatch = false;
+
+        mRoot.child("auth").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+            String realPass = dataSnapshot.child(email).child("password").getValue(String.class);
+            if (password.equals(realPass)) { passMatch = true; }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        if (passMatch) {
+            mRoot.child("user").child(email).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    handleResults(dataSnapshot);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+        return passMatch;
     }
 
     public boolean exists(String email) {
-        return false;
+        doesExist = false;
+
+        mRoot.child("auth").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                doesExist = checkExistence(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return doesExist;
+    }
+
+
+    private boolean checkExistence (DataSnapshot ds) {
+        if (ds == null) return false;
+        return true;
+    }
+
+
+    private void handleResults(DataSnapshot ds) {
+        this = ds.getValue(User.class);
+
     }
 
 }
