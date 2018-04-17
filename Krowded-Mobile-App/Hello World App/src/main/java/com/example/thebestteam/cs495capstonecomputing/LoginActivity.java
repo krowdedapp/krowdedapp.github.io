@@ -17,8 +17,6 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isFirstTime = true;
     public static User user;
 
-    public User getUser() { return user; }
-
     // Used to load the 'native-lib' library on application startup.
     static {
         System.loadLibrary("native-lib");
@@ -30,14 +28,16 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
+        // Initialize user once
         if (isFirstTime) {
             isFirstTime = false;
             user = new User();
-        }
+            }
 
     }
 
 
+    // Button to attempt a login
     public void  tryLogin(View view) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    // Create account button
     public void createAccount(View view)  {
         Intent myIntent = new Intent(this, CreateAccount.class);
         startActivity(myIntent);

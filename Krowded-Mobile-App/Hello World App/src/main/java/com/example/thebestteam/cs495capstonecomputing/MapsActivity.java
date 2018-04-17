@@ -45,6 +45,10 @@ import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements LocationListener, OnMapReadyCallback {
 
+    // Create user
+    public User user;
+
+
     private static final String TAG = "MapsActivity";
     private GoogleMap mGoogleMap;
     Spinner mSprPlaceType;
@@ -108,6 +112,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                 startActivity(new Intent(MapsActivity.this, LViewActivity.class));
             }
         });
+
+
+        // Initialize user
+        user = LoginActivity.user;
     }
 
         @Override
@@ -348,5 +356,13 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
+    }
+
+    public void loginButton() {
+        if (user.isLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+        } else {
+            startActivity(new Intent(this, ProfileActivity.class));
+        }
     }
 }

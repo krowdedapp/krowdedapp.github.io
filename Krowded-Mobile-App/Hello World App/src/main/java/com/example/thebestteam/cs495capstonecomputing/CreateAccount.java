@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,6 +28,7 @@ public class CreateAccount extends AppCompatActivity {
     }
 
 
+    // Retrieves information from fields, slots it into user object
     public void createAccount(View view) {
 
         Context context = getApplicationContext();
@@ -34,22 +36,35 @@ public class CreateAccount extends AppCompatActivity {
         CharSequence message;
 
 
-        EditText uName = (EditText) findViewById(R.id.txtName);
-        EditText emailBox = (EditText) findViewById(R.id.txtEmail);
-        EditText passBox = (EditText) findViewById(R.id.txtPass);
-        EditText passCheck = (EditText) findViewById(R.id.txtPass2);
-        EditText ageBox = (EditText) findViewById(R.id.intAge);
+        EditText uName = findViewById(R.id.txtName);
+        EditText emailBox = findViewById(R.id.txtEmail);
+        EditText passBox = findViewById(R.id.txtPass);
+        EditText passCheck = findViewById(R.id.txtPass2);
+        EditText ageBox = findViewById(R.id.intAge);
+        ToggleButton bizBox = findViewById(R.id.toggleBiz);
+        ToggleButton sexBox = findViewById(R.id.toggleSex); // Don't laugh.
 
         String username = uName.getText().toString();
         String email = emailBox.getText().toString();
         String password = passBox.getText().toString();
         String password2 = passCheck.getText().toString(); // password confirmation
+        boolean isBiz = bizBox.isChecked();
+
+        int uSex;
+        if (sexBox.isChecked()) { uSex = 1; } else { uSex = 0; }
+
+        // Extracts int from input box
+        String tempAge = ageBox.getText().toString();
+        int age = Integer.parseInt(tempAge);
+
+        // Temporary solution, more elegant one coming later
+        username = username.replace(".","");
 
         if (password.equals(password2)) {
             if (user.exists(email)) {
                 message = "That email address is taken.";
             } else {
-                user.createUser(username, email, password, 20, 0, false);
+                user.createUser(username, email, password, age, uSex,isBiz);
                 message = "Account Created";
 
 

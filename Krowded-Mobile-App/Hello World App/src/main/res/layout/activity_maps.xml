@@ -36,4 +36,13 @@
         android:layout_toRightOf="@+id/btn_find"
         app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:onClick="loginButton"
+        android:text="Button" />
+
 </RelativeLayout>
