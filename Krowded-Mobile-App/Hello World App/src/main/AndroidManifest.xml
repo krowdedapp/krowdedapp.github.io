@@ -10,7 +10,6 @@
     <permission
         android:name="com.example.thebestteam.cs495capstonecomputing.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
-    <!-- <<<<<<< HEAD -->
 
     <uses-permission android:name="com.example.thebestteam.cs495capstonecomputing.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -20,19 +19,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!-- ======= -->
-    <!-- <uses-permission android:name="android.permission.INTERNET"/> -->
-    <!--
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-    <uses-permission android:name="com.example.thebestteam.cs495capstonecomputing.permission.MAPS_RECEIVE"/>
-    -->
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> -->
-    <!-- <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/> -->
-    <!--
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
->>>>>>> 4c132646770886b0b9adf26c1908f8fc67d1b713
-    -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -74,7 +60,9 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".URLLinker" />
+
+        <service android:name=".GeofenceTransitionService" />
+
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
@@ -82,7 +70,9 @@
         <activity
             android:name=".CreateAccount"
             android:label="@string/title_activity_create_account"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DialogActivity" />
+        <activity android:name=".maybeActivity"></activity>
     </application>
 
 </manifest>

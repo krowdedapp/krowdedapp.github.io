@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+
+        /*
         setContentView(R.layout.activity_main);
 
 
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             isFirstTime = false;
             user = new User();
         }
+        */
 
     }
 

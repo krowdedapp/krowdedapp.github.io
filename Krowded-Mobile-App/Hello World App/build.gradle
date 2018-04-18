@@ -42,14 +42,18 @@ dependencies {
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.android.support:appcompat-v7:26.+'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.google.android.gms:play-services-maps:12.0.1'
-    implementation 'com.google.android.gms:play-services-places:12.0.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.0'
+    implementation 'com.google.android.gms:play-services-places:15.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.sun.mail:android-mail:1.5.5'
     implementation 'com.sun.mail:android-activation:1.5.5'
-
-    implementation 'com.google.firebase:firebase-database:12.0.1'
-    compile 'com.android.support:design:23.1.0'
+    implementation 'com.google.firebase:firebase-database:15.0.0'
+    //compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:design:26.1.0'
+    //compile 'com.google.android.gms:play-services-location:15.0.0'
+    implementation 'com.google.android.gms:play-services-location:15.0.0'
+    //    compile 'com.google.android.gms:play-services-location:15.0.0'
+    //implementation 'com.google.android.gms:play-services:12.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

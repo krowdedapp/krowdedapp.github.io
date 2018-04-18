@@ -34,19 +34,13 @@ public class PlaceDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
 
-        // Getting reference to WebView ( wv_place_details ) of the layout activity_place_details
-        /* THIS IS THE OLD WAY WE DID THIS LAYOUT, THIS CODE BLOCK WILL BE REMOVED POST
-           LINKING OTHER DATA TO THE CURRENT LAYOUT
-         */
-        //mWvPlaceDetails = (WebView) findViewById(R.id.wv_place_details);
-
         mWvPlaceDetails.getSettings().setUseWideViewPort(false);
 
         // Getting place reference from the map
         final String reference = getIntent().getStringExtra("reference");
 
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?");
-        sb.append("reference="+reference);
+        sb.append("reference=" + reference);
         sb.append("&sensor=true");
         sb.append("&key=AIzaSyBb4_AGSb9PWWsv3AfQQpvJMZpGV9oajiQ");
 
@@ -59,8 +53,9 @@ public class PlaceDetailsActivity extends Activity {
 
         //Place photo on image view
         pictureID = LViewAdapter.photoID;
-        ImageView imageView =(ImageView) findViewById(R.id.locationImage);
+        ImageView imageView = (ImageView) findViewById(R.id.locationImage);
         imageView.setImageBitmap(picture);
+
 
         final Intent reportIntent = new Intent(this, ReportActivity.class);
         final Button button = findViewById(R.id.reportsBtn);
@@ -71,7 +66,7 @@ public class PlaceDetailsActivity extends Activity {
                 startActivity(reportIntent);
             }
         });
-    };
+    }
 
     /** A method to download json data from url */
     private String downloadUrl(String strUrl) throws IOException{
