@@ -71,8 +71,8 @@ public class CreateAccount extends AppCompatActivity {
                 message = "Account Created";
 
 
-                // Whisk the user away back to the profile view
-                Intent myIntent = new Intent(this, ProfileActivity.class);
+                // Whisk the user away back to the map view
+                Intent myIntent = new Intent(this, MapsActivity.class);
                 startActivity(myIntent);
             }
         } else message = "Passwords Do Not Match";

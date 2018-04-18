@@ -87,8 +87,9 @@ public class User {
 
 
     // Method to Confirm Log Im
-    public String logIn(final String email, final String password) {
+    public String logIn(String uEmail, final String password) {
         passMatch = false;
+        final String email = uEmail.replace(".","");
 
         // Check if passwords match
         mRoot.child("auth").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -96,10 +97,8 @@ public class User {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(email) == null) { passMatch = false; } // User does not exist
                 else {
-
                     // Grab password from FireBase, compare with supplied password
                     String realPass = dataSnapshot.child(email).child("password").getValue(String.class);
-
                     if (password.equals(realPass)) {
                         passMatch = true;
                     }
