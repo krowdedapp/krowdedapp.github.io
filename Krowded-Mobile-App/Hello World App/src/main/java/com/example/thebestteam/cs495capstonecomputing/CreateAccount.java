@@ -57,8 +57,6 @@ public class CreateAccount extends AppCompatActivity {
         String tempAge = ageBox.getText().toString();
         int age = Integer.parseInt(tempAge);
 
-        // Temporary solution, more elegant one coming later
-        username = username.replace(".","");
 
         if (password.equals(password2)) {
             if (user.exists(email)) {

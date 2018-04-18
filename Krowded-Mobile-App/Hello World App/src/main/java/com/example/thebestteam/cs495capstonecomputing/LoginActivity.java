@@ -51,18 +51,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if (user.isLoggedIn()) {
-            message = "You are already logged in, " + user.getName() + ".";
+            message = "You are already logged in, " + user.getName() + " (meaning something went wrong).";
+            Toast toast = Toast.makeText(context,message,duration);
+            toast.show();
         } else {
-                message = "Login Success";
+            user.logIn(email,password);
+            Intent myIntent = new Intent(this, MapsActivity.class);
+            startActivity(myIntent);
 
-          //  if (user.logIn(email,password)) {
-          //      message = "Passwords match!";
-          //  } else message = "Login Failed";
-            message = user.logIn(email,password);
         }
-
-        Toast toast = Toast.makeText(context,message,duration);
-        toast.show();
     }
 
 
@@ -71,5 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent myIntent = new Intent(this, CreateAccount.class);
         startActivity(myIntent);
     }
+
+    //public static void swapScreen(Intent intent) { startActivity(intent); }
 
 }

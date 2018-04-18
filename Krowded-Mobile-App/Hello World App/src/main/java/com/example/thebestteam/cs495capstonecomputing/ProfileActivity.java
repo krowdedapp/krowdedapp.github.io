@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mCurrUser = mRoot.child("user").child(user.getEmail());
+        mCurrUser = mRoot.child("user").child(user.getEmail().replace(".","%P"));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
