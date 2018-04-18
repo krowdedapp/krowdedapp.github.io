@@ -8,111 +8,116 @@
     tools:context="com.example.thebestteam.cs495capstonecomputing.CreateAccount"
     tools:showIn="@layout/activity_create_account">
 
-    <EditText
-        android:id="@+id/txtName"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name "
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/txtPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="22dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/txtEmail"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/txtPass2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:layout_marginTop="14dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/txtPass"
-        app:layout_constraintTop_toBottomOf="@+id/txtPass" />
+        <EditText
+            android:id="@+id/intAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Age"
+            android:inputType="number" />
 
-    <EditText
-        android:id="@+id/intAge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
-        android:ems="10"
-        android:inputType="number"
-        android:text="Age"
-        app:layout_constraintStart_toStartOf="@+id/txtPass2"
-        app:layout_constraintTop_toBottomOf="@+id/txtPass2" />
+        <EditText
+            android:id="@+id/txtPass2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Re-enter Password"
+            android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/txtEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:layout_marginTop="17dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="example@gmail.com"
-        app:layout_constraintEnd_toEndOf="@+id/txtName"
-        app:layout_constraintTop_toBottomOf="@+id/txtName" />
+        <EditText
+            android:id="@+id/txtPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/btnCreateAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="27dp"
-        android:onClick="createAccount"
-        android:text="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <EditText
+            android:id="@+id/txtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="Business?"
-        app:layout_constraintStart_toStartOf="@+id/intAge"
-        app:layout_constraintTop_toBottomOf="@+id/intAge" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
-        android:text="Dude?"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <ToggleButton
-        android:id="@+id/toggleBiz"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ToggleButton"
-        tools:layout_editor_absoluteX="211dp"
-        tools:layout_editor_absoluteY="346dp" />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Business?"
+                    tools:layout_editor_absoluteX="99dp"
+                    tools:layout_editor_absoluteY="377dp" />
 
-    <ToggleButton
-        android:id="@+id/toggleSex"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ToggleButton"
-        tools:layout_editor_absoluteX="211dp"
-        tools:layout_editor_absoluteY="413dp" />
+                <ToggleButton
+                    android:id="@+id/toggleBiz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ToggleButton"
+                    android:textOff="No"
+                    android:textOn="Yes"
+                    tools:layout_editor_absoluteX="212dp"
+                    tools:layout_editor_absoluteY="362dp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dude?"
+                    tools:layout_editor_absoluteX="109dp"
+                    tools:layout_editor_absoluteY="433dp" />
+
+                <ToggleButton
+                    android:id="@+id/toggleSex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ToggleButton"
+                    android:textOff="No"
+                    android:textOn="Yes"
+                    tools:layout_editor_absoluteX="212dp"
+                    tools:layout_editor_absoluteY="426dp" />
+            </TableRow>
+
+        </TableLayout>
+
+        <Button
+            android:id="@+id/btnCreateAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="createAccount"
+            android:text="Submit" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

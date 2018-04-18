@@ -43,6 +43,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:onClick="loginButton"
-        android:text="Button" />
+        android:text="Login" />
 
 </RelativeLayout>

@@ -113,9 +113,19 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
             }
         });
 
-
         // Initialize user
         user = LoginActivity.user;
+
+        final Button button = findViewById(R.id.btnLogin);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (user != null && user.isLoggedIn()) {
+                    startActivity(new Intent(MapsActivity.this, ProfileActivity.class));
+                } else {
+                    startActivity(new Intent(MapsActivity.this, LoginActivity.class));
+                }
+            }
+        });
     }
 
         @Override
@@ -356,13 +366,5 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
-    }
-
-    public void loginButton() {
-        if (user.isLoggedIn()) {
-            startActivity(new Intent(this, LoginActivity.class));
-        } else {
-            startActivity(new Intent(this, ProfileActivity.class));
-        }
     }
 }

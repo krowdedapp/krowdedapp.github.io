@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,12 +32,14 @@ public class CreateAccount extends AppCompatActivity {
     // Retrieves information from fields, slots it into user object
     public void createAccount(View view) {
 
+        Log.e("FUCK", "createAccount: " );
+
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
         CharSequence message;
 
 
-        EditText uName = findViewById(R.id.txtName);
+        EditText nameBox = findViewById(R.id.txtName);
         EditText emailBox = findViewById(R.id.txtEmail);
         EditText passBox = findViewById(R.id.txtPass);
         EditText passCheck = findViewById(R.id.txtPass2);
@@ -44,7 +47,7 @@ public class CreateAccount extends AppCompatActivity {
         ToggleButton bizBox = findViewById(R.id.toggleBiz);
         ToggleButton sexBox = findViewById(R.id.toggleSex); // Don't laugh.
 
-        String username = uName.getText().toString();
+        String name = nameBox.getText().toString();
         String email = emailBox.getText().toString();
         String password = passBox.getText().toString();
         String password2 = passCheck.getText().toString(); // password confirmation
@@ -58,13 +61,13 @@ public class CreateAccount extends AppCompatActivity {
         int age = Integer.parseInt(tempAge);
 
         // Temporary solution, more elegant one coming later
-        username = username.replace(".","");
+        email = email.replace(".","");
 
         if (password.equals(password2)) {
             if (user.exists(email)) {
                 message = "That email address is taken.";
             } else {
-                user.createUser(username, email, password, age, uSex,isBiz);
+                user.createUser(name, email, password, age, uSex, isBiz);
                 message = "Account Created";
 
 
