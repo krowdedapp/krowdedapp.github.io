@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CS495: Krowded App</string>
+    <string name="app_name">Krowded</string>
     <string name="title_activity_maps">Map</string>
     <!--<<<<<<< HEAD-->
     <string name="thumbnail">thumbnail</string>

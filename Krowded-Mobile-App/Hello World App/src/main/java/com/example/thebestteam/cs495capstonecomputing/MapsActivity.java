@@ -115,7 +115,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
         // Initialize user
         user = LoginActivity.user;
-        
+
     }
 
         @Override
