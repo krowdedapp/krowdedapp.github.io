@@ -82,12 +82,12 @@
         <activity
             android:name=".CreateAccount"
             android:label="@string/title_activity_create_account"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FullSurveyActivity"></activity>
     </application>
 
 </manifest>

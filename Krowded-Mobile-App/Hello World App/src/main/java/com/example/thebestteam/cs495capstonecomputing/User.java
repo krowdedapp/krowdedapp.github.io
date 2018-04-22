@@ -1,6 +1,10 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -9,6 +13,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static android.support.v4.content.ContextCompat.startActivity;
+
 /**
  * Created by Liam on 03/04/18.
  */
@@ -16,7 +22,10 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class User {
+    private Activity activityContext;
     private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+
+    private User self = this;
 
     private boolean loggedIn;
     private String name;
@@ -24,7 +33,7 @@ public class User {
     private int age;
     private int sex;
     private boolean isBusiness;
-    private boolean passMatch;
+
     private boolean doesExist;
 
     public boolean isLoggedIn() { return loggedIn; }
@@ -65,6 +74,7 @@ public class User {
 
 
 
+
     // CreateAccount passes information to createUser function, and createUser logs
     // the new user in and inserts their information into the database
     public void createUser(String uName, String uEmail, String password, int uAge, int uSex, boolean
@@ -75,61 +85,52 @@ public class User {
         this.sex = uSex;
         this.isBusiness = isBiz;
 
+        String cleanEmail = email.replace(".","%P");
+
         // Add Email-Password pair to Authentication tree
-        mRoot.child("auth").child(email).child("email").setValue(email);
-        mRoot.child("auth").child(email).child("password").setValue(password);
+        mRoot.child("auth").child(cleanEmail).child("email").setValue(email);
+        mRoot.child("auth").child(cleanEmail).child("password").setValue(password);
 
 
         // Add user information to User tree
-        mRoot.child("user").child(email).setValue(this);
+        mRoot.child("user").child(cleanEmail).setValue(this);
     }
 
 
 
     // Method to Confirm Log Im
-    public String logIn(String uEmail, final String password) {
-        passMatch = false;
-        final String email = uEmail.replace(".","");
-
+    public void logIn(final String email, final String password) {
         // Check if passwords match
-        mRoot.child("auth").addListenerForSingleValueEvent(new ValueEventListener() {
+        mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(email) == null) { passMatch = false; } // User does not exist
-                else {
-                    // Grab password from FireBase, compare with supplied password
-                    String realPass = dataSnapshot.child(email).child("password").getValue(String.class);
-                    if (password.equals(realPass)) {
-                        passMatch = true;
-                    }
+                String cleanEmail = email.replace(".","%P");
 
-                }
-            }
+                // Iterate through authentication tree
+               // for (DataSnapshot snapshot : dataSnapshot.child("auth").getChildren()) {
+
+                    // If the user is found in the authentication tree...
+                    if (dataSnapshot.child("auth").child(cleanEmail).child("email").getValue(String.class).equals(email)) {
+                        // Check their password. if it's a match...
+                        if (password.equals(dataSnapshot.child("auth").child(cleanEmail).child("password").getValue(String.class))) {
+
+                            // Log the user in
+                                    self = dataSnapshot.child("user").child(cleanEmail).getValue(User.class);
+                                    Log.d("TAAAAAAAAAG",self.getName());
+
+                                    //LoginActivity.swapScreen(destination);
+
+                                }
+                            }
+                        }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-
-        // If passwords match, log user in
-        if (passMatch) {
-            mRoot.child("user").child(email).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    handleResults(dataSnapshot);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-            return "Passwords match.";
-        } else return "Passwords do not match.";
-
-        //return passMatch;
     }
+
 
     public boolean exists(String email) {
         doesExist = false;
@@ -157,10 +158,5 @@ public class User {
     }
 
 
-    // Handle results from password matching segment of logIn()
-    private void handleResults(DataSnapshot ds) {
-      //  this = ds.getValue(User.class);
-
-    }
 
 }
