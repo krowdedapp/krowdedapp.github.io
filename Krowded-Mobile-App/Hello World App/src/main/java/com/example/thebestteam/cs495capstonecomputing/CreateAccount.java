@@ -32,7 +32,6 @@ public class CreateAccount extends AppCompatActivity {
     // Retrieves information from fields, slots it into user object
     public void createAccount(View view) {
 
-        Log.e("FUCK", "createAccount: " );
 
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;

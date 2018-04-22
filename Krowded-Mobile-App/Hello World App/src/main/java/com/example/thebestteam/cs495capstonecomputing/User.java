@@ -116,7 +116,7 @@ public class User {
 
                             // Log the user in
                                     self = dataSnapshot.child("user").child(cleanEmail).getValue(User.class);
-                                    Log.d("TAAAAAAAAAG",self.getName());
+                                    Log.d("User Login Test",self.getName());
 
                                     //LoginActivity.swapScreen(destination);
 
