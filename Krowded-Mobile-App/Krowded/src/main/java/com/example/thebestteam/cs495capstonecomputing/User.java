@@ -100,7 +100,6 @@ public class User {
 
     // Method to Confirm Log Im
     public void logIn(final String email, final String password) {
-
         // Check if passwords match
         mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -112,13 +111,12 @@ public class User {
 
                     // If the user is found in the authentication tree...
                     if (dataSnapshot.child("auth").child(cleanEmail).child("email").getValue(String.class).equals(email)) {
-
                         // Check their password. if it's a match...
                         if (password.equals(dataSnapshot.child("auth").child(cleanEmail).child("password").getValue(String.class))) {
 
                             // Log the user in
                                     self = dataSnapshot.child("user").child(cleanEmail).getValue(User.class);
-                                    Log.d("TAAAAAAAAAG",self.getName());
+                                    Log.d("User Login Test",self.getName());
 
                                     //LoginActivity.swapScreen(destination);
 
