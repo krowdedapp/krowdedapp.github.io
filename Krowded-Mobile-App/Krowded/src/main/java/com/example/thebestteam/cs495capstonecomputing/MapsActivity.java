@@ -359,7 +359,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     }
 
     public void loginButton(View view) {
-        if (user != null && user.isLoggedIn()) {
+        if (user != null) {
             startActivity(new Intent(MapsActivity.this, ProfileActivity.class));
         } else {
             startActivity(new Intent(MapsActivity.this, LoginActivity.class));
