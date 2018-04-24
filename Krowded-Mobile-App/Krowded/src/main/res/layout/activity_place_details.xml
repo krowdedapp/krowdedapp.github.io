@@ -22,35 +22,22 @@
         android:id="@+id/locationName"
         android:layout_width="wrap_content"
         android:layout_height="49dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="NAME OF LOCATION"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationImage"
-        android:layout_marginLeft="16dp" />
-
-    <EditText
-        android:id="@+id/locationAddress"
-        android:layout_width="377dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textPostalAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationName" />
+        app:layout_constraintTop_toBottomOf="@+id/locationImage" />
 
     <TextView
         android:id="@+id/websiteLabel"
         android:layout_width="55dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Website: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationAddress"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:ignore="RtlCompat" />
 
     <TextView
@@ -67,74 +54,74 @@
         android:id="@+id/phoneLabel"
         android:layout_width="47dp"
         android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Phone: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/websiteLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/websiteLabel" />
 
     <TextView
         android:id="@+id/locationPhone"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="LOCATION PHONE "
         app:layout_constraintBaseline_toBaselineOf="@+id/phoneLabel"
-        app:layout_constraintStart_toEndOf="@+id/phoneLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/phoneLabel" />
 
     <TextView
         android:id="@+id/locationRating"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:text="RATING"
         app:layout_constraintBaseline_toBaselineOf="@+id/ratingLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="16dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/ratingLabel"
         android:layout_width="95dp"
         android:layout_height="19dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:text="Google Review:"
         app:layout_constraintEnd_toStartOf="@+id/locationRating"
-        app:layout_constraintTop_toBottomOf="@+id/websiteLabel"
-        android:layout_marginRight="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/websiteLabel" />
 
     <TextView
         android:id="@+id/openLabel"
         android:layout_width="99dp"
         android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Currently Open:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneLabel" />
 
     <TextView
         android:id="@+id/locationOpen"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="Yes"
         app:layout_constraintBaseline_toBaselineOf="@+id/openLabel"
-        app:layout_constraintStart_toEndOf="@+id/openLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/openLabel" />
 
     <TextView
         android:id="@+id/locationPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="5.0"
         app:layout_constraintBaseline_toBaselineOf="@+id/priceLabel"
-        app:layout_constraintStart_toEndOf="@+id/priceLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/priceLabel" />
 
     <TextView
         android:id="@+id/priceLabel"
@@ -149,22 +136,22 @@
         android:id="@+id/krowdedLabel"
         android:layout_width="95dp"
         android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Krowded Level:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/openLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/openLabel" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="5.0"
         app:layout_constraintBaseline_toBaselineOf="@+id/krowdedLabel"
-        app:layout_constraintStart_toEndOf="@+id/krowdedLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/krowdedLabel" />
 
     <TextView
         android:id="@+id/coverLabel"
@@ -179,11 +166,11 @@
         android:id="@+id/locationCover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="$10.00"
         app:layout_constraintBaseline_toBaselineOf="@+id/coverLabel"
-        app:layout_constraintStart_toEndOf="@+id/coverLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/coverLabel" />
 
     <Button
         android:id="@+id/reportsBtn"
@@ -196,5 +183,54 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="389dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationName" />
+
+    <TextView
+        android:id="@+id/musicTypeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Music Type:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/krowdedLabel" />
+
+    <TextView
+        android:id="@+id/locationMusicType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="MUSIC_TYPE"
+        app:layout_constraintBaseline_toBaselineOf="@+id/musicTypeLabel"
+        app:layout_constraintStart_toEndOf="@+id/musicTypeLabel" />
+
+    <TextView
+        android:id="@+id/musicGenreLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Music Genre:"
+        app:layout_constraintStart_toStartOf="@+id/coverLabel"
+        app:layout_constraintTop_toBottomOf="@+id/coverLabel" />
+
+    <TextView
+        android:id="@+id/locationMusicGenre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="MUSIC GENRE"
+        app:layout_constraintBaseline_toBaselineOf="@+id/musicGenreLabel"
+        app:layout_constraintStart_toEndOf="@+id/musicGenreLabel" />
 
 </android.support.constraint.ConstraintLayout>
