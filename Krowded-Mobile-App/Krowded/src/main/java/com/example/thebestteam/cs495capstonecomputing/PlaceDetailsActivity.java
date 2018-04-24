@@ -11,6 +11,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -27,6 +28,15 @@ public class PlaceDetailsActivity extends Activity {
     WebView mWvPlaceDetails;
     String pictureID;
     Bitmap picture;
+
+    TextView locationName = (TextView)findViewById(R.id.locationName);
+    TextView locationWebsite = (TextView)findViewById(R.id.locationWebsite);
+    TextView locationPhone = (TextView)findViewById(R.id.locationPhone);
+    TextView locationRating = (TextView)findViewById(R.id.locationRating);
+    TextView locationOpen = (TextView)findViewById(R.id.locationOpen);
+    TextView locationPrice = (TextView)findViewById(R.id.locationPrice); //google's price rating
+    TextView locationCover = (TextView)findViewById(R.id.locationCover); //cover charge
+    TextView locationAddress = (TextView)findViewById(R.id.locationAddress);
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +189,16 @@ public class PlaceDetailsActivity extends Activity {
             String rating = hPlaceDetails.get("rating");
             String international_phone_number = hPlaceDetails.get("international_phone_number");
             String url = hPlaceDetails.get("url");
+
+            locationName.setText(name);
+            locationWebsite.setText(url);
+            locationAddress.setText(formatted_address);
+            locationPhone.setText(formatted_phone);
+            locationRating.setText(rating);
+            locationOpen.setText();
+            locationCover.setText(); //this is obtained from the surveys
+            locationPrice.setText();
+
 
             String mimeType = "text/html";
             String encoding = "utf-8";
