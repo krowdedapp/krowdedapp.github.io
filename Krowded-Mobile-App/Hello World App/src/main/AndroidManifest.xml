@@ -72,7 +72,10 @@
             android:label="@string/title_activity_create_account"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DialogActivity" />
-        <activity android:name=".maybeActivity"></activity>
+        <activity android:name=".CreateDialogFragment" />
+
+
+        <activity android:name=".DisplayNotificationActivity"></activity>
     </application>
 
 </manifest>

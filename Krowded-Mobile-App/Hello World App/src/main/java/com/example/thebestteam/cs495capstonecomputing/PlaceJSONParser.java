@@ -52,6 +52,8 @@ public class PlaceJSONParser {
                 e.printStackTrace();
             }
         }
+       // MapsActivity x = new MapsActivity();
+       // x.startGeofences();
         return placesList;
     }
 
