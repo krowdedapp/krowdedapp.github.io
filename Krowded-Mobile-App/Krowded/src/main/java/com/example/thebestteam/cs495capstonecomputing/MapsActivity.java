@@ -88,6 +88,10 @@ public class MapsActivity extends FragmentActivity
     private static final long GEO_DURATION = 60 * 60 * 1000;
     private static final float GEOFENCE_RADIUS = 100.0f; // in meters
 
+    // Create user
+    public User user;
+
+
     private static final String TAG = "MapsActivity";
 
     private GoogleMap mGoogleMap;
@@ -152,6 +156,10 @@ public class MapsActivity extends FragmentActivity
                 startActivity(new Intent(MapsActivity.this, LViewActivity.class));
             }
         });
+
+        // Initialize user
+        user = LoginActivity.user;
+
     }
 
         @Override
@@ -711,6 +719,14 @@ public class MapsActivity extends FragmentActivity
                 }
             }
             return false;
+        }
+    }
+
+    public void loginButton(View view) {
+        if (user != null && user.isLoggedIn()) {
+            startActivity(new Intent(MapsActivity.this, ProfileActivity.class));
+        } else {
+            startActivity(new Intent(MapsActivity.this, LoginActivity.class));
         }
     }
 }
