@@ -504,7 +504,6 @@ public class MapsActivity extends FragmentActivity
 
                 final String placeID = hmPlace.get("place_name");
                 //TODO: Remove this when placeID is fully functional
-                //final String placeID = "jantzen";
 
                 final HashMap<String,String> foo = hmPlace;
                 if (placeID == null) Log.d("placeID","It's null, man.");
