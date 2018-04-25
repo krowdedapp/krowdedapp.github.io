@@ -3,10 +3,8 @@ package com.example.thebestteam.cs495capstonecomputing;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.v4.app.DialogFragment;
 
 
 public class DialogActivity extends DialogFragment {
@@ -30,6 +28,7 @@ public class DialogActivity extends DialogFragment {
                     }
                 }).show();
         // Create the AlertDialog object and return it
+
         return builder.create();
     }
 
@@ -37,5 +36,4 @@ public class DialogActivity extends DialogFragment {
     {
         internal_message = message;
     }
-
 }

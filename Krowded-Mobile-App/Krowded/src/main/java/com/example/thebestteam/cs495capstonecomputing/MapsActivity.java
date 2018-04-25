@@ -2,26 +2,20 @@ package com.example.thebestteam.cs495capstonecomputing;
 
 import android.R.layout;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-
-
-import android.location.Geocoder;
-
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -37,36 +31,11 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
-
-
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingClient;
-import com.google.android.gms.location.GeofencingEvent;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.AddPlaceRequest;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.AutocompletePredictionBuffer;
-
-
-
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
-
-import com.google.android.gms.location.Geofence;
-
-import com.google.android.gms.location.Geofence;
-
-import com.google.android.gms.location.places.GeoDataApi;
-import com.google.android.gms.location.places.GeoDataClient;
-
-import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.PlacePhotoMetadataResult;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -74,12 +43,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,18 +53,27 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import static android.os.SystemClock.currentThreadTimeMillis;
-import static android.os.SystemClock.sleep;
+import static com.example.thebestteam.cs495capstonecomputing.LoginActivity.user;
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
-import android.app.PendingIntent;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+
+
+
 
 public class MapsActivity extends FragmentActivity
         implements
@@ -117,6 +91,7 @@ public class MapsActivity extends FragmentActivity
 
 
     private Location lastLocation;
+    public static String placeName = "Rounders"; // Holds name of last/current business
     private Context context = this;
 
     public static boolean notificationDisplayed = false;
@@ -131,6 +106,7 @@ public class MapsActivity extends FragmentActivity
 
     //holds the lat and long in locations 0 and 1 respectively
     ArrayList<Double> currentLocation = new ArrayList<>(Arrays.asList(0.0, 0.0));
+
 
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
@@ -154,6 +130,10 @@ public class MapsActivity extends FragmentActivity
     ImageButton listViewIB;
 
     HashMap<String, String> mMarkerPlaceLink = new HashMap<String, String>();
+
+    private static DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+
+    private static Date enterTime; private static Date exitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,6 +189,8 @@ public class MapsActivity extends FragmentActivity
                 startActivity(new Intent(MapsActivity.this, LViewActivity.class));
             }
         });
+
+        user = new User();
     }
 
     @Override
@@ -237,7 +219,7 @@ public class MapsActivity extends FragmentActivity
                 == PackageManager.PERMISSION_GRANTED) {
             mGoogleMap.setMyLocationEnabled(true);
         } else {
-            Toast.makeText(MapsActivity.this, "You have to accept to enjoy all app's services!", Toast.LENGTH_LONG).show();
+            Toast.makeText(MapsActivity.this, "You have to accept to 'enjoy' all of Krowded's 'services'!", Toast.LENGTH_LONG).show();
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 mGoogleMap.setMyLocationEnabled(true);
@@ -313,6 +295,11 @@ public class MapsActivity extends FragmentActivity
                 //startGeofences();
             }
         });
+
+
+        Button loginButton = findViewById(R.id.btnLogin);
+        if (user == null) loginButton.setText("Login");
+        else loginButton.setText("Profile");
     }
 
 
@@ -513,6 +500,31 @@ public class MapsActivity extends FragmentActivity
 
                 // Linking Marker id and place reference
                 mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
+
+
+                final String placeID = hmPlace.get("place_name");
+                //TODO: Remove this when placeID is fully functional
+                //final String placeID = "jantzen";
+
+                final HashMap<String,String> foo = hmPlace;
+                if (placeID == null) Log.d("placeID","It's null, man.");
+                // Check if location exists in database
+                // Must be SingleValueEvent listener, or else it will fire every time any location is updated
+                mRoot.child("location").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d("hmPlace ID:",placeID);
+                        if (!dataSnapshot.hasChild(placeID)) {
+                            Log.d("T A G","placeID obj is null in Firebase");
+                            mRoot.child("location").child(placeID).child("Details").setValue(foo);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
             //allPlaces = list;
         }
@@ -546,18 +558,25 @@ public class MapsActivity extends FragmentActivity
         // TODO Auto-generated method stub
     }
 
+    public void loginButton(View view) {
+        if (user != null) {
+            startActivity(new Intent(MapsActivity.this, ProfileActivity.class));
+        } else {
+            startActivity(new Intent(MapsActivity.this, LoginActivity.class));
+        }
+    }
 
 
     /**
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
+     * p
+     *  a
+     *   n
+     *    c
+     *     a
+     *      k
+     *       e
+     *        s
+     *         !
      * */
 
     @Override
@@ -703,15 +722,35 @@ public class MapsActivity extends FragmentActivity
     static private String getGeofenceTrasitionDetails(int geoFenceTransition, List<Geofence> triggeringGeofences) {
         // get the ID of each geofence triggered
         ArrayList<String> triggeringGeofencesList = new ArrayList<>();
-        for ( Geofence geofence : triggeringGeofences ) {
-            triggeringGeofencesList.add( geofence.getRequestId() );
+        for (Geofence geofence : triggeringGeofences) {
+            triggeringGeofencesList.add(geofence.getRequestId());
         }
 
         String status = null;
-        if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER )
+        if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
             status = "Entering ";
-        else if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT )
+            enterTime = Calendar.getInstance().getTime();
+        } else if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
             status = "Exiting ";
+            Log.d("TIMEREPORT","Enter:" + enterTime + " / Exit: " + exitTime);
+            exitTime = Calendar.getInstance().getTime();
+
+            // TODO: Wait for reply about geofences and business IDs, and implement
+
+            /*
+            // When Business ID is obtained, this should be:
+            // DatabaseReference curr = mRoot.child("Location").child(businessID).child("Visits").child(exitTime.toString());
+             DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(exitTime.toString());
+
+             curr.child("EnterTime").setValue(enterTime);
+             curr.child("ExitTime").setValue(exitTime);
+             curr.child("User").setValue(user);
+
+
+            mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
+              mRoot.child("GeofenceTest").child(exitTime.toString()).child("ExitTime").setValue(exitTime);
+              */
+            }
         return status + TextUtils.join( ", ", triggeringGeofencesList);
     }
 

@@ -1,11 +1,7 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
-import android.app.AlertDialog;
 import android.app.IntentService;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 

@@ -17,66 +17,49 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateAccount extends AppCompatActivity {
-    User user = LoginActivity.user;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_account);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
-
-    // Retrieves information from fields, slots it into user object
     public void createAccount(View view) {
-
-
         Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
         CharSequence message;
 
-
-        EditText nameBox = findViewById(R.id.txtName);
-        EditText emailBox = findViewById(R.id.txtEmail);
-        EditText passBox = findViewById(R.id.txtPass);
-        EditText passCheck = findViewById(R.id.txtPass2);
-        EditText ageBox = findViewById(R.id.intAge);
-        ToggleButton bizBox = findViewById(R.id.toggleBiz);
-        ToggleButton sexBox = findViewById(R.id.toggleSex); // Don't laugh.
-
-        String name = nameBox.getText().toString();
-        String email = emailBox.getText().toString();
-        String password = passBox.getText().toString();
-        String password2 = passCheck.getText().toString(); // password confirmation
-        boolean isBiz = bizBox.isChecked();
-
-        int uSex;
-        if (sexBox.isChecked()) { uSex = 1; } else { uSex = 0; }
-
-        // Extracts int from input box
-        String tempAge = ageBox.getText().toString();
-        int age = Integer.parseInt(tempAge);
-
-
+        String name = ((EditText)findViewById(R.id.txtName)).getText().toString();
+        String email = ((EditText)findViewById(R.id.txtEmail)).getText().toString();
+        String password = ((EditText)findViewById(R.id.txtPass)).getText().toString();
+        String password2 = ((EditText)findViewById(R.id.txtPass2)).getText().toString();
+        String sex = (((ToggleButton)findViewById(R.id.toggleSex)).isChecked()) ? "1" : "0";
+        String age = ((EditText)findViewById(R.id.intAge)).getText().toString();
+        boolean isBiz = ((ToggleButton)findViewById(R.id.toggleBiz)).isChecked();
 
         if (password.equals(password2)) {
-            if (user.exists(email)) {
+            //TODO: check if user exists
+            if (false) {
                 message = "That email address is taken.";
             } else {
-                user.createUser(name, email, password, age, uSex, isBiz);
+                DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+                String cleanEmail = email.replace(".","");
+
+                mRoot.child("user").child(cleanEmail).child("email").setValue(email);
+                mRoot.child("user").child(cleanEmail).child("name").setValue(name);
+                mRoot.child("user").child(cleanEmail).child("age").setValue(age);
+                mRoot.child("user").child(cleanEmail).child("sex").setValue(sex);
+                mRoot.child("user").child(cleanEmail).child("isBiz").setValue(isBiz);
+                mRoot.child("user").child(cleanEmail).child("password").setValue(password);
+
                 message = "Account Created";
-
-
-                // Whisk the user away back to the map view
-                Intent myIntent = new Intent(this, MapsActivity.class);
+                Intent myIntent = new Intent(this, LoginActivity.class);
                 startActivity(myIntent);
             }
         } else message = "Passwords Do Not Match";
 
-
-        Toast toast = Toast.makeText(context,message,duration);
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         toast.show();
     }
 }
