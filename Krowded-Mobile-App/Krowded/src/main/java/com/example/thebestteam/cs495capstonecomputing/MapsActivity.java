@@ -91,6 +91,7 @@ public class MapsActivity extends FragmentActivity
 
 
     private Location lastLocation;
+    public static String placeName = "Rounders"; // Holds name of last/current business
     private Context context = this;
 
     public static boolean notificationDisplayed = false;
@@ -105,6 +106,7 @@ public class MapsActivity extends FragmentActivity
 
     //holds the lat and long in locations 0 and 1 respectively
     ArrayList<Double> currentLocation = new ArrayList<>(Arrays.asList(0.0, 0.0));
+
 
 
     private static final long GEO_DURATION = 60 * 60 * 1000;

@@ -13,6 +13,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -24,6 +30,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class PlaceDetailsActivity extends Activity {
+
     HashMap<String, String> locationData;
     WebView mWvPlaceDetails;
     String pictureID;
@@ -38,6 +45,8 @@ public class PlaceDetailsActivity extends Activity {
     TextView locationCover = (TextView)findViewById(R.id.locationCover); //cover charge
     TextView locationAddress = (TextView)findViewById(R.id.locationAddress);
 
+
+    private static DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +181,7 @@ public class PlaceDetailsActivity extends Activity {
 
         // Executed after the complete execution of doInBackground() method
         @Override
-        protected void onPostExecute(HashMap<String,String> hPlaceDetails){
+        protected void onPostExecute(final HashMap<String,String> hPlaceDetails){
 
             String name = hPlaceDetails.get("name");
             String icon = hPlaceDetails.get("icon");
@@ -192,7 +201,36 @@ public class PlaceDetailsActivity extends Activity {
             locationPhone.setText(formatted_phone);
             locationRating.setText(rating);
             //locationOpen.setText();
-            //locationCover.setText(); //this is obtained from the surveys
+
+            // Retrieve cover charges from database, and average them
+            mRoot.child("Location").child(MapsActivity.placeName).child("Survey").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    float total = 0;
+                    Integer count = 0;
+                    float rating;
+
+                    // If no surveys, report N/A for cover charge
+                    if (!dataSnapshot.hasChildren()) locationCover.setText("N/A");
+
+                    // Else, calculate the average reported cover charge
+                    else {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            rating = ds.child("Cover").getValue(float.class);
+                            total = total + rating;
+                            count = count + 1;
+                        }
+
+                        double average = total / count;
+                        locationCover.setText(Double.toString(average));
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             //locationPrice.setText();
 
 
@@ -217,5 +255,4 @@ public class PlaceDetailsActivity extends Activity {
             mWvPlaceDetails.loadDataWithBaseURL("", data, mimeType, encoding, "");
         }
     }
-
 }

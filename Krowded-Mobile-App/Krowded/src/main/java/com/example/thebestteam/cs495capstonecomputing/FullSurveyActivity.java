@@ -158,7 +158,7 @@ public class FullSurveyActivity extends AppCompatActivity {
         // DatabaseReference currSurvey = mRoot.child("Location").(businessID).("Surveys").child(currTime);
         // currSurvey.child("Krowdedness").setValue(krowdedness);
 
-        DatabaseReference currSurvey = mRoot.child("Surveys").child(currTime);
+        DatabaseReference currSurvey = mRoot.child("Location").child(MapsActivity.placeName).child("Survey").child(currTime);
 
         currSurvey.child("Krowdedness").setValue(krowdedness);
         currSurvey.child("Wait").setValue(wait);
