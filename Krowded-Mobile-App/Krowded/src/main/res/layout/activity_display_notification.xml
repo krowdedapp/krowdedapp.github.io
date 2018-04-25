@@ -6,4 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".DialogActivity">
 
+    <TextView
+        android:id="@+id/lblRateMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="250dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="250dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="167dp"
+        android:text="Krowdedness?"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintBottom_toTopOf="@+id/ratingBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="192dp"
+        android:layout_marginRight="192dp"
+        android:layout_marginTop="13dp"
+        android:numStars="4"
+        android:rating="2.0"
+        android:stepSize="1.0"
+        app:layout_constraintBottom_toTopOf="@+id/btnSurvey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblRateMe" />
+
+    <Button
+        android:id="@+id/btnSurvey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="186dp"
+        android:layout_marginEnd="280dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="280dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:text="Take Full Survey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+
 </android.support.constraint.ConstraintLayout>
+

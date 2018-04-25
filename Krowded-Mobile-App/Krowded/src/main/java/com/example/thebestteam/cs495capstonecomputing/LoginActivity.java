@@ -30,28 +30,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
     }
-
-
-//    // Button to attempt a login
-//    public void  tryLogin(View view) {
-//        int duration = Toast.LENGTH_SHORT;
-//        CharSequence message;
-//
-//
-//
-//
-//        if (user.isLoggedIn()) {
-//            message = "You are already logged in, " + user.getName() + " (meaning something went wrong).";
-//            Toast toast = Toast.makeText(context,message,duration);
-//            toast.show();
-//        } else {
-//            user.logIn(email, password, this);
-//        }
-//    }
-//
 
 
     public void logIn(View view) {
@@ -65,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e("FUCK", "LOGGING IN");
+                Log.e("TEST", "LOGGING IN");
 
                 Toast toast;
                 String cleanEmail = email.replace(".","");
