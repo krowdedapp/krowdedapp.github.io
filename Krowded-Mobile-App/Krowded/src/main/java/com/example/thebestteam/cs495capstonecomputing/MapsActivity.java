@@ -57,11 +57,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import static com.example.thebestteam.cs495capstonecomputing.LoginActivity.user;
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+
+
+
 
 public class MapsActivity extends FragmentActivity
         implements
@@ -117,6 +129,10 @@ public class MapsActivity extends FragmentActivity
 
     HashMap<String, String> mMarkerPlaceLink = new HashMap<String, String>();
 
+    private static DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+
+    private static Date enterTime; private static Date exitTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -171,6 +187,8 @@ public class MapsActivity extends FragmentActivity
                 startActivity(new Intent(MapsActivity.this, LViewActivity.class));
             }
         });
+
+        user = new User();
     }
 
     @Override
@@ -199,7 +217,7 @@ public class MapsActivity extends FragmentActivity
                 == PackageManager.PERMISSION_GRANTED) {
             mGoogleMap.setMyLocationEnabled(true);
         } else {
-            Toast.makeText(MapsActivity.this, "You have to accept to enjoy all app's services!", Toast.LENGTH_LONG).show();
+            Toast.makeText(MapsActivity.this, "You have to accept to 'enjoy' all of Krowded's 'services'!", Toast.LENGTH_LONG).show();
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 mGoogleMap.setMyLocationEnabled(true);
@@ -475,6 +493,31 @@ public class MapsActivity extends FragmentActivity
 
                 // Linking Marker id and place reference
                 mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
+
+
+                //final String placeID = hmPlace.get("place_id");
+                //TODO: Remove this when placeID is fully functional
+                final String placeID = "jantzen";
+
+                final HashMap<String,String> foo = hmPlace;
+                if (placeID == null) Log.d("placeID","It's null, man.");
+                // Check if location exists in database
+                // Must be SingleValueEvent listener, or else it will fire every time any location is updated
+                mRoot.child("location").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d("hmPlace ID:",placeID);
+                        if (!dataSnapshot.hasChild(placeID)) {
+                            Log.d("T A G","placeID obj is null in Firebase");
+                            mRoot.child("location").child(placeID).child("Details").setValue(foo);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
             //allPlaces = list;
         }
@@ -672,15 +715,33 @@ public class MapsActivity extends FragmentActivity
     static private String getGeofenceTrasitionDetails(int geoFenceTransition, List<Geofence> triggeringGeofences) {
         // get the ID of each geofence triggered
         ArrayList<String> triggeringGeofencesList = new ArrayList<>();
-        for ( Geofence geofence : triggeringGeofences ) {
-            triggeringGeofencesList.add( geofence.getRequestId() );
+        for (Geofence geofence : triggeringGeofences) {
+            triggeringGeofencesList.add(geofence.getRequestId());
         }
 
         String status = null;
-        if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER )
+        if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
             status = "Entering ";
-        else if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT )
+            enterTime = Calendar.getInstance().getTime();
+        } else if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
             status = "Exiting ";
+            Log.d("TIMEREPORT","Enter:" + enterTime + " / Exit: " + exitTime);
+            exitTime = Calendar.getInstance().getTime();
+
+            // TODO: Wait for reply about geofences and business IDs, and implement
+
+            // When Business ID is obtained, this should be:
+            // DatabaseReference curr = mRoot.child("Location").child(businessID).child("Visits").child(exitTime.toString());
+             DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(exitTime.toString());
+
+             curr.child("EnterTime").setValue(enterTime);
+             curr.child("ExitTime").setValue(exitTime);
+             curr.child("User").setValue(user);
+
+
+            mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
+              mRoot.child("GeofenceTest").child(exitTime.toString()).child("ExitTime").setValue(exitTime);
+            }
         return status + TextUtils.join( ", ", triggeringGeofencesList);
     }
 

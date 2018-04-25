@@ -3,18 +3,25 @@ package com.example.thebestteam.cs495capstonecomputing;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class FullSurveyActivity extends AppCompatActivity {
 
+    private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+
+
     private Button submit;
-    public float krowdedness;
-    public float wait;
-    public float money;
-    public String clubMusic;
-    public String genre;
+    public float krowdedness;  // Survey.dateTime.Krowdedness
+    public float wait;         // Survey.dateTime.Wait
+    public float money;        // Survey.dateTime.Cover
+    public String clubMusic;   // Survey.dateTime.Music
+    public String genre;       // Survey.dateTime.Genre
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,5 +148,24 @@ public class FullSurveyActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Krowdedness
+        Integer x = 0;
+
+        String currTime = new java.util.Date().toString();
+
+        // TODO: Once the business ID is retrieved, this should be:
+        // DatabaseReference currSurvey = mRoot.child("Location").(businessID).("Surveys").child(currTime);
+        // currSurvey.child("Krowdedness").setValue(krowdedness);
+
+        DatabaseReference currSurvey = mRoot.child("Surveys").child(currTime);
+
+        currSurvey.child("Krowdedness").setValue(krowdedness);
+        currSurvey.child("Wait").setValue(wait);
+        currSurvey.child("Cover").setValue(money);
+        currSurvey.child("Music").setValue(clubMusic);
+        currSurvey.child("Genre").setValue(genre);
+
+        Log.d("SURVEY","Survey Logged");
     }
 }
