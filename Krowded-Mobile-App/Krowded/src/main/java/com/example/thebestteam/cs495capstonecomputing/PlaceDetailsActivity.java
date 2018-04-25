@@ -190,9 +190,9 @@ public class PlaceDetailsActivity extends Activity {
             locationAddress.setText(formatted_address);
             locationPhone.setText(formatted_phone);
             locationRating.setText(rating);
-            locationOpen.setText();
-            locationCover.setText(); //this is obtained from the surveys
-            locationPrice.setText();
+            //locationOpen.setText();
+            //locationCover.setText(); //this is obtained from the surveys
+            //locationPrice.setText();
 
 
             String mimeType = "text/html";

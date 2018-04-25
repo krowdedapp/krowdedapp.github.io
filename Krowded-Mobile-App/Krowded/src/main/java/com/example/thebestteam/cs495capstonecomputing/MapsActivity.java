@@ -60,10 +60,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.google.android.gms.location.LocationServices.getGeofencingClient;
-import static android.os.SystemClock.currentThreadTimeMillis;
-import static android.os.SystemClock.sleep;
 import static com.example.thebestteam.cs495capstonecomputing.LoginActivity.user;
+import static com.google.android.gms.location.LocationServices.getGeofencingClient;
 
 public class MapsActivity extends FragmentActivity
         implements

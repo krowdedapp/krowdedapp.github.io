@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 
-
 public class DialogActivity extends DialogFragment {
 
    public String internal_message;
@@ -29,6 +28,7 @@ public class DialogActivity extends DialogFragment {
                     }
                 }).show();
         // Create the AlertDialog object and return it
+
         return builder.create();
     }
 
@@ -36,5 +36,4 @@ public class DialogActivity extends DialogFragment {
     {
         internal_message = message;
     }
-
 }
