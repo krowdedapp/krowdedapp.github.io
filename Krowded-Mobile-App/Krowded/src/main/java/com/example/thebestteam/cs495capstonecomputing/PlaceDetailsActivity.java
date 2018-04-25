@@ -255,4 +255,6 @@ public class PlaceDetailsActivity extends Activity {
             mWvPlaceDetails.loadDataWithBaseURL("", data, mimeType, encoding, "");
         }
     }
+
+
 }
