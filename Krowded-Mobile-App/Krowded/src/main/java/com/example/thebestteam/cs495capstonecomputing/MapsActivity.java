@@ -72,9 +72,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-
-
-
 public class MapsActivity extends FragmentActivity
         implements
         android.location.LocationListener,
@@ -600,7 +597,7 @@ public class MapsActivity extends FragmentActivity
         return new Geofence.Builder()
                 //change req id to be the index of the place
                 .setRequestId(geofenceName)
-                // .setCircularRegion( 33.215538, -87.519765, 32)
+                //.setCircularRegion( 33.211021, -87.543988, 250)
                 .setCircularRegion( latLong.get(0), latLong.get(1), radius)
                 .setExpirationDuration( GEO_DURATION )//change to full day probably
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |  Geofence.GEOFENCE_TRANSITION_EXIT )
@@ -659,22 +656,28 @@ public class MapsActivity extends FragmentActivity
 //33.215538, -87.519765, 32
         ArrayList<Double> tester = new ArrayList<>();
         ArrayList<Double> tester1 = new ArrayList<>();
-        tester.add(33.215538);
-        tester.add(-87.519765);
-        tester1.add(33.215530);
-        tester1.add(-87.519760);
+        //tester.add(33.215344);
+        //tester.add(-87.519753);//apartment
+
+        //tester.add(33.215530);//lloyd
+        //tester.add(-87.519760);
+
+        tester.add(33.214417);//serc
+        tester.add(-87.543846);
+
 
         if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
-            Geofence geofence = createGeofence(tester, 39, "fence1");
+            Geofence geofence = createGeofence(tester, 250, "fence1");
             FencesCreated.storeFence(geofence,tester);
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);
 
-            geofence = createGeofence(tester1, 39, "fence2");
+           /* geofence = createGeofence(tester1, 39, "fence2");
             FencesCreated.storeFence(geofence,tester1);
             geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);
+            */
         }
 
         /*
