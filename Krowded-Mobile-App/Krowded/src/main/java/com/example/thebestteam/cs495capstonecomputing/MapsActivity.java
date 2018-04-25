@@ -293,6 +293,11 @@ public class MapsActivity extends FragmentActivity
                 //startGeofences();
             }
         });
+
+
+        Button loginButton = findViewById(R.id.btnLogin);
+        if (user == null) loginButton.setText("Login");
+        else loginButton.setText("Profile");
     }
 
 
@@ -495,9 +500,9 @@ public class MapsActivity extends FragmentActivity
                 mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
 
 
-                //final String placeID = hmPlace.get("place_id");
+                final String placeID = hmPlace.get("place_name");
                 //TODO: Remove this when placeID is fully functional
-                final String placeID = "jantzen";
+                //final String placeID = "jantzen";
 
                 final HashMap<String,String> foo = hmPlace;
                 if (placeID == null) Log.d("placeID","It's null, man.");
@@ -561,15 +566,15 @@ public class MapsActivity extends FragmentActivity
 
 
     /**
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
+     * p
+     *  a
+     *   n
+     *    c
+     *     a
+     *      k
+     *       e
+     *        s
+     *         !
      * */
 
     @Override
@@ -730,6 +735,7 @@ public class MapsActivity extends FragmentActivity
 
             // TODO: Wait for reply about geofences and business IDs, and implement
 
+            /*
             // When Business ID is obtained, this should be:
             // DatabaseReference curr = mRoot.child("Location").child(businessID).child("Visits").child(exitTime.toString());
              DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(exitTime.toString());
@@ -741,6 +747,7 @@ public class MapsActivity extends FragmentActivity
 
             mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
               mRoot.child("GeofenceTest").child(exitTime.toString()).child("ExitTime").setValue(exitTime);
+              */
             }
         return status + TextUtils.join( ", ", triggeringGeofencesList);
     }

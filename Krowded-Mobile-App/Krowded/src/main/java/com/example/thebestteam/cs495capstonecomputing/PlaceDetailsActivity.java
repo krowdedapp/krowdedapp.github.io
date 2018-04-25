@@ -39,6 +39,7 @@ public class PlaceDetailsActivity extends Activity {
     TextView locationAddress = (TextView)findViewById(R.id.locationAddress);
 
 
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -216,4 +217,5 @@ public class PlaceDetailsActivity extends Activity {
             mWvPlaceDetails.loadDataWithBaseURL("", data, mimeType, encoding, "");
         }
     }
+
 }
