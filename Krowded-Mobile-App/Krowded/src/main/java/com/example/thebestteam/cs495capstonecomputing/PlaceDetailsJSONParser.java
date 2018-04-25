@@ -40,14 +40,8 @@ public class PlaceDetailsJSONParser {
         String rating="-NA-";
         String international_phone_number="-NA-";
         String url="-NA-";
-        String place_id="-NA-";
 
         try {
-            // Extracting Place ID, if available
-            if(!jPlaceDetails.isNull("place_id")){
-                place_id = jPlaceDetails.getString("place_id");
-            }
-
             // Extracting Place name, if available
             if(!jPlaceDetails.isNull("name")){
                 name = jPlaceDetails.getString("name");
