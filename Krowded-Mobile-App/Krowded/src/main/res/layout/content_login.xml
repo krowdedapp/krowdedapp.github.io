@@ -40,7 +40,7 @@
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="tryLogin"
+            android:onClick="logIn"
             android:text="Log In" />
 
         <Button

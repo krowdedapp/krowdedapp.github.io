@@ -61,6 +61,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
+import static android.os.SystemClock.currentThreadTimeMillis;
+import static android.os.SystemClock.sleep;
+import static com.example.thebestteam.cs495capstonecomputing.LoginActivity.user;
 
 public class MapsActivity extends FragmentActivity
         implements
@@ -507,6 +510,13 @@ public class MapsActivity extends FragmentActivity
         // TODO Auto-generated method stub
     }
 
+    public void loginButton(View view) {
+        if (user != null) {
+            startActivity(new Intent(MapsActivity.this, ProfileActivity.class));
+        } else {
+            startActivity(new Intent(MapsActivity.this, LoginActivity.class));
+        }
+    }
 
 
     /**
