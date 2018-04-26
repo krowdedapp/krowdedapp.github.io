@@ -241,11 +241,19 @@ public class PlaceDetailsActivity extends Activity {
 
 
             Picasso.get()
+<<<<<<< HEAD
                     .load(picUrl)
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .placeholder(null)
                     .config(Bitmap.Config.RGB_565)//affects how many bits are used to store each color
                     .into(locationImage);
+=======
+                .load(picUrl)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .placeholder(null)
+                .config(Bitmap.Config.RGB_565)//affects how many bits are used to store each color
+                .into(locationImage);
+>>>>>>> master
 
             locationName.setText(name);
             locationWebsite.setText(website);
@@ -294,6 +302,7 @@ public class PlaceDetailsActivity extends Activity {
                                 waitCount = waitCount + 1;
                             }
                         }
+                    }
 
                         //locationData.put("string",variable);
 

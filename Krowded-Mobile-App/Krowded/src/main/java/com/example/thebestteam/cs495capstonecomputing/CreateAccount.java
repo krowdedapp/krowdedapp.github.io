@@ -52,13 +52,13 @@ public class CreateAccount extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        Email emailer = new Email();
-                        emailer.send("Welcome to This Shitty App: Krowded", "Sup nerd", email);
+                try {
+                    Email emailer = new Email();
+                    emailer.send("Welcome to This Shitty App: Krowded", "Sup nerd", email);
 
-                    } catch (Exception e) {
-                        Log.e("SendMail", e.getMessage(), e);
-                    }
+                } catch (Exception e) {
+                    Log.e("SendMail", e.getMessage(), e);
+                }
                 }
 
             }).start();

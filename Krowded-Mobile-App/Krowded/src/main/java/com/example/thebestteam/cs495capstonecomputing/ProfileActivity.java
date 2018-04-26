@@ -44,6 +44,8 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 user = null;
+                LoginActivity.user = null;
+                startActivity(new Intent(ProfileActivity.this, MapsActivity.class));
             }
         });
 
