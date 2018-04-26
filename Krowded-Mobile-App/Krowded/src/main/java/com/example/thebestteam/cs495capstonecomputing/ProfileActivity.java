@@ -29,22 +29,25 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ((TextView)findViewById(R.id.txtEmail)).setText(user.getEmail());
-        ((TextView)findViewById(R.id.txtName)).setText(user.getName());
+        ((TextView)findViewById(R.id.profileName)).setText(user.getName());
+        ((TextView)findViewById(R.id.profileEmail)).setText(user.getEmail());
+        ((TextView)findViewById(R.id.profileSex)).setText((user.getSex() == 1) ? "Male" : "Female");
+        ((TextView)findViewById(R.id.profileAge)).setText(((Integer)user.getAge()).toString());
 
-        mRoot.child("User").child(user.getEmail().replace(".","")).child("Favorites").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        mRoot.child("User").child(user.getEmail().replace(".","")).child("Favorites").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
 

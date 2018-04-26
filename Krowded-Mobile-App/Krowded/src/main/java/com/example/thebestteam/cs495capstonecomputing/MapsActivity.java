@@ -45,6 +45,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,14 +67,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.example.thebestteam.cs495capstonecomputing.LoginActivity.user;
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class MapsActivity extends FragmentActivity
@@ -81,6 +79,8 @@ public class MapsActivity extends FragmentActivity
         OnMapReadyCallback {
     // GoogleApiClient.ConnectionCallbacks,
     // GoogleApiClient.OnConnectionFailedListener {
+
+    User user = LoginActivity.user;
 
 
     public static ArrayList<Geofence> geofencesTriggered =  new ArrayList<>();
@@ -187,7 +187,6 @@ public class MapsActivity extends FragmentActivity
             }
         });
 
-        user = new User();
     }
 
     @Override
@@ -252,7 +251,7 @@ public class MapsActivity extends FragmentActivity
                 //startActivity(intent);
 
 
-                Intent intent = new Intent(getBaseContext(), PlaceDetailsActivity.class);
+                Intent intent = new Intent(MapsActivity.this, PlaceDetailsActivity.class);
                 String reference = mMarkerPlaceLink.get(arg0.getId());
                 intent.putExtra("reference", reference);
 
@@ -262,7 +261,7 @@ public class MapsActivity extends FragmentActivity
         });
 
 
-        if(notificationDisplayed && wereMarkersPlaced) {
+        if(notificationDisplayed && wereMarkersPlaced || getIntent().hasExtra("back")) {
             placeMarkers();
             notificationDisplayed = false;
         }
@@ -574,7 +573,7 @@ public class MapsActivity extends FragmentActivity
      *       e
      *        s
      *         !
-     * */
+     **/
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -666,6 +665,8 @@ public class MapsActivity extends FragmentActivity
         //tester.add(33.214417);//serc
         //tester.add(-87.543846);
 
+        //tester.add(33.214830);//fountain
+        //tester.add(-87.542796);
 
         if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine

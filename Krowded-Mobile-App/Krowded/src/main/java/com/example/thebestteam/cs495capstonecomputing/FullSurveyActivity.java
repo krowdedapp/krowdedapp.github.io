@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -22,6 +23,7 @@ public class FullSurveyActivity extends AppCompatActivity {
     public float money;        // Survey.dateTime.Cover
     public String clubMusic;   // Survey.dateTime.Music
     public String genre;       // Survey.dateTime.Genre
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,16 +34,48 @@ public class FullSurveyActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String currTime = new java.util.Date().toString();
+
+                // TODO: Once the business ID is retrieved, this should be:
+                // DatabaseReference currSurvey = mRoot.child("Location").(businessID).("Surveys").child(currTime);
+                // currSurvey.child("Krowdedness").setValue(krowdedness);
+
+                DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
+
+                Log.d("PLACENAME", MapsActivity.placeName);
+
+
+                // Type - (L)ong
+                currSurvey.child("Type").setValue("L");
+
+
+                User user = LoginActivity.user;
+
+                if (user == null) {
+                    currSurvey.child("User").setValue("null");
+                } else currSurvey.child("User").setValue(user);
+
+                currSurvey.child("Krowdedness").setValue(krowdedness);
+                currSurvey.child("Wait").setValue(wait);
+                currSurvey.child("Cover").setValue(money);
+                currSurvey.child("Music").setValue(clubMusic);
+                currSurvey.child("Genre").setValue(genre);
+
+                Log.d("SURVEY", "Survey Logged");
+
+                Toast toast = Toast.makeText(getApplicationContext(), "Survey Submitted", Toast.LENGTH_SHORT);
+                toast.show();
+
                 startActivity(new Intent(FullSurveyActivity.this, MapsActivity.class));
             }
         });
 
         RadioGroup full = (RadioGroup) findViewById(R.id.q1RadioGroup);
 
-        full.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        full.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
+                switch (checkedId) {
                     case R.id.perFull0:
                         krowdedness = 0;
                         break;
@@ -63,10 +97,9 @@ public class FullSurveyActivity extends AppCompatActivity {
 
         final RadioGroup waitTime = (RadioGroup) findViewById(R.id.q2RadioGroup);
 
-        waitTime.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        waitTime.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
+                switch (checkedId) {
                     case R.id.waitTime20:
                         wait = 20;
                         break;
@@ -85,10 +118,9 @@ public class FullSurveyActivity extends AppCompatActivity {
 
         RadioGroup coverCharge = (RadioGroup) findViewById(R.id.q3RadioGroup);
 
-        coverCharge.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        coverCharge.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
+                switch (checkedId) {
                     case R.id.coverCharNA:
                         money = 0;
                         break;
@@ -110,10 +142,9 @@ public class FullSurveyActivity extends AppCompatActivity {
 
         RadioGroup music = (RadioGroup) findViewById(R.id.q4RadioGroup);
 
-        music.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        music.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
+                switch (checkedId) {
                     case R.id.noLiveMusic:
                         clubMusic = "None";
                         break;
@@ -129,10 +160,9 @@ public class FullSurveyActivity extends AppCompatActivity {
 
         RadioGroup musicGenre = (RadioGroup) findViewById(R.id.q5RadioGroup);
 
-        musicGenre.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        musicGenre.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
+                switch (checkedId) {
                     case R.id.genreCountry:
                         genre = "Country";
                         break;
@@ -151,23 +181,5 @@ public class FullSurveyActivity extends AppCompatActivity {
 
         // Krowdedness
         Integer x = 0;
-
-        String currTime = new java.util.Date().toString();
-
-        // TODO: Once the business ID is retrieved, this should be:
-        // DatabaseReference currSurvey = mRoot.child("Location").(businessID).("Surveys").child(currTime);
-        // currSurvey.child("Krowdedness").setValue(krowdedness);
-
-        DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
-
-        Log.d("PLACENAME",MapsActivity.placeName);
-
-        currSurvey.child("Krowdedness").setValue(krowdedness);
-        currSurvey.child("Wait").setValue(wait);
-        currSurvey.child("Cover").setValue(money);
-        currSurvey.child("Music").setValue(clubMusic);
-        currSurvey.child("Genre").setValue(genre);
-
-        Log.d("SURVEY","Survey Logged");
     }
 }

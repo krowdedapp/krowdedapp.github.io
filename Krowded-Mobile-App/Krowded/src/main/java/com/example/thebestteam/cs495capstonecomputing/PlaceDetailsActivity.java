@@ -4,12 +4,14 @@ package com.example.thebestteam.cs495capstonecomputing;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,18 +34,20 @@ import java.util.HashMap;
 public class PlaceDetailsActivity extends Activity {
 
     HashMap<String, String> locationData;
-    WebView mWvPlaceDetails;
     String pictureID;
     Bitmap picture;
 
-    TextView locationName = (TextView)findViewById(R.id.locationName);
-    TextView locationWebsite = (TextView)findViewById(R.id.locationWebsite);
-    TextView locationPhone = (TextView)findViewById(R.id.locationPhone);
-    TextView locationRating = (TextView)findViewById(R.id.locationRating);
-    TextView locationOpen = (TextView)findViewById(R.id.locationOpen);
-    TextView locationPrice = (TextView)findViewById(R.id.locationPrice); //google's price rating
-    TextView locationCover = (TextView)findViewById(R.id.locationCover); //cover charge
-    TextView locationAddress = (TextView)findViewById(R.id.locationAddress);
+    TextView locationName;
+    TextView locationWebsite;
+    TextView locationPhone;
+    TextView locationRating;
+    TextView locationOpen;
+    TextView locationPrice; //google's price rating
+    TextView locationCover; //cover charge
+    TextView locationAddress;
+
+    //Used for location favorite button
+    boolean isEnabled = false;
 
 
     private static DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
@@ -53,8 +57,14 @@ public class PlaceDetailsActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
-
-        mWvPlaceDetails.getSettings().setUseWideViewPort(false);
+        locationName = (TextView)findViewById(R.id.locationName);
+        locationWebsite = (TextView)findViewById(R.id.locationWebsite);
+        locationPhone = (TextView)findViewById(R.id.locationPhone);
+        locationRating = (TextView)findViewById(R.id.locationRating);
+        locationOpen = (TextView)findViewById(R.id.locationOpen);
+        locationPrice = (TextView)findViewById(R.id.locationPrice); //google's price rating
+        locationCover = (TextView)findViewById(R.id.locationCover); //cover charge
+        locationAddress = (TextView)findViewById(R.id.locationAddress);
 
         // Getting place reference from the map
         final String reference = getIntent().getStringExtra("reference");
@@ -69,12 +79,6 @@ public class PlaceDetailsActivity extends Activity {
 
         // Invokes the "doInBackground()" method of the class PlaceTask
         placesTask.execute(sb.toString());
-
-
-        //Place photo on image view
-        pictureID = LViewAdapter.photoID;
-        ImageView imageView = (ImageView) findViewById(R.id.locationImage);
-        imageView.setImageBitmap(picture);
 
 
         final Intent reportIntent = new Intent(this, ReportActivity.class);
@@ -179,6 +183,38 @@ public class PlaceDetailsActivity extends Activity {
             return hPlaceDetails;
         }
 
+        //Toggle the favorite button
+        public void onToggleStar(View view)  {
+            ImageButton fav = (ImageButton)view;
+            //
+            if(isEnabled) {
+                fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_off));
+                //TODO Add code to remove favorite in DB
+            }
+            else    {
+                fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_on));
+                //TODO Add code to add favorite in DB
+            }
+
+            isEnabled = !isEnabled;
+        }
+
+
+        public Bitmap getBitmapFromURL(String src) {
+            try {
+                URL url = new URL(src);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (IOException e) {
+                // Log exception
+                return null;
+            }
+        }
+
         // Executed after the complete execution of doInBackground() method
         @Override
         protected void onPostExecute(final HashMap<String,String> hPlaceDetails){
@@ -194,6 +230,19 @@ public class PlaceDetailsActivity extends Activity {
             String rating = hPlaceDetails.get("rating");
             String international_phone_number = hPlaceDetails.get("international_phone_number");
             String url = hPlaceDetails.get("url");
+
+
+            String photo_reference = hPlaceDetails.get("picture");
+
+            StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=");
+            sb.append(photo_reference);
+            sb.append("&key=");
+            sb.append("AIzaSyBb4_AGSb9PWWsv3AfQQpvJMZpGV9oajiQ");
+            pictureID = sb.toString();
+
+            ImageView imageView = (ImageView) findViewById(R.id.locationImage);
+            picture = getBitmapFromURL(pictureID);
+            imageView.setImageBitmap(picture);
 
             locationName.setText(name);
             locationWebsite.setText(url);
@@ -232,27 +281,6 @@ public class PlaceDetailsActivity extends Activity {
                 }
             });
             //locationPrice.setText();
-
-
-            String mimeType = "text/html";
-            String encoding = "utf-8";
-
-            String data = "<html>"+
-                    "<body><img style='float:left' src="+icon+" /><h1><center>"+name+"</center></h1>" +
-                    "<br style='clear:both' />" +
-                    "<hr />"+
-                    "<p>Vicinity : " + vicinity + "</p>" +
-                    "<p>Location : " + lat + "," + lng + "</p>" +
-                    "<p>Address : " + formatted_address + "</p>" +
-                    "<p>Phone : " + formatted_phone + "</p>" +
-                    "<p>Website : " + website + "</p>" +
-                    "<p>Rating : " + rating + "</p>" +
-                    "<p>International Phone : " + international_phone_number + "</p>" +
-                    "<p>URL : <a href='" + url + "'>" + url + "</p>" +
-                    "</body></html>";
-
-            // Setting the data in WebView
-            mWvPlaceDetails.loadDataWithBaseURL("", data, mimeType, encoding, "");
         }
     }
 

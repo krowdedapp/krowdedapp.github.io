@@ -1,6 +1,14 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -9,7 +17,6 @@ import java.util.HashMap;
  */
 
 public class Report {
-    Email emailer;
     HashMap<String, String> statistics;
     String report;
 
@@ -32,7 +39,25 @@ public class Report {
         }).start();
     }
 
-    private HashMap<String, String> generateStatistics(HashMap<String, String> data) {
+    private HashMap<String, String> generateStatistics(final HashMap<String, String> data) {
+        DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+
+
+        mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("TEST", "Generating Statistics");
+
+                DataSnapshot loc = dataSnapshot.child("user").child(data.get("name"));
+                Log.e("TEST", "loc " + loc);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return data;
     }
 
@@ -62,4 +87,7 @@ public class Report {
 
         return report;
     }
+
+
+
 }
