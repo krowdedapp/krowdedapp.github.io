@@ -216,6 +216,8 @@ public class PlaceDetailsActivity extends Activity {
             String rating = hPlaceDetails.get("rating");
             String international_phone_number = hPlaceDetails.get("international_phone_number");
             String url = hPlaceDetails.get("url");
+            String isopen = hPlaceDetails.get("open_now");
+            String priceLevel = hPlaceDetails.get("price_level");
 
 
             String photo_reference = hPlaceDetails.get("picture");
@@ -241,7 +243,8 @@ public class PlaceDetailsActivity extends Activity {
             locationAddress.setText(formatted_address);
             locationPhone.setText(formatted_phone);
             locationRating.setText(rating);
-            //locationOpen.setText();
+            locationOpen.setText(isopen);
+            locationPrice.setText(priceLevel);
 
             // Retrieve cover charges from database, and average them
             mRoot.child("Location").child(MapsActivity.placeName).child("Survey").addListenerForSingleValueEvent(new ValueEventListener() {
