@@ -62,7 +62,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.example.thebestteam.cs495capstonecomputing.LoginActivity.user;
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
 
 import com.google.firebase.database.DataSnapshot;
@@ -81,6 +80,8 @@ public class MapsActivity extends FragmentActivity
         OnMapReadyCallback {
     // GoogleApiClient.ConnectionCallbacks,
     // GoogleApiClient.OnConnectionFailedListener {
+
+    User user = LoginActivity.user;
 
 
     public static ArrayList<Geofence> geofencesTriggered =  new ArrayList<>();
@@ -187,7 +188,6 @@ public class MapsActivity extends FragmentActivity
             }
         });
 
-        user = new User();
     }
 
     @Override
@@ -662,16 +662,15 @@ public class MapsActivity extends FragmentActivity
         //tester.add(33.215530);//lloyd
         //tester.add(-87.519760);
 
-        //tester.add(33.214417);//serc
-        //tester.add(-87.543846);
+        tester.add(33.214417);//serc
+        tester.add(-87.543846);
 
-
-        tester.add(33.214830);//fountain
-        tester.add(-87.542796);
+        //tester.add(33.214830);//fountain
+        //tester.add(-87.542796);
 
         if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
-            Geofence geofence = createGeofence(tester, 30, "fence1");
+            Geofence geofence = createGeofence(tester, 250, "fence1");
             FencesCreated.storeFence(geofence,tester);
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);

@@ -4,15 +4,23 @@ import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class DisplayNotificationActivity extends AppCompatActivity {
+    User user = LoginActivity.user;
     private RatingBar ratingBar;
     private Button btnSurvey;
     public float krowdedness;
+
+    private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,5 +81,23 @@ public class DisplayNotificationActivity extends AppCompatActivity {
                 //add this to location object
             }
         });
+    }
+
+    private void submitSurvey() {
+        String currTime = new java.util.Date().toString();
+
+
+        DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
+        Log.d("SHORTPLACENAME",MapsActivity.placeName);
+        Log.d("KROWDEDNESS",String.valueOf(krowdedness));
+
+        // Survey Type (S)hort
+        currSurvey.child("Type").setValue("S");
+
+        if (user == null) { currSurvey.child("User").setValue("null"); }
+        else currSurvey.child("User").setValue(user);
+
+        currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
+
     }
 }
