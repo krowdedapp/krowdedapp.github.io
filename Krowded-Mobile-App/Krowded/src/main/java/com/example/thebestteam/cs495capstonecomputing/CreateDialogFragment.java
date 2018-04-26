@@ -137,7 +137,6 @@ public class CreateDialogFragment extends DialogFragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
             builder.setTitle("entering")
-
                     // Specify the list array, the items to be selected by default (null for none),
                     // and the listener through which to receive callbacks when items are selected
                     .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
@@ -145,6 +144,7 @@ public class CreateDialogFragment extends DialogFragment {
                                 //@Override
                                 public void onClick(DialogInterface dialog, int which)
                                 {
+
                                     startMapsActivity();
                                 }
                             });
@@ -237,24 +237,4 @@ public class CreateDialogFragment extends DialogFragment {
     {
         transitionType = type;
     }
-
-
-    public void addListenerOnRatingBar() {
-
-        //ratingBar = (RatingBar) getView();
-
-        //ratingBar = (RatingBar) getView().findViewById(R.id.ratingBar);
-
-        //if rating value is changed,
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
-                krowdedness = rating;
-                //add this to location object
-            }
-        });
-    }
-
-
-
 }
