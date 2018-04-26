@@ -1,8 +1,11 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -44,13 +47,12 @@ public class PlaceDetailsJSONParser {
         String isopen = "";
         String priceLevel = "";
         String picture="";
-        ArrayList photos;
 
         try {
             // Extracting Place name, if available
-            if(!jPlaceDetails.isNull("picture")){
-                photos = (ArrayList) jPlaceDetails.get("photos");
-                picture = (String) photos.get(1);
+            if(!jPlaceDetails.isNull("photos")){
+                JSONObject photoObj = (JSONObject)jPlaceDetails.getJSONArray("photos").get(0);
+                picture = photoObj.getString("photo_reference");
             }
             // Extracting Place name, if available
             if(!jPlaceDetails.isNull("name")){
