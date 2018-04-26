@@ -578,7 +578,7 @@ public class MapsActivity extends FragmentActivity
      *       e
      *        s
      *         !
-     * */
+     **/
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
