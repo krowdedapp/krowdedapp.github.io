@@ -44,7 +44,6 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     public void addListenerOnRatingBar() {
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-
         //if rating value is changed,
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
