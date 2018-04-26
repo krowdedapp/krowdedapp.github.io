@@ -54,7 +54,7 @@ public class DisplayNotificationActivity extends AppCompatActivity {
         });
 
 
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
+        Button btnCancel = (Button) findViewById(R.id.btnSubmit);
         //Create on click listener to switch to full survey view
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

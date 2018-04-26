@@ -6,85 +6,84 @@
     android:layout_height="match_parent"
     tools:context="com.example.thebestteam.cs495capstonecomputing.ReportActivity">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_editor_absoluteY="292dp">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="414dp"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="8dp">
+        <CheckBox
+            android:id="@+id/avgTimeBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Average Time of Stay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/avgAgeBox" />
 
-                <CheckBox
-                    android:id="@+id/checkBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="83dp"
-                    android:text="CheckBox" />
+        <CheckBox
+            android:id="@+id/avgAgeBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Average Age"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/introLabel" />
 
-                <CheckBox
-                    android:id="@+id/checkBox5"
-                    android:layout_width="match_parent"
-                    android:layout_height="83dp"
-                    android:text="CheckBox" />
+        <CheckBox
+            android:id="@+id/sexBreakdownBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Sex Breakdown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/avgTimeBox" />
 
-                <CheckBox
-                    android:id="@+id/checkBox4"
-                    android:layout_width="match_parent"
-                    android:layout_height="83dp"
-                    android:text="CheckBox" />
-
-                <CheckBox
-                    android:id="@+id/checkBox3"
-                    android:layout_width="match_parent"
-                    android:layout_height="83dp"
-                    android:text="CheckBox" />
-
-                <CheckBox
-                    android:id="@+id/checkBox2"
-                    android:layout_width="match_parent"
-                    android:layout_height="83dp"
-                    android:text="CheckBox" />
-
-                <CheckBox
-                    android:id="@+id/checkBox7"
-                    android:layout_width="match_parent"
-                    android:layout_height="83dp"
-                    android:text="CheckBox" />
-
-                <CheckBox
-                    android:id="@+id/checkBox6"
-                    android:layout_width="match_parent"
-                    android:layout_height="83dp"
-                    android:text="CheckBox" />
-
-            </LinearLayout>
-
-        </ScrollView>
 
         <EditText
             android:id="@+id/address"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:ems="10"
             android:hint="Enter Your Email Address"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="477dp" />
 
         <Button
             android:id="@+id/sendReportBtn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:text="Send Report"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="463dp" />
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/introLabel"
+            android:layout_width="362dp"
+            android:layout_height="125dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="We send users a basic report based off of information that we collect and make public. Here at Krowded, we also offer you some special details that we think you may find useful for better understanding the type of people that visit your location. Please specify any additional details you would like us to include in your report, and provide us with an email you would like us to send the report to."
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
