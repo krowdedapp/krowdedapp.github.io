@@ -54,7 +54,8 @@ public class CreateAccount extends AppCompatActivity {
                 public void run() {
                 try {
                     Email emailer = new Email();
-                    emailer.send("Welcome to This Shitty App: Krowded", "Sup nerd", email);
+                    String message = "Hello,\nWelcome to Krowded!\n\nEnjoy!\nKrowdedBot";
+                    emailer.send("Welcome to Krowded!", message, email);
 
                 } catch (Exception e) {
                     Log.e("SendMail", e.getMessage(), e);

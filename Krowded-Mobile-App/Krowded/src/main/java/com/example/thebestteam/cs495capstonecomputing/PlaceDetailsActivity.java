@@ -35,7 +35,7 @@ import java.util.HashMap;
 
 public class PlaceDetailsActivity extends Activity {
 
-    User user = LoginActivity.user;
+    User user;
 
     HashMap<String, String> locationData;
 
@@ -62,6 +62,9 @@ public class PlaceDetailsActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
+
+         user = LoginActivity.user;
+
         locationImage = (ImageView) findViewById(R.id.locationImage);
         locationName = (TextView)findViewById(R.id.locationName);
         locationWebsite = (TextView)findViewById(R.id.locationWebsite);
@@ -98,29 +101,6 @@ public class PlaceDetailsActivity extends Activity {
                 startActivity(reportIntent);
             }
         });
-
-        DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
-        final ImageButton fav = findViewById(R.id.favoriteButton);
-
-        if(user != null) {
-            mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String cleanEmail = user.getEmail().replace(".", "");
-                    if (dataSnapshot.child("user").child(cleanEmail).child("favorites").hasChild(locationData.get("name"))) {
-                        fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_on));
-                    } else {
-                        fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_off));
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-        } else {
-            fav.setVisibility(View.INVISIBLE);
-        }
     }
 
     /** A method to download json data from url */
@@ -210,6 +190,17 @@ public class PlaceDetailsActivity extends Activity {
 
             locationData = new HashMap<String, String>();
             locationData = hPlaceDetails;
+
+            final ImageButton fav = findViewById(R.id.favoriteButton);
+            if(user != null) {
+                if (user.getFavs().contains(locationData.get("name"))) {
+                    fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_on));
+                } else {
+                    fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_off));
+                }
+            } else {
+                fav.setVisibility(View.INVISIBLE);
+            }
 
             return hPlaceDetails;
         }
