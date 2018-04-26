@@ -71,23 +71,6 @@ public class DisplayNotificationActivity extends AppCompatActivity {
                 }
             });
 
-                String currTime = new java.util.Date().toString();
-
-
-                DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
-                Log.d("SHORTPLACENAME",MapsActivity.placeName);
-                Log.d("KROWDEDNESS",String.valueOf(krowdedness));
-
-                // Survey Type (S)hort
-                currSurvey.child("Type").setValue("S");
-
-                if (user == null) { currSurvey.child("User").setValue("null"); }
-                else currSurvey.child("User").setValue(user);
-
-                currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
-
-                Toast toast = Toast.makeText( getApplicationContext(), "Survey Submitted", Toast.LENGTH_SHORT);
-                toast.show();
 
                 Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
 
@@ -96,11 +79,25 @@ public class DisplayNotificationActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                     Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
 
+                    String currTime = new java.util.Date().toString();
 
-                    newintent.putExtra("back", "nothin");
+
+                    DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
+                    Log.d("SHORTPLACENAME",MapsActivity.placeName);
+                    Log.d("KROWDEDNESS",String.valueOf(krowdedness));
+
+                    // Survey Type (S)hort
+                    currSurvey.child("Type").setValue("S");
+
+                    if (user == null) { currSurvey.child("User").setValue("null"); }
+                    else currSurvey.child("User").setValue(user);
+
+                    currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
+
+
+                newintent.putExtra("back", "nothin");
                     startActivity(newintent);
                 }
             });
@@ -146,21 +143,4 @@ public class DisplayNotificationActivity extends AppCompatActivity {
         });
     }
 
-    private void submitSurvey() {
-        String currTime = new java.util.Date().toString();
-
-
-        DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
-        Log.d("SHORTPLACENAME",MapsActivity.placeName);
-        Log.d("KROWDEDNESS",String.valueOf(krowdedness));
-
-        // Survey Type (S)hort
-        currSurvey.child("Type").setValue("S");
-
-        if (user == null) { currSurvey.child("User").setValue("null"); }
-        else currSurvey.child("User").setValue(user);
-
-        currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
-
-    }
 }

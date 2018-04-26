@@ -259,9 +259,17 @@ public class PlaceDetailsActivity extends Activity {
             mRoot.child("Location").child(MapsActivity.placeName).child("Survey").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    float total = 0;
-                    Integer count = 0;
-                    float rating;
+                    Integer hasLongSurvey = 0;
+
+                    float coverTotal = 0;
+                    float waitTotal = 0;
+                    float krowdednessTotal = 0;
+                    Integer coverCount = 0;
+                    Integer waitCount = 0;
+                    Integer krowdednessCount = 0;
+                    float coverRating;
+                    float waitRating;
+                    float krowdednessRating;
 
                     // If no surveys, report N/A for cover charge
                     if (!dataSnapshot.hasChildren()) locationCover.setText("N/A");
@@ -269,13 +277,45 @@ public class PlaceDetailsActivity extends Activity {
                     // Else, calculate the average reported cover charge
                     else {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            rating = ds.child("Cover").getValue(float.class);
-                            total = total + rating;
-                            count = count + 1;
+                            krowdednessRating = ds.child("Krowdedness").getValue(float.class);
+                            krowdednessTotal = krowdednessTotal = krowdednessRating;
+                            krowdednessCount = krowdednessCount + 1;
+
+
+                            if (ds.child("Type").getValue(String.class) == "L") {
+                            hasLongSurvey = 1;
+                            coverRating = ds.child("Cover").getValue(float.class);
+                            waitRating = ds.child("Wait").getValue(float.class);
+
+                            coverTotal = coverTotal + coverRating;
+                            waitTotal = waitTotal + waitRating;
+
+                            coverCount = coverCount + 1;
+                            waitCount = waitCount + 1;
+                        }
+                    }
+
+                        //locationData.put("string",variable);
+
+                        double krowdednessAvg = krowdednessTotal / krowdednessCount;
+                        locationData.put("average_krowdedness",String.valueOf(krowdednessAvg));
+                        Log.d("AVG KROWDEDNESS",String.valueOf(krowdednessAvg));
+
+
+                        if (hasLongSurvey == 1) {
+                            double coverAvg = coverTotal / coverCount;
+                            double waitAvg = waitTotal / waitCount;
+
+                            Log.d("AVG COVER",String.valueOf(coverAvg));
+                            Log.d("AVG WAIT",String.valueOf(waitAvg));
+
+
+                            locationData.put("average_wait", String.valueOf(waitAvg));
+                            locationData.put("average_cover", String.valueOf(coverAvg));
+                            locationCover.setText(Double.toString(coverAvg));
+
                         }
 
-                        double average = total / count;
-                        locationCover.setText(Double.toString(average));
                     }
                 }
 

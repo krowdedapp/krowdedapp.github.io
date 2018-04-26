@@ -23,12 +23,12 @@
         android:id="@+id/locationName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="NAME OF LOCATION"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationImage"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/locationImage" />
 
     <TextView
         android:id="@+id/websiteLabel"
@@ -55,43 +55,43 @@
         android:id="@+id/phoneLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Phone: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/websiteLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/websiteLabel" />
 
     <TextView
         android:id="@+id/locationPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="LOCATION PHONE "
         app:layout_constraintBaseline_toBaselineOf="@+id/phoneLabel"
-        app:layout_constraintStart_toEndOf="@+id/phoneLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/phoneLabel" />
 
     <TextView
         android:id="@+id/locationRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:text="RATING"
         app:layout_constraintBaseline_toBaselineOf="@+id/ratingLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="16dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/ratingLabel"
         android:layout_width="95dp"
         android:layout_height="19dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:text="Google Rating:"
         app:layout_constraintEnd_toStartOf="@+id/locationRating"
-        app:layout_constraintTop_toBottomOf="@+id/websiteLabel"
-        android:layout_marginRight="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/websiteLabel" />
 
     <TextView
         android:id="@+id/openLabel"
@@ -187,12 +187,12 @@
         android:id="@+id/locationAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="LOCATION ADDRESS"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationName"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/locationName" />
 
     <ImageButton
         android:id="@+id/favoriteButton"
@@ -211,5 +211,33 @@
         app:layout_constraintStart_toEndOf="@+id/locationName"
         app:layout_constraintTop_toBottomOf="@+id/locationImage"
         app:srcCompat="@android:drawable/btn_star" />
+
+    <TextView
+        android:id="@+id/waitTimeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Average Wait Time:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/krowdedLabel" />
+
+    <TextView
+        android:id="@+id/locationWaitTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="10"
+        app:layout_constraintBaseline_toBaselineOf="@+id/waitTimeLabel"
+        app:layout_constraintStart_toEndOf="@+id/waitTimeLabel" />
+
+    <TextView
+        android:id="@+id/minutesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="minutes"
+        app:layout_constraintBaseline_toBaselineOf="@+id/locationWaitTime"
+        app:layout_constraintStart_toEndOf="@+id/locationWaitTime" />
 
 </android.support.constraint.ConstraintLayout>

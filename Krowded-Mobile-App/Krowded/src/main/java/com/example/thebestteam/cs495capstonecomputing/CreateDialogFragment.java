@@ -154,6 +154,7 @@ public class CreateDialogFragment extends DialogFragment {
                                 //@Override
                                 public void onClick(DialogInterface dialog, int which)
                                 {
+                                    MapsActivity.placeName = GeofenceTransitionService.triggeredFence.getRequestId();
 
                                     Toast.makeText(getContext(),"Entering",Toast.LENGTH_SHORT).show();
                                     Date enterTime = Calendar.getInstance().getTime();

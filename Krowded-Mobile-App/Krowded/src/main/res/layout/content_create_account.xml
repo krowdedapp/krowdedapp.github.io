@@ -36,19 +36,19 @@
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/txtPass2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Re-enter Password"
-            android:inputType="textPassword" />
-
-        <EditText
             android:id="@+id/txtPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/txtPass2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Re-enter Password"
             android:inputType="textPassword" />
 
         <EditText
