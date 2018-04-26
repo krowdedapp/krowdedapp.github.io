@@ -749,8 +749,8 @@ public class MapsActivity extends FragmentActivity
              curr.child("User").setValue(user);
 
 
-            mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
-              mRoot.child("GeofenceTest").child(exitTime.toString()).child("ExitTime").setValue(exitTime);
+             mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
+             mRoot.child("GeofenceTest").child(exitTime.toString()).child("ExitTime").setValue(exitTime);
               */
             }
         return status + TextUtils.join( ", ", triggeringGeofencesList);
