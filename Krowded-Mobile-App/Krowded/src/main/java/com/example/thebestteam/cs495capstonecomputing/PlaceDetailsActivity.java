@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +35,8 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class PlaceDetailsActivity extends Activity {
+
+    User user = LoginActivity.user;
 
     HashMap<String, String> locationData;
 
@@ -91,6 +94,22 @@ public class PlaceDetailsActivity extends Activity {
                 reportIntent.putExtra("reference", reference);
                 startActivity(reportIntent);
             }
+        });
+
+        DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+        mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ImageButton fav = (ImageButton)findViewById(R.id.favoriteButton);
+                String cleanEmail = user.getEmail().replace(".","");
+                if (dataSnapshot.child("user").child(cleanEmail).child("favorites").hasChild(locationData.get("name"))) {
+                    fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_on));
+                } else {
+                    fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_off));
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
@@ -185,22 +204,6 @@ public class PlaceDetailsActivity extends Activity {
             return hPlaceDetails;
         }
 
-        //Toggle the favorite button
-        public void onToggleStar(View view)  {
-            ImageButton fav = (ImageButton)view;
-            //
-            if(isEnabled) {
-                fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_off));
-                //TODO Add code to remove favorite in DB
-            }
-            else    {
-                fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_on));
-                //TODO Add code to add favorite in DB
-            }
-
-            isEnabled = !isEnabled;
-        }
-
         // Executed after the complete execution of doInBackground() method
         @Override
         protected void onPostExecute(final HashMap<String,String> hPlaceDetails){
@@ -277,6 +280,39 @@ public class PlaceDetailsActivity extends Activity {
             });
             //locationPrice.setText();
         }
+    }
+
+
+    //Toggle the favorite button
+    public void onToggleStar(View view)  {
+        ImageButton fav = (ImageButton)view;
+        //
+        if(isEnabled) {
+            fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_off));
+            if(user != null) {
+                final DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+                mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String cleanEmail = user.getEmail().replace(".","");
+                        if (dataSnapshot.child("user").child(cleanEmail).child("favorites").hasChild(locationData.get("name"))) {
+                            mRoot.child("user").child(cleanEmail).child("favorites").child(locationData.get("name")).removeValue();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+            }
+        } else {
+            fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_on));
+            if(user != null) {
+                DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+                String cleanEmail = user.getEmail().replace(".","");
+                mRoot.child("user").child(cleanEmail).child("favorites").child(locationData.get("name")).setValue(true);
+            }
+        }
+
+        isEnabled = !isEnabled;
     }
 
 
