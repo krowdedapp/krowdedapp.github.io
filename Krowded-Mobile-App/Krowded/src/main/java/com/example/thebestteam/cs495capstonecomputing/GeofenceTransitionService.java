@@ -55,7 +55,7 @@ public class GeofenceTransitionService extends IntentService {
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
             MapsActivity.FencesCreated.setTriggeredFence(triggeringGeofences.get(0));
-
+            triggeredFence = triggeringGeofences.get(0);
             ArrayList<Geofence> adapter = new ArrayList<Geofence>(triggeringGeofences);
 
             int index = MapsActivity.FencesCreated.getStoredFences().indexOf(triggeredFence);
@@ -64,7 +64,9 @@ public class GeofenceTransitionService extends IntentService {
             double lng = coordinates.get(1);
 
             //find all overlapping fences for the previously triggered fence
-            ArrayList<Geofence> overlappingFences = CreateDialogFragment.findOverlappingFences(previousFences.get(0),lat,lng,39);
+            ArrayList<Geofence> overlappingFences = new ArrayList<Geofence>();
+            if(previousFences.size() != 0)
+                overlappingFences = CreateDialogFragment.findOverlappingFences(previousFences.get(0),lat,lng,39);
             Boolean flag = true;
             for(Geofence fence : overlappingFences)
             {//if you were an overlapping fence that was triggered last time and it is the same kind of event, don't do it again
