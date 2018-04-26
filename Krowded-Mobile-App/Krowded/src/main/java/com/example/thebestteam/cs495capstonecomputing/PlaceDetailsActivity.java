@@ -102,10 +102,7 @@ public class PlaceDetailsActivity extends Activity {
             }
         });
 
-        if(LoginActivity.user.isBusiness()) {
-            //Do nothing
-        }
-        else    {
+        if(user == null ||  !user.isBusiness()) {
             button.setVisibility(button.GONE);
         }
     }
@@ -210,6 +207,11 @@ public class PlaceDetailsActivity extends Activity {
             } else {
                 fav.setVisibility(View.INVISIBLE);
             }
+            final Button reportsBtn = findViewById(R.id.reportsBtn);
+
+            if(user == null || !user.isBusiness() || !((String)locationData.get("name")).equals(user.getOwned())) {
+                reportsBtn.setVisibility(View.INVISIBLE);
+            }
 
             return hPlaceDetails;
         }
@@ -260,7 +262,7 @@ public class PlaceDetailsActivity extends Activity {
             locationPrice.setText(priceLevel);
 
             // Retrieve cover charges from database, and average them
-            mRoot.child("location").child(name).addListenerForSingleValueEvent(new ValueEventListener() {
+            mRoot.child("location").child(name).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Integer hasLongSurvey = 0;
@@ -287,7 +289,7 @@ public class PlaceDetailsActivity extends Activity {
                     } else {
                         for (DataSnapshot ds : dataSnapshot.child("Survey").getChildren()) {
                             krowdednessRating = ds.child("Krowdedness").getValue(float.class);
-                            krowdednessTotal = krowdednessTotal = krowdednessRating;
+                            krowdednessTotal = krowdednessTotal + krowdednessRating;
                             krowdednessCount = krowdednessCount + 1;
 
 

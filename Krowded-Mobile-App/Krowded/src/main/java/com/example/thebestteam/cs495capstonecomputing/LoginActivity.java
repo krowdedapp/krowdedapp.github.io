@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                         Boolean isBiz = theUser.child("isBiz").getValue(Boolean.class);
                         int age = Integer.parseInt(theUser.child("age").getValue(String.class));
                         int sex = Integer.parseInt(theUser.child("sex").getValue(String.class));
+                        String owned = (isBiz) ? theUser.child("ownedLocation").getValue(String.class) : "";
 
                         ArrayList<String> favs = new ArrayList<>();
 
@@ -70,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
 
-                        user = new User(name, email, age, sex, isBiz, favs);
+                        user = new User(name, email, age, sex, isBiz, favs, owned);
 
                         Log.e("FUCK", "onDataChange: " + user.getEmail() );
 

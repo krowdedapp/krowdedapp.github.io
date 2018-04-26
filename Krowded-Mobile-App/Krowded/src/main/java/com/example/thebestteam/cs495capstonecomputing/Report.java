@@ -45,6 +45,8 @@ public class Report {
 
                 stats.put("name", data.get("name"));
                 stats.put("average_krowdedness", data.get("average_krowdedness"));
+
+                Log.e("FUCK", "krowded: " + data.get("average_krowdedness") );
                 stats.put("average_wait", data.get("average_wait"));
                 stats.put("average_cover", data.get("average_cover"));
 
