@@ -101,6 +101,13 @@ public class PlaceDetailsActivity extends Activity {
                 startActivity(reportIntent);
             }
         });
+
+        if(LoginActivity.user.isBusiness()) {
+            //Do nothing
+        }
+        else    {
+            button.setVisibility(button.GONE);
+        }
     }
 
     /** A method to download json data from url */
