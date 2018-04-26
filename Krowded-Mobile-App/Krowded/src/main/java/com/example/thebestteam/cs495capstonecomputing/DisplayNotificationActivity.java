@@ -46,6 +46,8 @@ public class DisplayNotificationActivity extends AppCompatActivity {
         //leaving
         if(!isentering) {
             if (getIntent().getBooleanExtra("start_map", false)) {
+                // EXITING?
+
                 Intent intent = new Intent(this, MapsActivity.class);
                 MapsActivity.notificationDisplayed = true;
                 startActivity(intent);
@@ -96,6 +98,7 @@ public class DisplayNotificationActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                     Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
+
 
                     newintent.putExtra("back", "nothin");
                     startActivity(newintent);

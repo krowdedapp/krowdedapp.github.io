@@ -515,6 +515,7 @@ public class MapsActivity extends FragmentActivity
                         if (!dataSnapshot.hasChild(placeID)) {
                             Log.d("T A G","placeID obj is null in Firebase");
                             mRoot.child("location").child(placeID).child("Details").setValue(foo);
+                            mRoot.child("location").child(placeID).child("Population").setValue(0);
                         }
                     }
 
@@ -672,7 +673,7 @@ public class MapsActivity extends FragmentActivity
 
         if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
-            Geofence geofence = createGeofence(tester, 30, "fence1");
+            Geofence geofence = createGeofence(tester, 40, "fence1");
             FencesCreated.storeFence(geofence,tester);
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);
