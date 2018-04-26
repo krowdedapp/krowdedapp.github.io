@@ -45,6 +45,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,12 +68,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class MapsActivity extends FragmentActivity
@@ -252,7 +251,7 @@ public class MapsActivity extends FragmentActivity
                 //startActivity(intent);
 
 
-                Intent intent = new Intent(getBaseContext(), PlaceDetailsActivity.class);
+                Intent intent = new Intent(MapsActivity.this, PlaceDetailsActivity.class);
                 String reference = mMarkerPlaceLink.get(arg0.getId());
                 intent.putExtra("reference", reference);
 
@@ -274,7 +273,13 @@ public class MapsActivity extends FragmentActivity
             Intent i = new Intent(this,DisplayNotificationActivity.class);
             int temp = getIntent().getIntExtra("transition",-1);
 
+
             i.putExtra("transition_type",temp);
+
+            if(temp == 1)
+                i.putExtra("enter",true);
+            else
+                i.putExtra("enter",false);
 
             startActivity(i);
         }
@@ -573,7 +578,7 @@ public class MapsActivity extends FragmentActivity
      *       e
      *        s
      *         !
-     * */
+     **/
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {

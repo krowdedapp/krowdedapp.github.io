@@ -13,6 +13,13 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.android.gms.location.Geofence;
+
+import java.util.ArrayList;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class DisplayNotificationActivity extends AppCompatActivity {
     User user = LoginActivity.user;
     private RatingBar ratingBar;
@@ -25,34 +32,62 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_notification);
+
+
+        boolean isentering = getIntent().getBooleanExtra("enter",false);
+        if(!isentering)
+            //setContentView(R.layout.activity_maps);
+            setContentView(R.layout.activity_display_notification);
         //addListenerOnRatingBar();
 
-
-        if (getIntent().getBooleanExtra("start_map", false)) {
-            Intent intent = new Intent(this, MapsActivity.class);
-            MapsActivity.notificationDisplayed = true;
-            startActivity(intent);
-        } else {
-            //CreateDialogFragment.setTransitionType(getIntent().getIntExtra("transition_type", -1));
-           // Intent intent = new Intent(this, CustomActivity.class);
-            //startActivity(intent);
-            //Toast.makeText(this,"displaying shit",Toast.LENGTH_LONG).show();
-            //DialogFragment newFragment = new CreateDialogFragment();
-            //newFragment.show(getSupportFragmentManager(), "TAG");
-        }
+        //boolean isentering = getIntent().getBooleanExtra("enter",false);
 
 
-        addListenerOnRatingBar();
-        btnSurvey = (Button) findViewById(R.id.btnSurvey);
-        //Create on click listener to switch to full survey view
-        btnSurvey.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(DisplayNotificationActivity.this, FullSurveyActivity.class));
+        //leaving
+        if(!isentering) {
+            if (getIntent().getBooleanExtra("start_map", false)) {
+                Intent intent = new Intent(this, MapsActivity.class);
+                MapsActivity.notificationDisplayed = true;
+                startActivity(intent);
+            } else {
+                //CreateDialogFragment.setTransitionType(getIntent().getIntExtra("transition_type", -1));
+                // Intent intent = new Intent(this, CustomActivity.class);
+                //startActivity(intent);
+                //Toast.makeText(this,"displaying shit",Toast.LENGTH_LONG).show();
+                //DialogFragment newFragment = new CreateDialogFragment();
+                //newFragment.show(getSupportFragmentManager(), "TAG");
             }
-        });
 
+
+            addListenerOnRatingBar();
+            btnSurvey = (Button) findViewById(R.id.btnSurvey);
+            //Create on click listener to switch to full survey view
+            btnSurvey.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(DisplayNotificationActivity.this, FullSurveyActivity.class));
+                }
+            });
+
+                String currTime = new java.util.Date().toString();
+
+
+                DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
+                Log.d("SHORTPLACENAME",MapsActivity.placeName);
+                Log.d("KROWDEDNESS",String.valueOf(krowdedness));
+
+                // Survey Type (S)hort
+                currSurvey.child("Type").setValue("S");
+
+                if (user == null) { currSurvey.child("User").setValue("null"); }
+                else currSurvey.child("User").setValue(user);
+
+                currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
+
+                Toast toast = Toast.makeText( getApplicationContext(), "Survey Submitted", Toast.LENGTH_SHORT);
+                toast.show();
+
+                Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
 
         Button btnCancel = (Button) findViewById(R.id.btnSubmit);
         //Create on click listener to switch to full survey view
@@ -60,19 +95,44 @@ public class DisplayNotificationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
+                    Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
 
-                newintent.putExtra("back", "nothin");
-                startActivity(newintent);
-            }
-        });
+                    newintent.putExtra("back", "nothin");
+                    startActivity(newintent);
+                }
+            });
+        }
+        else{
+
+            DialogFragment newFragment = new CreateDialogFragment();
+            newFragment.show(getSupportFragmentManager(), "TAG");
+
+
+            /*
+            AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+            // Set the dialog title
+            builder.setTitle("entering")
+
+                    // Specify the list array, the items to be selected by default (null for none),
+                    // and the listener through which to receive callbacks when items are selected
+                    .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
+                            new DialogInterface.OnClickListener() {
+                                //@Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    startMapsActivity();
+                                }
+                            });
+            builder.create();
+            builder.show();
+            */
+        }
     }
 
 
     public void addListenerOnRatingBar() {
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-
         //if rating value is changed,
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,

@@ -61,6 +61,10 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
 
+        <activity
+            android:name=".LViewActivity"
+            android:label="@string/title_activity_list" />
+
         <service android:name=".GeofenceTransitionService" />
 
         <activity

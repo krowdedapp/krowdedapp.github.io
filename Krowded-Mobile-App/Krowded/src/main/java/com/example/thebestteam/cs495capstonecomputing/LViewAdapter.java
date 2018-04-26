@@ -20,7 +20,6 @@ public class LViewAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     private List<JSONObject>mDataSource;
-    public static String photoID; //photo for details page fight me Nathan
 
     //speeds up the rendering of the list
     //smoother scrolling(very needed)
@@ -129,7 +128,7 @@ public class LViewAdapter extends BaseAdapter {
                 .config(Bitmap.Config.RGB_565)//affects how many bits are used to store each color
                 .into(thumbnailImageView);
 
-
+        //var photoUrl = place.photos[0].getUrl({maxWidth: 400, maxHeight: 400});
         /*
         //inflates the image, and displays it
         Picasso.get()
@@ -141,7 +140,6 @@ public class LViewAdapter extends BaseAdapter {
                 .into(thumbnailImageView);
 
 */
-        photoID = getURL(position);
         return convertView;
     }
 }

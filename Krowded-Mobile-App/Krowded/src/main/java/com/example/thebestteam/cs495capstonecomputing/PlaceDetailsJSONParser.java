@@ -3,6 +3,7 @@ package com.example.thebestteam.cs495capstonecomputing;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -40,8 +41,15 @@ public class PlaceDetailsJSONParser {
         String rating="-NA-";
         String international_phone_number="-NA-";
         String url="-NA-";
+        String picture="";
+        ArrayList photos;
 
         try {
+            // Extracting Place name, if available
+            if(!jPlaceDetails.isNull("picture")){
+                photos = (ArrayList) jPlaceDetails.get("photos");
+                picture = (String) photos.get(1);
+            }
             // Extracting Place name, if available
             if(!jPlaceDetails.isNull("name")){
                 name = jPlaceDetails.getString("name");
@@ -91,6 +99,7 @@ public class PlaceDetailsJSONParser {
             latitude = jPlaceDetails.getJSONObject("geometry").getJSONObject("location").getString("lat");
             longitude = jPlaceDetails.getJSONObject("geometry").getJSONObject("location").getString("lng");
 
+            hPlaceDetails.put("picture", picture);
             hPlaceDetails.put("name", name);
             hPlaceDetails.put("icon", icon);
             hPlaceDetails.put("vicinity", vicinity);
