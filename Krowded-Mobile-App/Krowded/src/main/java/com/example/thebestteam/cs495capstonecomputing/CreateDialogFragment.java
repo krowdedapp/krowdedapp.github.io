@@ -154,7 +154,7 @@ public class CreateDialogFragment extends DialogFragment {
                                 //@Override
                                 public void onClick(DialogInterface dialog, int which)
                                 {
-                                    MapsActivity.placeName = GeofenceTransitionService.triggeredFence.getRequestId();
+                                    //MapsActivity.placeName = GeofenceTransitionService.triggeredFence.getRequestId();
 
                                     Toast.makeText(getContext(),"Entering",Toast.LENGTH_SHORT).show();
                                     Date enterTime = Calendar.getInstance().getTime();
@@ -166,8 +166,12 @@ public class CreateDialogFragment extends DialogFragment {
                                     mRoot.child("location").child(MapsActivity.placeName).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
-                                            Integer currPop = dataSnapshot.child("Population").getValue(Integer.class);
-                                            mRoot.child("location").child(MapsActivity.placeName).child("Population").setValue(currPop + 1);
+                                            Integer currPop = 0;
+                                            if(dataSnapshot.child("Population").getValue(String.class) != null) {
+                                                currPop = (Integer.parseInt(dataSnapshot.child("Population").getValue(String.class)) + 1);
+                                            }
+                                            currPop++;
+                                            mRoot.child("location").child(MapsActivity.placeName).child("Population").setValue(currPop.toString());
                                         }
 
                                         @Override

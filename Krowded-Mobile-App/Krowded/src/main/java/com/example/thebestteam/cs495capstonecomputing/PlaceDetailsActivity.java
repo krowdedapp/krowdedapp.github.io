@@ -260,7 +260,7 @@ public class PlaceDetailsActivity extends Activity {
             locationPrice.setText(priceLevel);
 
             // Retrieve cover charges from database, and average them
-            mRoot.child("Location").child(MapsActivity.placeName).child("Survey").addListenerForSingleValueEvent(new ValueEventListener() {
+            mRoot.child("location").child(name).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Integer hasLongSurvey = 0;
@@ -275,16 +275,17 @@ public class PlaceDetailsActivity extends Activity {
                     float waitRating;
                     float krowdednessRating;
 
+                    locationData.put("average_stay_time", dataSnapshot.child("Stay Time").getValue(String.class));
+
+                    Log.e("FUCK", "onDataChange: " + locationData.get("average_stay_time"));
+
                     // If no surveys, report N/A for cover charge
-                    if (!dataSnapshot.hasChildren()) {
+                    if (!dataSnapshot.child("Survey").hasChildren()) {
                         locationCover.setText("N/A");
                         locationKrowdedness.setText("N/A");
                         locationWaitTime.setText("N/A");
-                    }
-
-                    // Else, calculate the average reported cover charge
-                    else {
-                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    } else {
+                        for (DataSnapshot ds : dataSnapshot.child("Survey").getChildren()) {
                             krowdednessRating = ds.child("Krowdedness").getValue(float.class);
                             krowdednessTotal = krowdednessTotal = krowdednessRating;
                             krowdednessCount = krowdednessCount + 1;

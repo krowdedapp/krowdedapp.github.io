@@ -49,7 +49,7 @@ public class Report {
                 stats.put("average_cover", data.get("average_cover"));
 
                 if(opts[0]) stats.put("average_age", (count != 0) ? ((Integer)(age/count)).toString() : "0");
-                if(opts[1]) stats.put("average_stay_time", stayTime);
+                if(opts[1]) stats.put("average_stay_time", data.get("average_stay_time"));
                 if(opts[2]) stats.put("average_sex", (count != 0) ? ((Integer)(sex/count)).toString() : "0");
 
                 final String report = generateReport(stats);
