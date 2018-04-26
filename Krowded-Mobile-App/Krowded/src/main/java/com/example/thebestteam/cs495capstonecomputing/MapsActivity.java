@@ -274,7 +274,13 @@ public class MapsActivity extends FragmentActivity
             Intent i = new Intent(this,DisplayNotificationActivity.class);
             int temp = getIntent().getIntExtra("transition",-1);
 
+
             i.putExtra("transition_type",temp);
+
+            if(temp == 1)
+                i.putExtra("enter",true);
+            else
+                i.putExtra("enter",false);
 
             startActivity(i);
         }

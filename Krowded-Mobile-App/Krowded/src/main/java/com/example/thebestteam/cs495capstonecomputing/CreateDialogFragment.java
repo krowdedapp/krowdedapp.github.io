@@ -70,8 +70,6 @@ public class CreateDialogFragment extends DialogFragment {
                 //add this to location object
             }
         });
-
-
     }
 
 
@@ -115,10 +113,26 @@ public class CreateDialogFragment extends DialogFragment {
         //btnSurvey = (Button) getView().findViewById(R.id.btnSurvey);
         //Create on click listener to switch to full survey view
 
+        /*
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // Set the dialog title
+        builder.setTitle("entering")
+
+                // Specify the list array, the items to be selected by default (null for none),
+                // and the listener through which to receive callbacks when items are selected
+                .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
+                        new DialogInterface.OnClickListener() {
+                            //@Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                startMapsActivity();
+                            }
+                        });
+       return builder.create();
+*/
 
 
-
-        if(transitionType == ENTER) {
+       // if(transitionType == ENTER) {
        // if(transitionType == LEAVE) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
@@ -135,13 +149,13 @@ public class CreateDialogFragment extends DialogFragment {
                                 }
                             });
             return builder.create();
-        }
+        //}
+        /*
         //else if(transitionType == ENTER)
         else if(transitionType == LEAVE) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
             // Set the dialog title
-            builder.setView(inflater.inflate(R.layout.activity_display_notification, null))
+            builder.setView(inflater.inflate(R.layout.activity_display_notification, null))*/
                     // Set the action buttons
                     /*.setPositiveButton("more feedback", new DialogInterface.OnClickListener() {
                         @Override
@@ -149,7 +163,7 @@ public class CreateDialogFragment extends DialogFragment {
                             startMapsActivity();
                         }
                     })*/
-
+                        /*
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
@@ -158,12 +172,12 @@ public class CreateDialogFragment extends DialogFragment {
                     });
 
             return builder.create();
-        }
+        }*/
         //this should never get called
-        else
-        {
-            throw new java.lang.RuntimeException("geofencing error");
-        }
+        //else
+        //{
+         //   throw new java.lang.RuntimeException("geofencing error");
+        //}
     }
 
 
