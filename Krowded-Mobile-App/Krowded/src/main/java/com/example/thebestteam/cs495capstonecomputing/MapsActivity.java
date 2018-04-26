@@ -513,6 +513,7 @@ public class MapsActivity extends FragmentActivity
                         if (!dataSnapshot.hasChild(placeID)) {
                             Log.d("T A G","placeID obj is null in Firebase");
                             mRoot.child("location").child(placeID).child("Details").setValue(foo);
+                            mRoot.child("location").child(placeID).child("Population").setValue(0);
                         }
                     }
 
@@ -659,16 +660,16 @@ public class MapsActivity extends FragmentActivity
         //tester.add(33.215344);
         //tester.add(-87.519753);//apartment
 
-        //tester.add(33.215530);//lloyd
-        //tester.add(-87.519760);
+        tester.add(33.215530);//lloyd
+        tester.add(-87.519760);
 
-        tester.add(33.214417);//serc
-        tester.add(-87.543846);
+        //tester.add(33.214417);//serc
+        //tester.add(-87.543846);
 
 
         if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
-            Geofence geofence = createGeofence(tester, 250, "fence1");
+            Geofence geofence = createGeofence(tester, 25, "fence1");
             FencesCreated.storeFence(geofence,tester);
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);
@@ -732,6 +733,11 @@ public class MapsActivity extends FragmentActivity
         if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
             status = "Entering ";
             enterTime = Calendar.getInstance().getTime();
+
+            mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
+
+            //mRoot.child("location").child(GeofenceTransitionService.triggeredFence).set
+
         } else if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
             status = "Exiting ";
             Log.d("TIMEREPORT","Enter:" + enterTime + " / Exit: " + exitTime);
@@ -739,7 +745,7 @@ public class MapsActivity extends FragmentActivity
 
             // TODO: Wait for reply about geofences and business IDs, and implement
 
-            /*
+
             // When Business ID is obtained, this should be:
             // DatabaseReference curr = mRoot.child("Location").child(businessID).child("Visits").child(exitTime.toString());
              DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(exitTime.toString());
@@ -751,7 +757,7 @@ public class MapsActivity extends FragmentActivity
 
              mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
              mRoot.child("GeofenceTest").child(exitTime.toString()).child("ExitTime").setValue(exitTime);
-              */
+
             }
         return status + TextUtils.join( ", ", triggeringGeofencesList);
     }
