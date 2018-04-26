@@ -63,7 +63,7 @@ public class PlaceDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
 
-         user = LoginActivity.user;
+        user = LoginActivity.user;
 
         locationImage = (ImageView) findViewById(R.id.locationImage);
         locationName = (TextView)findViewById(R.id.locationName);
@@ -194,8 +194,10 @@ public class PlaceDetailsActivity extends Activity {
             final ImageButton fav = findViewById(R.id.favoriteButton);
             if(user != null) {
                 if (user.getFavs().contains(locationData.get("name"))) {
+                    isEnabled = true;
                     fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_on));
                 } else {
+                    isEnabled = false;
                     fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_off));
                 }
             } else {
@@ -345,6 +347,7 @@ public class PlaceDetailsActivity extends Activity {
                         if (dataSnapshot.child("user").child(cleanEmail).child("favorites").hasChild(locationData.get("name"))) {
                             mRoot.child("user").child(cleanEmail).child("favorites").child(locationData.get("name")).removeValue();
                         }
+                        user.getFavs().remove(locationData.get("name"));
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
@@ -356,6 +359,7 @@ public class PlaceDetailsActivity extends Activity {
                 DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
                 String cleanEmail = user.getEmail().replace(".","");
                 mRoot.child("user").child(cleanEmail).child("favorites").child(locationData.get("name")).setValue(true);
+                user.getFavs().add(locationData.get("name"));
             }
         }
 
