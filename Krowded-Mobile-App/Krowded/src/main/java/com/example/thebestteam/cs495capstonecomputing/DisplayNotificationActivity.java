@@ -19,6 +19,9 @@ import com.google.android.gms.location.Geofence;
 
 import java.util.ArrayList;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class DisplayNotificationActivity extends AppCompatActivity {
     User user = LoginActivity.user;
     private RatingBar ratingBar;
