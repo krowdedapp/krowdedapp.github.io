@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 public class DisplayNotificationActivity extends AppCompatActivity {
     private RatingBar ratingBar;
@@ -17,7 +18,7 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_notification);
-        addListenerOnRatingBar();
+        //addListenerOnRatingBar();
 
 
         if (getIntent().getBooleanExtra("start_map", false)) {
@@ -25,11 +26,16 @@ public class DisplayNotificationActivity extends AppCompatActivity {
             MapsActivity.notificationDisplayed = true;
             startActivity(intent);
         } else {
-            CreateDialogFragment.setTransitionType(getIntent().getIntExtra("transition_type", -1));
-            DialogFragment newFragment = new CreateDialogFragment();
-            newFragment.show(getSupportFragmentManager(), "TAG");
+            //CreateDialogFragment.setTransitionType(getIntent().getIntExtra("transition_type", -1));
+           // Intent intent = new Intent(this, CustomActivity.class);
+            //startActivity(intent);
+            //Toast.makeText(this,"displaying shit",Toast.LENGTH_LONG).show();
+            //DialogFragment newFragment = new CreateDialogFragment();
+            //newFragment.show(getSupportFragmentManager(), "TAG");
         }
 
+
+        addListenerOnRatingBar();
         btnSurvey = (Button) findViewById(R.id.btnSurvey);
         //Create on click listener to switch to full survey view
         btnSurvey.setOnClickListener(new View.OnClickListener() {
