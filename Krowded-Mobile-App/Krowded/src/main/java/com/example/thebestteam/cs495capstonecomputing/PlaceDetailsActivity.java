@@ -96,20 +96,27 @@ public class PlaceDetailsActivity extends Activity {
         });
 
         DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
-        mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ImageButton fav = (ImageButton)findViewById(R.id.favoriteButton);
-                String cleanEmail = user.getEmail().replace(".","");
-                if (dataSnapshot.child("user").child(cleanEmail).child("favorites").hasChild(locationData.get("name"))) {
-                    fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_on));
-                } else {
-                    fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_off));
+        final ImageButton fav = findViewById(R.id.favoriteButton);
+
+        if(user != null) {
+            mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String cleanEmail = user.getEmail().replace(".", "");
+                    if (dataSnapshot.child("user").child(cleanEmail).child("favorites").hasChild(locationData.get("name"))) {
+                        fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_on));
+                    } else {
+                        fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_off));
+                    }
                 }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        } else {
+            fav.setVisibility(View.INVISIBLE);
+        }
     }
 
     /** A method to download json data from url */
@@ -236,7 +243,7 @@ public class PlaceDetailsActivity extends Activity {
             Picasso.get()
                 .load(picUrl)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .placeholder(R.drawable.failed1)
+                .placeholder(null)
                 .config(Bitmap.Config.RGB_565)//affects how many bits are used to store each color
                 .into(locationImage);
 

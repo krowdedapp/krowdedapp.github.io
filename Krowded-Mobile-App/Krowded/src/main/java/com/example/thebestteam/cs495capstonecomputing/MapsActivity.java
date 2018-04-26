@@ -294,7 +294,7 @@ public class MapsActivity extends FragmentActivity
         if (user == null) loginButton.setText("Login");
         else loginButton.setText("Profile");
 
-        defaultMarkers();
+        //defaultMarkers();
     }
 
 
