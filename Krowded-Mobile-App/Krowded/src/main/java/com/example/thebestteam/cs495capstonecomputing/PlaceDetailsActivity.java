@@ -47,6 +47,8 @@ public class PlaceDetailsActivity extends Activity {
     TextView locationOpen;
     TextView locationPrice; //google's price rating
     TextView locationCover; //cover charge
+    TextView locationKrowdedness; //cover charge
+    TextView locationWaitTime; //cover charge
     TextView locationAddress;
 
     //Used for location favorite button
@@ -68,6 +70,8 @@ public class PlaceDetailsActivity extends Activity {
         locationOpen = (TextView)findViewById(R.id.locationOpen);
         locationPrice = (TextView)findViewById(R.id.locationPrice); //google's price rating
         locationCover = (TextView)findViewById(R.id.locationCover); //cover charge
+        locationKrowdedness = (TextView)findViewById(R.id.locationKrowdedness); //cover charge
+        locationWaitTime = (TextView)findViewById(R.id.locationWaitTime); //cover charge
         locationAddress = (TextView)findViewById(R.id.locationAddress);
 
         // Getting place reference from the map
@@ -272,7 +276,11 @@ public class PlaceDetailsActivity extends Activity {
                     float krowdednessRating;
 
                     // If no surveys, report N/A for cover charge
-                    if (!dataSnapshot.hasChildren()) locationCover.setText("N/A");
+                    if (!dataSnapshot.hasChildren()) {
+                        locationCover.setText("N/A");
+                        locationKrowdedness.setText("N/A");
+                        locationWaitTime.setText("N/A");
+                    }
 
                     // Else, calculate the average reported cover charge
                     else {
@@ -313,7 +321,8 @@ public class PlaceDetailsActivity extends Activity {
                             locationData.put("average_wait", String.valueOf(waitAvg));
                             locationData.put("average_cover", String.valueOf(coverAvg));
                             locationCover.setText(Double.toString(coverAvg));
-
+                            locationKrowdedness.setText(Double.toString(krowdednessAvg));
+                            locationWaitTime.setText(Double.toString(waitAvg));
                         }
 
                     }
