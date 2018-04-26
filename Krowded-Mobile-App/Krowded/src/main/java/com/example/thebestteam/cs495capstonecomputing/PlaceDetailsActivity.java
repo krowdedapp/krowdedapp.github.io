@@ -7,11 +7,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
 
@@ -24,6 +32,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class PlaceDetailsActivity extends Activity {
+
     HashMap<String, String> locationData;
     String pictureID;
     Bitmap picture;
@@ -36,6 +45,12 @@ public class PlaceDetailsActivity extends Activity {
     TextView locationPrice; //google's price rating
     TextView locationCover; //cover charge
     TextView locationAddress;
+
+    //Used for location favorite button
+    boolean isEnabled = false;
+
+
+    private static DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +183,22 @@ public class PlaceDetailsActivity extends Activity {
             return hPlaceDetails;
         }
 
+        //Toggle the favorite button
+        public void onToggleStar(View view)  {
+            ImageButton fav = (ImageButton)view;
+            //
+            if(isEnabled) {
+                fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_off));
+                //TODO Add code to remove favorite in DB
+            }
+            else    {
+                fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_on));
+                //TODO Add code to add favorite in DB
+            }
+
+            isEnabled = !isEnabled;
+        }
+
 
         public Bitmap getBitmapFromURL(String src) {
             try {
@@ -186,7 +217,7 @@ public class PlaceDetailsActivity extends Activity {
 
         // Executed after the complete execution of doInBackground() method
         @Override
-        protected void onPostExecute(HashMap<String,String> hPlaceDetails){
+        protected void onPostExecute(final HashMap<String,String> hPlaceDetails){
 
             String name = hPlaceDetails.get("name");
             String icon = hPlaceDetails.get("icon");
@@ -219,8 +250,39 @@ public class PlaceDetailsActivity extends Activity {
             locationPhone.setText(formatted_phone);
             locationRating.setText(rating);
             //locationOpen.setText();
-            //locationCover.setText(); //this is obtained from the surveys
+
+            // Retrieve cover charges from database, and average them
+            mRoot.child("Location").child(MapsActivity.placeName).child("Survey").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    float total = 0;
+                    Integer count = 0;
+                    float rating;
+
+                    // If no surveys, report N/A for cover charge
+                    if (!dataSnapshot.hasChildren()) locationCover.setText("N/A");
+
+                    // Else, calculate the average reported cover charge
+                    else {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            rating = ds.child("Cover").getValue(float.class);
+                            total = total + rating;
+                            count = count + 1;
+                        }
+
+                        double average = total / count;
+                        locationCover.setText(Double.toString(average));
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             //locationPrice.setText();
         }
     }
+
+
 }

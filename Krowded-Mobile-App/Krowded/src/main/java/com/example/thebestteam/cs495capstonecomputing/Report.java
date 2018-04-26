@@ -9,7 +9,6 @@ import java.util.HashMap;
  */
 
 public class Report {
-    Email emailer;
     HashMap<String, String> statistics;
     String report;
 

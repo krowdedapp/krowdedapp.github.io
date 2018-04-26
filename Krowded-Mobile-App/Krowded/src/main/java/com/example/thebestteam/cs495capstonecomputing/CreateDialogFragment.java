@@ -6,8 +6,16 @@ import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.Toast;
+
 import com.google.android.gms.location.Geofence;
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 
 public class CreateDialogFragment extends DialogFragment {
@@ -17,14 +25,105 @@ public class CreateDialogFragment extends DialogFragment {
     private static final int DEFAULT = -1;
 
 
+    private RatingBar ratingBar;
+    private Button btnSurvey;
+    public float krowdedness;
+
+
+
     private static int transitionType = DEFAULT;
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle b){
+        super.onCreateView(inflater,parent,b);
+        View rootView = inflater.inflate(R.layout.activity_display_notification, parent, false);
+
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        ratingBar = (RatingBar) getView().findViewById(R.id.ratingBar);
+        btnSurvey = (Button) getView().findViewById(R.id.btnSurvey);
+        //addListenerOnRatingBar();
+
+
+        //for full activity
+        btnSurvey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "onclick for survey button",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getContext(), FullSurveyActivity.class));
+                // startActivity(new Intent(DisplayNotificationActivity.this, FullSurveyActivity.class));
+            }
+        });
+
+        //for rating change
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                Toast.makeText(getContext(), "onclick for survey button",Toast.LENGTH_LONG).show();
+
+                krowdedness = rating;
+                //add this to location object
+            }
+        });
+
+
+    }
+
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        //ViewGroup v = null;
+        //onCreateView(inflater,v ,b);
+       // onActivityCreated(b);
+
+        /*
+        //for full activity
+        btnSurvey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "onclick for survey button",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getContext(), FullSurveyActivity.class));
+                // startActivity(new Intent(DisplayNotificationActivity.this, FullSurveyActivity.class));
+            }
+        });
+
+        //for rating change
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                Toast.makeText(getContext(), "onclick for survey button",Toast.LENGTH_LONG).show();
+
+                krowdedness = rating;
+                //add this to location object
+            }
+        });
+        */
+
+
+
+//        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+
+        //addListenerOnRatingBar();
+
+        //btnSurvey = (Button) getView().findViewById(R.id.btnSurvey);
+        //Create on click listener to switch to full survey view
+
+
+
+
         if(transitionType == ENTER) {
+       // if(transitionType == LEAVE) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
             builder.setTitle("entering")
+
                     // Specify the list array, the items to be selected by default (null for none),
                     // and the listener through which to receive callbacks when items are selected
                     .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
@@ -33,23 +132,24 @@ public class CreateDialogFragment extends DialogFragment {
                                 public void onClick(DialogInterface dialog, int which)
                                 {
                                     startMapsActivity();
-
                                 }
                             });
             return builder.create();
         }
-        else if(transitionType == LEAVE)
-        {
+        //else if(transitionType == ENTER)
+        else if(transitionType == LEAVE) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
             // Set the dialog title
-            builder.setTitle("leaving")
+            builder.setView(inflater.inflate(R.layout.activity_display_notification, null))
                     // Set the action buttons
-                    .setPositiveButton("more feedback", new DialogInterface.OnClickListener() {
+                    /*.setPositiveButton("more feedback", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             startMapsActivity();
                         }
-                    })
+                    })*/
+
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
@@ -123,5 +223,24 @@ public class CreateDialogFragment extends DialogFragment {
     {
         transitionType = type;
     }
+
+
+    public void addListenerOnRatingBar() {
+
+        //ratingBar = (RatingBar) getView();
+
+        //ratingBar = (RatingBar) getView().findViewById(R.id.ratingBar);
+
+        //if rating value is changed,
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                krowdedness = rating;
+                //add this to location object
+            }
+        });
+    }
+
+
 
 }

@@ -22,6 +22,7 @@ public class FullSurveyActivity extends AppCompatActivity {
     public float money;        // Survey.dateTime.Cover
     public String clubMusic;   // Survey.dateTime.Music
     public String genre;       // Survey.dateTime.Genre
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,7 +159,19 @@ public class FullSurveyActivity extends AppCompatActivity {
         // DatabaseReference currSurvey = mRoot.child("Location").(businessID).("Surveys").child(currTime);
         // currSurvey.child("Krowdedness").setValue(krowdedness);
 
-        DatabaseReference currSurvey = mRoot.child("Surveys").child(currTime);
+        DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
+
+        Log.d("PLACENAME",MapsActivity.placeName);
+
+
+        // Type - (L)ong
+        currSurvey.child("Type").setValue("L");
+
+
+        User user = LoginActivity.user;
+
+        if (user == null) { currSurvey.child("User").setValue("null"); }
+        else currSurvey.child("User").setValue(user);
 
         currSurvey.child("Krowdedness").setValue(krowdedness);
         currSurvey.child("Wait").setValue(wait);

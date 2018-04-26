@@ -67,11 +67,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.example.thebestteam.cs495capstonecomputing.LoginActivity.user;
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
-
-
-
 
 
 public class MapsActivity extends FragmentActivity
@@ -84,12 +80,15 @@ public class MapsActivity extends FragmentActivity
     // GoogleApiClient.ConnectionCallbacks,
     // GoogleApiClient.OnConnectionFailedListener {
 
+    User user = LoginActivity.user;
+
 
     public static ArrayList<Geofence> geofencesTriggered =  new ArrayList<>();
     public static int transitionType = -1;
 
 
     private Location lastLocation;
+    public static String placeName = "Rounders"; // Holds name of last/current business
     private Context context = this;
 
     public static boolean notificationDisplayed = false;
@@ -104,6 +103,7 @@ public class MapsActivity extends FragmentActivity
 
     //holds the lat and long in locations 0 and 1 respectively
     ArrayList<Double> currentLocation = new ArrayList<>(Arrays.asList(0.0, 0.0));
+
 
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
@@ -187,7 +187,6 @@ public class MapsActivity extends FragmentActivity
             }
         });
 
-        user = new User();
     }
 
     @Override
@@ -262,7 +261,7 @@ public class MapsActivity extends FragmentActivity
         });
 
 
-        if(notificationDisplayed && wereMarkersPlaced) {
+        if(notificationDisplayed && wereMarkersPlaced || getIntent().hasExtra("back")) {
             placeMarkers();
             notificationDisplayed = false;
         }
@@ -292,6 +291,11 @@ public class MapsActivity extends FragmentActivity
                 //startGeofences();
             }
         });
+
+
+        Button loginButton = findViewById(R.id.btnLogin);
+        if (user == null) loginButton.setText("Login");
+        else loginButton.setText("Profile");
     }
 
 
@@ -494,9 +498,8 @@ public class MapsActivity extends FragmentActivity
                 mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
 
 
-                //final String placeID = hmPlace.get("place_id");
+                final String placeID = hmPlace.get("place_name");
                 //TODO: Remove this when placeID is fully functional
-                final String placeID = "jantzen";
 
                 final HashMap<String,String> foo = hmPlace;
                 if (placeID == null) Log.d("placeID","It's null, man.");
@@ -560,15 +563,15 @@ public class MapsActivity extends FragmentActivity
 
 
     /**
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
+     * p
+     *  a
+     *   n
+     *    c
+     *     a
+     *      k
+     *       e
+     *        s
+     *         !
      * */
 
     @Override
@@ -593,7 +596,7 @@ public class MapsActivity extends FragmentActivity
         return new Geofence.Builder()
                 //change req id to be the index of the place
                 .setRequestId(geofenceName)
-                // .setCircularRegion( 33.215538, -87.519765, 32)
+                //.setCircularRegion( 33.211021, -87.543988, 250)
                 .setCircularRegion( latLong.get(0), latLong.get(1), radius)
                 .setExpirationDuration( GEO_DURATION )//change to full day probably
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |  Geofence.GEOFENCE_TRANSITION_EXIT )
@@ -652,22 +655,30 @@ public class MapsActivity extends FragmentActivity
 //33.215538, -87.519765, 32
         ArrayList<Double> tester = new ArrayList<>();
         ArrayList<Double> tester1 = new ArrayList<>();
-        tester.add(33.215538);
-        tester.add(-87.519765);
-        tester1.add(33.215530);
-        tester1.add(-87.519760);
+        //tester.add(33.215344);
+        //tester.add(-87.519753);//apartment
+
+        //tester.add(33.215530);//lloyd
+        //tester.add(-87.519760);
+
+        tester.add(33.214417);//serc
+        tester.add(-87.543846);
+
+        //tester.add(33.214830);//fountain
+        //tester.add(-87.542796);
 
         if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
-            Geofence geofence = createGeofence(tester, 39, "fence1");
+            Geofence geofence = createGeofence(tester, 250, "fence1");
             FencesCreated.storeFence(geofence,tester);
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);
 
-            geofence = createGeofence(tester1, 39, "fence2");
+           /* geofence = createGeofence(tester1, 39, "fence2");
             FencesCreated.storeFence(geofence,tester1);
             geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);
+            */
         }
 
         /*
@@ -729,6 +740,7 @@ public class MapsActivity extends FragmentActivity
 
             // TODO: Wait for reply about geofences and business IDs, and implement
 
+            /*
             // When Business ID is obtained, this should be:
             // DatabaseReference curr = mRoot.child("Location").child(businessID).child("Visits").child(exitTime.toString());
              DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(exitTime.toString());
@@ -738,8 +750,9 @@ public class MapsActivity extends FragmentActivity
              curr.child("User").setValue(user);
 
 
-            mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
-              mRoot.child("GeofenceTest").child(exitTime.toString()).child("ExitTime").setValue(exitTime);
+             mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
+             mRoot.child("GeofenceTest").child(exitTime.toString()).child("ExitTime").setValue(exitTime);
+              */
             }
         return status + TextUtils.join( ", ", triggeringGeofencesList);
     }
