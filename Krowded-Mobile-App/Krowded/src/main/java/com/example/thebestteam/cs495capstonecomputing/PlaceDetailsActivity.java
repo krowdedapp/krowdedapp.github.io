@@ -101,10 +101,6 @@ public class PlaceDetailsActivity extends Activity {
                 startActivity(reportIntent);
             }
         });
-
-        if(user == null ||  !user.isBusiness()) {
-            button.setVisibility(button.GONE);
-        }
     }
 
     /** A method to download json data from url */
@@ -204,14 +200,20 @@ public class PlaceDetailsActivity extends Activity {
                     isEnabled = false;
                     fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_off));
                 }
+
+                if(user.isBusiness() && locationData.get("name").equals(user.getOwned())) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final Button reportsBtn = findViewById(R.id.reportsBtn);
+                            reportsBtn.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
             } else {
                 fav.setVisibility(View.INVISIBLE);
             }
-            final Button reportsBtn = findViewById(R.id.reportsBtn);
 
-            if(user == null || !user.isBusiness() || !((String)locationData.get("name")).equals(user.getOwned())) {
-                reportsBtn.setVisibility(View.INVISIBLE);
-            }
 
             return hPlaceDetails;
         }
