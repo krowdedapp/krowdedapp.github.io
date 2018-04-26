@@ -80,7 +80,7 @@ public class MapsActivity extends FragmentActivity
     // GoogleApiClient.ConnectionCallbacks,
     // GoogleApiClient.OnConnectionFailedListener {
 
-    User user = LoginActivity.user;
+    static User user = LoginActivity.user;
 
 
     public static ArrayList<Geofence> geofencesTriggered =  new ArrayList<>();
@@ -674,14 +674,14 @@ public class MapsActivity extends FragmentActivity
         //tester.add(33.215344);
         //tester.add(-87.519753);//apartment
 
-        tester.add(33.215530);//lloyd
-        tester.add(-87.519760);
+        //tester.add(33.215530);//lloyd
+        //tester.add(-87.519760);
 
         //tester.add(33.214417);//serc
         //tester.add(-87.543846);
 
-        //tester.add(33.214830);//fountain
-        //tester.add(-87.542796);
+        tester.add(33.214830);//fountain
+        tester.add(-87.542796);
 
         if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
@@ -753,7 +753,7 @@ public class MapsActivity extends FragmentActivity
 
             mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
 
-            //mRoot.child("location").child(GeofenceTransitionService.triggeredFence).set
+//            mRoot.child("location").child(GeofenceTransitionService.triggeredFence.getRequestId()).set
 
         } else if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
             status = "Exiting ";
