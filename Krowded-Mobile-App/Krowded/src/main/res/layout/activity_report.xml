@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.thebestteam.cs495capstonecomputing.ReportActivity">
-
-    <android.support.constraint.ConstraintLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="91dp"
-        tools:layout_editor_absoluteY="292dp">
+        tools:layout_editor_absoluteY="292dp"
+        tools:context="com.example.thebestteam.cs495capstonecomputing.ReportActivity">
+
 
 
         <CheckBox
@@ -23,7 +21,8 @@
             android:layout_marginTop="16dp"
             android:text="Average Time of Stay"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/avgAgeBox" />
+            app:layout_constraintTop_toBottomOf="@+id/avgAgeBox"
+            android:layout_marginLeft="16dp" />
 
         <CheckBox
             android:id="@+id/avgAgeBox"
@@ -33,7 +32,8 @@
             android:layout_marginTop="16dp"
             android:text="Average Age"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/introLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/introLabel"
+            android:layout_marginLeft="16dp" />
 
         <CheckBox
             android:id="@+id/sexBreakdownBox"
@@ -43,33 +43,35 @@
             android:layout_marginTop="16dp"
             android:text="Sex Breakdown"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/avgTimeBox" />
+            app:layout_constraintTop_toBottomOf="@+id/avgTimeBox"
+            android:layout_marginLeft="16dp" />
 
 
-        <EditText
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:ems="10"
-            android:hint="Enter Your Email Address"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="477dp" />
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Enter Your Email Address"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sexBreakdownBox" />
 
-        <Button
-            android:id="@+id/sendReportBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:text="Send Report"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/sendReportBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Send Report"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address" />
 
         <TextView
             android:id="@+id/introLabel"
@@ -85,5 +87,3 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
-
-</android.support.constraint.ConstraintLayout>
