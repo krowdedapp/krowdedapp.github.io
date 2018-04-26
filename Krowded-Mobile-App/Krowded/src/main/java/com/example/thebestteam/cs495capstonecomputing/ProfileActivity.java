@@ -29,5 +29,21 @@ public class ProfileActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.txtEmail)).setText(user.getEmail());
         ((TextView)findViewById(R.id.txtName)).setText(user.getName());
+
+        DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+
+        mRoot.child("User").child(user.getEmail().replace(".","")).child("Favorites").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -62,7 +62,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.example.thebestteam.cs495capstonecomputing.LoginActivity.user;
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
 
 import com.google.firebase.database.DataSnapshot;
@@ -84,6 +83,8 @@ public class MapsActivity extends FragmentActivity
         OnMapReadyCallback {
     // GoogleApiClient.ConnectionCallbacks,
     // GoogleApiClient.OnConnectionFailedListener {
+
+    User user = LoginActivity.user;
 
 
     public static ArrayList<Geofence> geofencesTriggered =  new ArrayList<>();
@@ -190,7 +191,6 @@ public class MapsActivity extends FragmentActivity
             }
         });
 
-        user = new User();
     }
 
     @Override

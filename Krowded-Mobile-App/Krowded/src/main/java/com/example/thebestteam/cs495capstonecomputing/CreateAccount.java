@@ -31,7 +31,7 @@ public class CreateAccount extends AppCompatActivity {
         CharSequence message;
 
         String name = ((EditText)findViewById(R.id.txtName)).getText().toString();
-        String email = ((EditText)findViewById(R.id.txtEmail)).getText().toString();
+        final String email = ((EditText)findViewById(R.id.txtEmail)).getText().toString();
         String password = ((EditText)findViewById(R.id.txtPass)).getText().toString();
         String password2 = ((EditText)findViewById(R.id.txtPass2)).getText().toString();
         String sex = (((ToggleButton)findViewById(R.id.toggleSex)).isChecked()) ? "1" : "0";
@@ -39,24 +39,33 @@ public class CreateAccount extends AppCompatActivity {
         boolean isBiz = ((ToggleButton)findViewById(R.id.toggleBiz)).isChecked();
 
         if (password.equals(password2)) {
-            //TODO: check if user exists
-            if (false) {
-                message = "That email address is taken.";
-            } else {
-                DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
-                String cleanEmail = email.replace(".","");
+            DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+            String cleanEmail = email.replace(".","");
 
-                mRoot.child("user").child(cleanEmail).child("email").setValue(email);
-                mRoot.child("user").child(cleanEmail).child("name").setValue(name);
-                mRoot.child("user").child(cleanEmail).child("age").setValue(age);
-                mRoot.child("user").child(cleanEmail).child("sex").setValue(sex);
-                mRoot.child("user").child(cleanEmail).child("isBiz").setValue(isBiz);
-                mRoot.child("user").child(cleanEmail).child("password").setValue(password);
+            mRoot.child("user").child(cleanEmail).child("email").setValue(email);
+            mRoot.child("user").child(cleanEmail).child("name").setValue(name);
+            mRoot.child("user").child(cleanEmail).child("age").setValue(age);
+            mRoot.child("user").child(cleanEmail).child("sex").setValue(sex);
+            mRoot.child("user").child(cleanEmail).child("isBiz").setValue(isBiz);
+            mRoot.child("user").child(cleanEmail).child("password").setValue(password);
 
-                message = "Account Created";
-                Intent myIntent = new Intent(this, LoginActivity.class);
-                startActivity(myIntent);
-            }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Email emailer = new Email();
+                        emailer.send("Welcome to This Shitty App: Krowded", "Sup nerd", email);
+
+                    } catch (Exception e) {
+                        Log.e("SendMail", e.getMessage(), e);
+                    }
+                }
+
+            }).start();
+
+            message = "Account Created";
+            Intent myIntent = new Intent(this, LoginActivity.class);
+            startActivity(myIntent);
         } else message = "Passwords Do Not Match";
 
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
