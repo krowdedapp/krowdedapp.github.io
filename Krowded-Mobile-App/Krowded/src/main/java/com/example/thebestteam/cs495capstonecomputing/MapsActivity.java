@@ -183,7 +183,10 @@ public class MapsActivity extends FragmentActivity
         listViewIB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MapsActivity.this, LViewActivity.class));
+                if(PlaceJSONParser.allPlaces.size() == 0)
+                   Toast.makeText(getBaseContext(),"You have not found any places yet",Toast.LENGTH_SHORT).show();
+                else
+                    startActivity(new Intent(MapsActivity.this, LViewActivity.class));
             }
         });
 
@@ -193,6 +196,7 @@ public class MapsActivity extends FragmentActivity
     public void onMapReady(GoogleMap googleMap) {
 
         mGoogleMap = googleMap;
+
 
 
 
@@ -240,22 +244,13 @@ public class MapsActivity extends FragmentActivity
         locationManager.requestLocationUpdates(provider, 2000, 0, this);
 
 
-
-
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
             @Override
             public void onInfoWindowClick(Marker arg0) {
-                //below 2 lines were used to test ListView without having a toggle button
-                //Intent intent = new Intent(MapsActivity.this, LViewActivity.class);
-                //startActivity(intent);
-
-
                 Intent intent = new Intent(MapsActivity.this, PlaceDetailsActivity.class);
                 String reference = mMarkerPlaceLink.get(arg0.getId());
                 intent.putExtra("reference", reference);
-
-                // Starting the Place Details Activity
                 startActivity(intent);
             }
         });
@@ -268,12 +263,14 @@ public class MapsActivity extends FragmentActivity
 
         if(getIntent().hasExtra("triggered") || getIntent().hasExtra("triggered_fences"))
         {
-            //placeMarkers();
-
             Intent i = new Intent(this,DisplayNotificationActivity.class);
             int temp = getIntent().getIntExtra("transition",-1);
-
             i.putExtra("transition_type",temp);
+
+            if(temp == 1)
+                i.putExtra("enter",true);
+            else
+                i.putExtra("enter",false);
 
             startActivity(i);
         }
@@ -296,11 +293,11 @@ public class MapsActivity extends FragmentActivity
         Button loginButton = findViewById(R.id.btnLogin);
         if (user == null) loginButton.setText("Login");
         else loginButton.setText("Profile");
+
+        defaultMarkers();
     }
 
 
-
-/*
     @Override
     protected void onResume() {
         super.onResume();
@@ -310,7 +307,6 @@ public class MapsActivity extends FragmentActivity
             mapFragment.getMapAsync(this);
         }
     }
-*/
 
 /*
     @Override
@@ -340,6 +336,25 @@ public class MapsActivity extends FragmentActivity
         super.onResume();
     }
     */
+
+    private void defaultMarkers(){
+
+        //int selectedPosition = mSprPlaceType.getSelectedItemPosition();
+        String type = mPlaceType[0];
+
+        StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        sb.append("location="+mLatitude+","+mLongitude);
+        sb.append("&radius=5000");
+        sb.append("&types="+type);
+        sb.append("&sensor=true");
+        sb.append("&key=AIzaSyBb4_AGSb9PWWsv3AfQQpvJMZpGV9oajiQ");
+
+        // Creating a new non-ui thread task to download Google place json data
+        PlacesTask placesTask = new PlacesTask();
+
+        // Invokes the "doInBackground()" method of the class PlaceTask
+        placesTask.execute(sb.toString());
+    }
 
     private void placeMarkers()
     {
@@ -670,7 +685,8 @@ public class MapsActivity extends FragmentActivity
 
         if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
-            Geofence geofence = createGeofence(tester, 25, "fence1");
+
+            Geofence geofence = createGeofence(tester, 40, "fence1");
             FencesCreated.storeFence(geofence,tester);
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);

@@ -1,8 +1,11 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,14 +44,15 @@ public class PlaceDetailsJSONParser {
         String rating="-NA-";
         String international_phone_number="-NA-";
         String url="-NA-";
+        String isopen = "";
+        String priceLevel = "";
         String picture="";
-        ArrayList photos;
 
         try {
             // Extracting Place name, if available
-            if(!jPlaceDetails.isNull("picture")){
-                photos = (ArrayList) jPlaceDetails.get("photos");
-                picture = (String) photos.get(1);
+            if(!jPlaceDetails.isNull("photos")){
+                JSONObject photoObj = (JSONObject)jPlaceDetails.getJSONArray("photos").get(0);
+                picture = photoObj.getString("photo_reference");
             }
             // Extracting Place name, if available
             if(!jPlaceDetails.isNull("name")){
@@ -95,6 +99,14 @@ public class PlaceDetailsJSONParser {
                 url = jPlaceDetails.getString("url");
             }
 
+            if(!jPlaceDetails.isNull("opening_hours")){
+                JSONObject temp = jPlaceDetails.getJSONObject("opening_hours");
+                isopen = temp.getString("open_now");
+            }
+
+            if(!jPlaceDetails.isNull("price_level")){
+                priceLevel = jPlaceDetails.getString("price_level");
+            }
 
             latitude = jPlaceDetails.getJSONObject("geometry").getJSONObject("location").getString("lat");
             longitude = jPlaceDetails.getJSONObject("geometry").getJSONObject("location").getString("lng");
@@ -111,6 +123,9 @@ public class PlaceDetailsJSONParser {
             hPlaceDetails.put("rating", rating);
             hPlaceDetails.put("international_phone_number", international_phone_number);
             hPlaceDetails.put("url", url);
+            hPlaceDetails.put("open_now",isopen);
+            hPlaceDetails.put("price_level",priceLevel);
+
 
         } catch (JSONException e) {
             e.printStackTrace();

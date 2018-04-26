@@ -4,7 +4,6 @@ package com.example.thebestteam.cs495capstonecomputing;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +19,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -34,9 +35,8 @@ import java.util.HashMap;
 public class PlaceDetailsActivity extends Activity {
 
     HashMap<String, String> locationData;
-    String pictureID;
-    Bitmap picture;
 
+    ImageView locationImage;
     TextView locationName;
     TextView locationWebsite;
     TextView locationPhone;
@@ -57,6 +57,7 @@ public class PlaceDetailsActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
+        locationImage = (ImageView) findViewById(R.id.locationImage);
         locationName = (TextView)findViewById(R.id.locationName);
         locationWebsite = (TextView)findViewById(R.id.locationWebsite);
         locationPhone = (TextView)findViewById(R.id.locationPhone);
@@ -199,22 +200,6 @@ public class PlaceDetailsActivity extends Activity {
             isEnabled = !isEnabled;
         }
 
-
-        public Bitmap getBitmapFromURL(String src) {
-            try {
-                URL url = new URL(src);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
-            } catch (IOException e) {
-                // Log exception
-                return null;
-            }
-        }
-
         // Executed after the complete execution of doInBackground() method
         @Override
         protected void onPostExecute(final HashMap<String,String> hPlaceDetails){
@@ -230,6 +215,8 @@ public class PlaceDetailsActivity extends Activity {
             String rating = hPlaceDetails.get("rating");
             String international_phone_number = hPlaceDetails.get("international_phone_number");
             String url = hPlaceDetails.get("url");
+            String isopen = hPlaceDetails.get("open_now");
+            String priceLevel = hPlaceDetails.get("price_level");
 
 
             String photo_reference = hPlaceDetails.get("picture");
@@ -238,18 +225,25 @@ public class PlaceDetailsActivity extends Activity {
             sb.append(photo_reference);
             sb.append("&key=");
             sb.append("AIzaSyBb4_AGSb9PWWsv3AfQQpvJMZpGV9oajiQ");
-            pictureID = sb.toString();
+            String picUrl = sb.toString();
 
             ImageView imageView = (ImageView) findViewById(R.id.locationImage);
-            picture = getBitmapFromURL(pictureID);
-            imageView.setImageBitmap(picture);
+
+
+            Picasso.get()
+                .load(picUrl)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .placeholder(R.drawable.failed1)
+                .config(Bitmap.Config.RGB_565)//affects how many bits are used to store each color
+                .into(locationImage);
 
             locationName.setText(name);
-            locationWebsite.setText(url);
+            locationWebsite.setText(website);
             locationAddress.setText(formatted_address);
             locationPhone.setText(formatted_phone);
             locationRating.setText(rating);
-            //locationOpen.setText();
+            locationOpen.setText(isopen);
+            locationPrice.setText(priceLevel);
 
             // Retrieve cover charges from database, and average them
             mRoot.child("Location").child(MapsActivity.placeName).child("Survey").addListenerForSingleValueEvent(new ValueEventListener() {

@@ -51,7 +51,6 @@ public class GeofenceTransitionService extends IntentService {
                 geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
 
 
-
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
             MapsActivity.FencesCreated.setTriggeredFence(triggeringGeofences.get(0));

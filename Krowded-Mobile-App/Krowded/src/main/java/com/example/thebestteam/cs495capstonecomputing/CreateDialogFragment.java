@@ -14,7 +14,15 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.zip.Inflater;
 
 
@@ -29,6 +37,8 @@ public class CreateDialogFragment extends DialogFragment {
     private Button btnSurvey;
     public float krowdedness;
 
+
+    private static DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
 
 
     private static int transitionType = DEFAULT;
@@ -70,8 +80,6 @@ public class CreateDialogFragment extends DialogFragment {
                 //add this to location object
             }
         });
-
-
     }
 
 
@@ -115,15 +123,30 @@ public class CreateDialogFragment extends DialogFragment {
         //btnSurvey = (Button) getView().findViewById(R.id.btnSurvey);
         //Create on click listener to switch to full survey view
 
+        /*
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // Set the dialog title
+        builder.setTitle("entering")
+
+                // Specify the list array, the items to be selected by default (null for none),
+                // and the listener through which to receive callbacks when items are selected
+                .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
+                        new DialogInterface.OnClickListener() {
+                            //@Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                startMapsActivity();
+                            }
+                        });
+       return builder.create();
+*/
 
 
-
-        if(transitionType == ENTER) {
+       // if(transitionType == ENTER) {
        // if(transitionType == LEAVE) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
             builder.setTitle("entering")
-
                     // Specify the list array, the items to be selected by default (null for none),
                     // and the listener through which to receive callbacks when items are selected
                     .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
@@ -131,17 +154,38 @@ public class CreateDialogFragment extends DialogFragment {
                                 //@Override
                                 public void onClick(DialogInterface dialog, int which)
                                 {
+
+                                    Toast.makeText(getContext(),"Entering",Toast.LENGTH_SHORT).show();
+                                    Date enterTime = Calendar.getInstance().getTime();
+                                    DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(enterTime.toString());
+
+                                    curr.child("EnterTime").setValue(enterTime);
+
+                                    // Get and increment current population
+                                    mRoot.child("location").child(MapsActivity.placeName).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Integer currPop = dataSnapshot.child("Population").getValue(Integer.class);
+                                            mRoot.child("location").child(MapsActivity.placeName).child("Population").setValue(currPop + 1);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+
                                     startMapsActivity();
                                 }
                             });
             return builder.create();
-        }
+        //}
+        /*
         //else if(transitionType == ENTER)
         else if(transitionType == LEAVE) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
             // Set the dialog title
-            builder.setView(inflater.inflate(R.layout.activity_display_notification, null))
+            builder.setView(inflater.inflate(R.layout.activity_display_notification, null))*/
                     // Set the action buttons
                     /*.setPositiveButton("more feedback", new DialogInterface.OnClickListener() {
                         @Override
@@ -149,7 +193,7 @@ public class CreateDialogFragment extends DialogFragment {
                             startMapsActivity();
                         }
                     })*/
-
+                        /*
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
@@ -158,12 +202,12 @@ public class CreateDialogFragment extends DialogFragment {
                     });
 
             return builder.create();
-        }
+        }*/
         //this should never get called
-        else
-        {
-            throw new java.lang.RuntimeException("geofencing error");
-        }
+        //else
+        //{
+         //   throw new java.lang.RuntimeException("geofencing error");
+        //}
     }
 
 
@@ -223,24 +267,4 @@ public class CreateDialogFragment extends DialogFragment {
     {
         transitionType = type;
     }
-
-
-    public void addListenerOnRatingBar() {
-
-        //ratingBar = (RatingBar) getView();
-
-        //ratingBar = (RatingBar) getView().findViewById(R.id.ratingBar);
-
-        //if rating value is changed,
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
-                krowdedness = rating;
-                //add this to location object
-            }
-        });
-    }
-
-
-
 }

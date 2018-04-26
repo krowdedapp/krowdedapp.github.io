@@ -113,13 +113,12 @@ public class LViewAdapter extends BaseAdapter {
         catch (JSONException e) {}
 
 
-
-
         try {
             URL = PlaceJSONParser.allPlaces.get(position).getString("icon");
         }
         catch(JSONException e)
         {}
+
 
         Picasso.get()
                 .load(getURL(position))
@@ -138,8 +137,8 @@ public class LViewAdapter extends BaseAdapter {
                 .placeholder(R.drawable.failed1)
                 .config(Bitmap.Config.RGB_565)
                 .into(thumbnailImageView);
-
 */
+
         return convertView;
     }
 }
