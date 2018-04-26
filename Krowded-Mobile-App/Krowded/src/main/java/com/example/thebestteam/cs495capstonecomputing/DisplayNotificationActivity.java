@@ -99,5 +99,7 @@ public class DisplayNotificationActivity extends AppCompatActivity {
 
         currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
 
+        Toast toast = Toast.makeText( getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
