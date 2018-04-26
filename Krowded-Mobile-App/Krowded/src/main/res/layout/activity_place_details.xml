@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/websiteLabel"
-        android:layout_width="55dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -43,7 +43,7 @@
     <TextView
         android:id="@+id/locationWebsite"
         android:layout_width="wrap_content"
-        android:layout_height="15dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="LOCATION_WEBSITE"
         app:layout_constraintBaseline_toBaselineOf="@+id/websiteLabel"
@@ -52,9 +52,8 @@
 
     <TextView
         android:id="@+id/phoneLabel"
-        android:layout_width="47dp"
-        android:layout_height="19dp"
-        android:layout_marginLeft="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Phone: "
@@ -64,8 +63,7 @@
     <TextView
         android:id="@+id/locationPhone"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginLeft="16dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="LOCATION PHONE "
         app:layout_constraintBaseline_toBaselineOf="@+id/phoneLabel"
@@ -74,9 +72,8 @@
     <TextView
         android:id="@+id/locationRating"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:text="RATING"
         app:layout_constraintBaseline_toBaselineOf="@+id/ratingLabel"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -94,9 +91,8 @@
 
     <TextView
         android:id="@+id/openLabel"
-        android:layout_width="99dp"
-        android:layout_height="19dp"
-        android:layout_marginLeft="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Currently Open:"
@@ -106,8 +102,7 @@
     <TextView
         android:id="@+id/locationOpen"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginLeft="16dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Yes"
         app:layout_constraintBaseline_toBaselineOf="@+id/openLabel"
@@ -175,7 +170,7 @@
     <Button
         android:id="@+id/reportsBtn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
