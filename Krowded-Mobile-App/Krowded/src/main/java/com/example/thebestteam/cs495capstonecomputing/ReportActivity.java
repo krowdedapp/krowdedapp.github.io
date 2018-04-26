@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,6 +29,11 @@ public class ReportActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final EditText address = findViewById(R.id.address);
+
+                final CheckBox avgAgeBox = findViewById(R.id.avgAgeBox);
+                final CheckBox avgTimeBox = findViewById(R.id.avgTimeBox);
+                final CheckBox sexBreakdownBox = findViewById(R.id.sexBreakdownBox);
+                
                 Report locationReport = new Report(address.getText().toString(), locationData);
 
                 Intent intent = new Intent(getBaseContext(), PlaceDetailsActivity.class);

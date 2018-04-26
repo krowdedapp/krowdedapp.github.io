@@ -29,7 +29,7 @@ public class Report {
             public void run() {
                 try {
                     Email emailer = new Email();
-                    emailer.send("Your Report", report, address);
+                    emailer.send("Your Report for " + statistics.get("name"), report, address);
 
                 } catch (Exception e) {
                     Log.e("SendMail", e.getMessage(), e);
@@ -40,17 +40,23 @@ public class Report {
     }
 
     private HashMap<String, String> generateStatistics(final HashMap<String, String> data) {
+
+        final HashMap<String, String> stats = new HashMap<String, String>();
+
         DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
-
-
-        mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+        // Retrieve cover charges from database, and average them
+        mRoot.child("Location").child(data.get("name")).child("Survey").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e("TEST", "Generating Statistics");
+                int sex = 0, count = 0;
 
-                DataSnapshot loc = dataSnapshot.child("user").child(data.get("name"));
-                Log.e("TEST", "loc " + loc);
-
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if(ds.hasChild("User")) {
+                        sex += Integer.parseInt(ds.child("User").child("sex").getValue(String.class));
+                        count = count + 1;
+                    }
+                }
+                stats.put("average_sex", (count != 0) ? ((Integer)(sex/count)).toString() : "0");
             }
 
             @Override
@@ -58,7 +64,8 @@ public class Report {
 
             }
         });
-        return data;
+
+        return stats;
     }
 
     private String generateReport() {

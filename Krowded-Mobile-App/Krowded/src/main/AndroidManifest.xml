@@ -65,6 +65,10 @@
             android:name=".LViewActivity"
             android:label="@string/title_activity_list" />
 
+        <activity
+            android:name=".ReportActivity"
+            android:label="@string/title_activity_report" />
+
         <service android:name=".GeofenceTransitionService" />
 
         <activity
