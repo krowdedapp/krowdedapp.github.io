@@ -4,7 +4,6 @@ package com.example.thebestteam.cs495capstonecomputing;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -239,7 +238,7 @@ public class PlaceDetailsActivity extends Activity {
                 .into(locationImage);
 
             locationName.setText(name);
-            locationWebsite.setText(url);
+            locationWebsite.setText(website);
             locationAddress.setText(formatted_address);
             locationPhone.setText(formatted_phone);
             locationRating.setText(rating);
