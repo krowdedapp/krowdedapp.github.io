@@ -9,14 +9,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class CreateAccount extends AppCompatActivity {
+    String selectedLocation;
+    Spinner locList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +38,61 @@ public class CreateAccount extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        ToggleButton isBiz = findViewById(R.id.toggleBiz);
+        isBiz.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+               @Override
+               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                   if(isChecked) {
+                       locList.setVisibility(View.VISIBLE);
+                   } else {
+                       locList.setVisibility(View.INVISIBLE);
+                       selectedLocation = null;
+                   }
+               }
+           }
+        );
+
+        DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+        mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                ArrayList<String> locs = new ArrayList<>();
+                for (DataSnapshot loc : dataSnapshot.child("location").getChildren()) {
+                    locs.add(loc.getKey());
+                }
+
+                locList = findViewById(R.id.locList);
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                    getBaseContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    locs);
+
+                locList.setAdapter(arrayAdapter);
+                locList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int position, long id) {
+                        selectedLocation = (String) parent.getItemAtPosition(position);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // TODO Auto-generated method stub
+                    }
+                });
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
+
 
     public void createAccount(View view) {
         Context context = getApplicationContext();
@@ -48,6 +116,7 @@ public class CreateAccount extends AppCompatActivity {
             mRoot.child("user").child(cleanEmail).child("sex").setValue(sex);
             mRoot.child("user").child(cleanEmail).child("isBiz").setValue(isBiz);
             mRoot.child("user").child(cleanEmail).child("password").setValue(password);
+            if(isBiz) mRoot.child("user").child(cleanEmail).child("ownedLocation").setValue(selectedLocation);
 
             new Thread(new Runnable() {
                 @Override

@@ -68,6 +68,29 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dude?"
+                    tools:layout_editor_absoluteX="109dp"
+                    tools:layout_editor_absoluteY="433dp" />
+
+                <ToggleButton
+                    android:id="@+id/toggleSex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ToggleButton"
+                    android:textOff="No"
+                    android:textOn="Yes"
+                    tools:layout_editor_absoluteX="212dp"
+                    tools:layout_editor_absoluteY="426dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -87,30 +110,13 @@
 
             </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dude?"
-                    tools:layout_editor_absoluteX="109dp"
-                    tools:layout_editor_absoluteY="433dp" />
-
-                <ToggleButton
-                    android:id="@+id/toggleSex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ToggleButton"
-                    android:textOff="No"
-                    android:textOn="Yes"
-                    tools:layout_editor_absoluteX="212dp"
-                    tools:layout_editor_absoluteY="426dp" />
-            </TableRow>
-
         </TableLayout>
+
+        <Spinner
+            android:id="@+id/locList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/btnCreateAccount"
@@ -118,6 +124,7 @@
             android:layout_height="wrap_content"
             android:onClick="createAccount"
             android:text="Submit" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
