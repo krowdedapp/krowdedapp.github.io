@@ -183,7 +183,10 @@ public class MapsActivity extends FragmentActivity
         listViewIB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MapsActivity.this, LViewActivity.class));
+                if(PlaceJSONParser.allPlaces.size() == 0)
+                   Toast.makeText(getBaseContext(),"You have not found any places yet",Toast.LENGTH_SHORT).show();
+                else
+                    startActivity(new Intent(MapsActivity.this, LViewActivity.class));
             }
         });
 
@@ -238,9 +241,6 @@ public class MapsActivity extends FragmentActivity
             onLocationChanged(location);//maybe crashes here?
         }
         locationManager.requestLocationUpdates(provider, 2000, 0, this);
-
-
-
 
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
@@ -305,8 +305,6 @@ public class MapsActivity extends FragmentActivity
     }
 
 
-
-/*
     @Override
     protected void onResume() {
         super.onResume();
@@ -316,7 +314,6 @@ public class MapsActivity extends FragmentActivity
             mapFragment.getMapAsync(this);
         }
     }
-*/
 
 /*
     @Override
@@ -667,15 +664,15 @@ public class MapsActivity extends FragmentActivity
         //tester.add(33.215530);//lloyd
         //tester.add(-87.519760);
 
-        tester.add(33.214417);//serc
-        tester.add(-87.543846);
+        //tester.add(33.214417);//serc
+        //tester.add(-87.543846);
 
-        //tester.add(33.214830);//fountain
-        //tester.add(-87.542796);
+        tester.add(33.214830);//fountain
+        tester.add(-87.542796);
 
         if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
-            Geofence geofence = createGeofence(tester, 250, "fence1");
+            Geofence geofence = createGeofence(tester, 30, "fence1");
             FencesCreated.storeFence(geofence,tester);
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);
