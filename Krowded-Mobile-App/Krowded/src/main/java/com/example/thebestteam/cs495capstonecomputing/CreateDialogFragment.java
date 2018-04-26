@@ -168,7 +168,7 @@ public class CreateDialogFragment extends DialogFragment {
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                                             Integer currPop = (Integer.parseInt(dataSnapshot.child("Population").getValue(String.class)) + 1);
-
+                                            
                                             mRoot.child("location").child(MapsActivity.placeName).child("Population").setValue(currPop.toString());
                                         }
 
