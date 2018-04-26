@@ -1,9 +1,7 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -91,11 +89,11 @@ public class DisplayNotificationActivity extends AppCompatActivity {
 
                 Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
 
-            Button btnCancel = (Button) findViewById(R.id.btnCancel);
-            //Create on click listener to switch to full survey view
-            btnCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        Button btnCancel = (Button) findViewById(R.id.btnSubmit);
+        //Create on click listener to switch to full survey view
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
                     Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
 
@@ -143,5 +141,23 @@ public class DisplayNotificationActivity extends AppCompatActivity {
                 //add this to location object
             }
         });
+    }
+
+    private void submitSurvey() {
+        String currTime = new java.util.Date().toString();
+
+
+        DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
+        Log.d("SHORTPLACENAME",MapsActivity.placeName);
+        Log.d("KROWDEDNESS",String.valueOf(krowdedness));
+
+        // Survey Type (S)hort
+        currSurvey.child("Type").setValue("S");
+
+        if (user == null) { currSurvey.child("User").setValue("null"); }
+        else currSurvey.child("User").setValue(user);
+
+        currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
+
     }
 }
