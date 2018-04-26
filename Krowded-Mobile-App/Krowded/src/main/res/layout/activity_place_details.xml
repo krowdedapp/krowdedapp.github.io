@@ -58,7 +58,8 @@
         android:layout_marginTop="16dp"
         android:text="Phone: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/websiteLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/websiteLabel"
+        android:layout_marginLeft="16dp" />
 
     <TextView
         android:id="@+id/locationPhone"
@@ -67,7 +68,8 @@
         android:layout_marginStart="16dp"
         android:text="LOCATION PHONE "
         app:layout_constraintBaseline_toBaselineOf="@+id/phoneLabel"
-        app:layout_constraintStart_toEndOf="@+id/phoneLabel" />
+        app:layout_constraintStart_toEndOf="@+id/phoneLabel"
+        android:layout_marginLeft="16dp" />
 
     <TextView
         android:id="@+id/locationRating"
@@ -76,7 +78,8 @@
         android:layout_marginEnd="16dp"
         android:text="RATING"
         app:layout_constraintBaseline_toBaselineOf="@+id/ratingLabel"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="16dp" />
 
     <TextView
         android:id="@+id/ratingLabel"
