@@ -44,6 +44,20 @@ public class DisplayNotificationActivity extends AppCompatActivity {
                 startActivity(new Intent(DisplayNotificationActivity.this, FullSurveyActivity.class));
             }
         });
+
+
+        Button btnCancel = (Button) findViewById(R.id.btnCancel);
+        //Create on click listener to switch to full survey view
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
+
+                newintent.putExtra("back", "nothin");
+                startActivity(newintent);
+            }
+        });
     }
 
 
