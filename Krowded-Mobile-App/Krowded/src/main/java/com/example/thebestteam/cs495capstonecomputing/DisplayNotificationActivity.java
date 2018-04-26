@@ -6,19 +6,27 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.android.gms.location.Geofence;
 
 import java.util.ArrayList;
 
 public class DisplayNotificationActivity extends AppCompatActivity {
+    User user = LoginActivity.user;
     private RatingBar ratingBar;
     private Button btnSurvey;
     public float krowdedness;
+
+    private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +113,6 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     public void addListenerOnRatingBar() {
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-
         //if rating value is changed,
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
@@ -116,59 +123,21 @@ public class DisplayNotificationActivity extends AppCompatActivity {
         });
     }
 
-
-    //lat is y, long is x
-    //returns a list of locations that overlap the passed in location
-    public static ArrayList<Geofence> findOverlappingFences(Geofence triggeredFence, double testingLat, double testingLng, double radius)
-    {
-        ArrayList<ArrayList<Double>> locations = MapsActivity.FencesCreated.getFenceLocations();
-        ArrayList<Geofence> fences = MapsActivity.FencesCreated.getStoredFences();
-        double lat;
-        double lng;
-
-        ArrayList<Geofence> temp =  new ArrayList<>();
-
-        for(int i = 0; i<fences.size(); i++) {
-            if(fences.get(i).getRequestId().equals(triggeredFence.getRequestId()))
-                continue;
-
-            lat = locations.get(i).get(0);
-            lng = locations.get(i).get(1);
-
-            //do the geofences intersect
-            if(Math.sqrt(Math.pow(testingLat - lat ,2) + Math.pow(testingLng - lng ,2)) <= radius + radius ){
-                temp.add(fences.get(i));
-            }
-        }
-        return temp;
-    }
+    private void submitSurvey() {
+        String currTime = new java.util.Date().toString();
 
 
+        DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
+        Log.d("SHORTPLACENAME",MapsActivity.placeName);
+        Log.d("KROWDEDNESS",String.valueOf(krowdedness));
 
-    private CharSequence[] changeToCharSequence(Geofence triggeredFence)
-    {
-        ArrayList<Geofence> fencesToShow = new ArrayList<>();
-        fencesToShow.add(triggeredFence);
-        int index = MapsActivity.FencesCreated.getStoredFences().indexOf(triggeredFence);
-        ArrayList<Double> coordinates = MapsActivity.FencesCreated.getFenceLocations().get(index);
-        double lat = coordinates.get(0);
-        double lng = coordinates.get(1);
+        // Survey Type (S)hort
+        currSurvey.child("Type").setValue("S");
 
-        fencesToShow.addAll(findOverlappingFences(triggeredFence,lat,lng,39));
+        if (user == null) { currSurvey.child("User").setValue("null"); }
+        else currSurvey.child("User").setValue(user);
 
-        ArrayList<String> list = new ArrayList<>();
-        for(Geofence f : fencesToShow)
-            list.add(f.getRequestId());
-
-        return list.toArray(new CharSequence[list.size()]);
+        currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
 
     }
-
-    private void startMapsActivity()
-    {
-        Intent intent = new Intent(this, DisplayNotificationActivity.class);
-        intent.putExtra("start_map",true);
-        startActivity(intent);
-    }
-
 }
