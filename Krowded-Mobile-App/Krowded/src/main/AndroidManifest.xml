@@ -73,14 +73,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DialogActivity" />
         <activity android:name=".CreateDialogFragment" />
+        <activity android:name=".DisplayNotificationActivity" />
 
-        <activity android:name=".DisplayNotificationActivity"></activity>
 
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FullSurveyActivity"></activity>
+        <activity android:name=".FullSurveyActivity" />
+
     </application>
 
 </manifest>

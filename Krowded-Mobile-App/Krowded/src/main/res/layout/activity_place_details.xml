@@ -21,26 +21,13 @@
     <TextView
         android:id="@+id/locationName"
         android:layout_width="wrap_content"
-        android:layout_height="49dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="NAME OF LOCATION"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locationImage"
         android:layout_marginLeft="16dp" />
-
-    <EditText
-        android:id="@+id/locationAddress"
-        android:layout_width="377dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textPostalAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationName" />
 
     <TextView
         android:id="@+id/websiteLabel"
@@ -67,32 +54,32 @@
         android:id="@+id/phoneLabel"
         android:layout_width="47dp"
         android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Phone: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/websiteLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/websiteLabel" />
 
     <TextView
         android:id="@+id/locationPhone"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="LOCATION PHONE "
         app:layout_constraintBaseline_toBaselineOf="@+id/phoneLabel"
-        app:layout_constraintStart_toEndOf="@+id/phoneLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/phoneLabel" />
 
     <TextView
         android:id="@+id/locationRating"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:text="RATING"
         app:layout_constraintBaseline_toBaselineOf="@+id/ratingLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="16dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/ratingLabel"
@@ -100,7 +87,7 @@
         android:layout_height="19dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:text="Google Review:"
+        android:text="Google Rating:"
         app:layout_constraintEnd_toStartOf="@+id/locationRating"
         app:layout_constraintTop_toBottomOf="@+id/websiteLabel"
         android:layout_marginRight="16dp" />
@@ -109,32 +96,32 @@
         android:id="@+id/openLabel"
         android:layout_width="99dp"
         android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Currently Open:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneLabel" />
 
     <TextView
         android:id="@+id/locationOpen"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="Yes"
         app:layout_constraintBaseline_toBaselineOf="@+id/openLabel"
-        app:layout_constraintStart_toEndOf="@+id/openLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/openLabel" />
 
     <TextView
         android:id="@+id/locationPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="5.0"
         app:layout_constraintBaseline_toBaselineOf="@+id/priceLabel"
-        app:layout_constraintStart_toEndOf="@+id/priceLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/priceLabel" />
 
     <TextView
         android:id="@+id/priceLabel"
@@ -149,22 +136,22 @@
         android:id="@+id/krowdedLabel"
         android:layout_width="95dp"
         android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Krowded Level:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/openLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/openLabel" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="5.0"
         app:layout_constraintBaseline_toBaselineOf="@+id/krowdedLabel"
-        app:layout_constraintStart_toEndOf="@+id/krowdedLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/krowdedLabel" />
 
     <TextView
         android:id="@+id/coverLabel"
@@ -179,22 +166,53 @@
         android:id="@+id/locationCover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="$10.00"
         app:layout_constraintBaseline_toBaselineOf="@+id/coverLabel"
-        app:layout_constraintStart_toEndOf="@+id/coverLabel"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintStart_toEndOf="@+id/coverLabel" />
 
     <Button
         android:id="@+id/reportsBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="Generate Reports"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coverLabel" />
+
+    <TextView
+        android:id="@+id/locationAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="LOCATION ADDRESS"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationName"
+        android:layout_marginLeft="16dp" />
+
+    <ImageButton
+        android:id="@+id/favoriteButton"
+        android:layout_width="48dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="#00ffffff"
+        android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
+        android:onClick="onToggleStar"
+        android:src="@android:drawable/btn_star"
+        app:layout_constraintBottom_toTopOf="@+id/locationAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/locationName"
+        app:layout_constraintTop_toBottomOf="@+id/locationImage"
+        app:srcCompat="@android:drawable/btn_star" />
 
 </android.support.constraint.ConstraintLayout>

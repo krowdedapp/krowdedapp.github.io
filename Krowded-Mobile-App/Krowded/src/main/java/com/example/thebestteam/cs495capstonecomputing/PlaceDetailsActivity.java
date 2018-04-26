@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +46,9 @@ public class PlaceDetailsActivity extends Activity {
     TextView locationPrice = (TextView)findViewById(R.id.locationPrice); //google's price rating
     TextView locationCover = (TextView)findViewById(R.id.locationCover); //cover charge
     TextView locationAddress = (TextView)findViewById(R.id.locationAddress);
+
+    //Used for location favorite button
+    boolean isEnabled = false;
 
 
     private static DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
@@ -179,6 +184,22 @@ public class PlaceDetailsActivity extends Activity {
             return hPlaceDetails;
         }
 
+        //Toggle the favorite button
+        public void onToggleStar(View view)  {
+            ImageButton fav = (ImageButton)view;
+            //
+            if(isEnabled) {
+                fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_off));
+                //TODO Add code to remove favorite in DB
+            }
+            else    {
+                fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),android.R.drawable.btn_star_big_on));
+                //TODO Add code to add favorite in DB
+            }
+
+            isEnabled = !isEnabled;
+        }
+
         // Executed after the complete execution of doInBackground() method
         @Override
         protected void onPostExecute(final HashMap<String,String> hPlaceDetails){
@@ -255,4 +276,6 @@ public class PlaceDetailsActivity extends Activity {
             mWvPlaceDetails.loadDataWithBaseURL("", data, mimeType, encoding, "");
         }
     }
+
+
 }

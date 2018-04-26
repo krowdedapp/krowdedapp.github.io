@@ -20,6 +20,8 @@ import static com.example.thebestteam.cs495capstonecomputing.MainActivity.*;
 public class ProfileActivity extends AppCompatActivity {
     User user = LoginActivity.user;
 
+    private static DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +31,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.txtEmail)).setText(user.getEmail());
         ((TextView)findViewById(R.id.txtName)).setText(user.getName());
-
-        DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
 
         mRoot.child("User").child(user.getEmail().replace(".","")).child("Favorites").addValueEventListener(new ValueEventListener() {
             @Override
@@ -46,4 +46,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

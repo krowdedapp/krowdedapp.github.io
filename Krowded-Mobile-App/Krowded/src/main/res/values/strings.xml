@@ -28,5 +28,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_create_account">Create Account</string>
+    <string name="title_activity_custom">CustomActivity</string>
 
 </resources>
