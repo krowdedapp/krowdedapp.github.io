@@ -41,6 +41,8 @@ public class PlaceDetailsJSONParser {
         String rating="-NA-";
         String international_phone_number="-NA-";
         String url="-NA-";
+        String isopen = "";
+        String priceLevel = "";
         String picture="";
         ArrayList photos;
 
@@ -95,6 +97,16 @@ public class PlaceDetailsJSONParser {
                 url = jPlaceDetails.getString("url");
             }
 
+            if(!jPlaceDetails.isNull("opening_hours")){
+                JSONObject temp = jPlaceDetails.getJSONObject("opening_hours");
+                isopen = temp.getString("open_now");
+            }
+
+            if(!jPlaceDetails.isNull("price_level")){
+                priceLevel = jPlaceDetails.getString("price_level");
+            }
+
+
 
             latitude = jPlaceDetails.getJSONObject("geometry").getJSONObject("location").getString("lat");
             longitude = jPlaceDetails.getJSONObject("geometry").getJSONObject("location").getString("lng");
@@ -111,6 +123,9 @@ public class PlaceDetailsJSONParser {
             hPlaceDetails.put("rating", rating);
             hPlaceDetails.put("international_phone_number", international_phone_number);
             hPlaceDetails.put("url", url);
+            hPlaceDetails.put("open_now",isopen);
+            hPlaceDetails.put("price_level",priceLevel);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
