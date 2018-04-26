@@ -66,6 +66,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
 
@@ -525,9 +526,16 @@ public class MapsActivity extends FragmentActivity
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Log.d("hmPlace ID:",placeID);
                         if (!dataSnapshot.hasChild(placeID)) {
+
+                            /* TODO: REMOVE!!!!! */
+                            Random blah = new Random();
+                            Integer min = 0; Integer max = 55;
+                            double x = min + blah.nextDouble() * (max - min);
+
                             Log.d("T A G","placeID obj is null in Firebase");
                             mRoot.child("location").child(placeID).child("Details").setValue(foo);
                             mRoot.child("location").child(placeID).child("Population").setValue(0);
+                            mRoot.child("location").child(placeID).child("Stay Time").setValue(String.valueOf(x));
                         }
                     }
 
