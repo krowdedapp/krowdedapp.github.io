@@ -71,8 +71,6 @@ public class DisplayNotificationActivity extends AppCompatActivity {
                 }
             });
 
-<<<<<<< HEAD
-=======
                 String currTime = new java.util.Date().toString();
 
 
@@ -92,7 +90,6 @@ public class DisplayNotificationActivity extends AppCompatActivity {
                 toast.show();
 
                 Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
->>>>>>> ce0cec88632f58854007853d88c72d6fc943ad9d
 
             Button btnCancel = (Button) findViewById(R.id.btnCancel);
             //Create on click listener to switch to full survey view
