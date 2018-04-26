@@ -1,11 +1,13 @@
 package com.example.thebestteam.cs495capstonecomputing;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -33,6 +35,18 @@ public class ProfileActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.profileEmail)).setText(user.getEmail());
         ((TextView)findViewById(R.id.profileSex)).setText((user.getSex() == 1) ? "Male" : "Female");
         ((TextView)findViewById(R.id.profileAge)).setText(((Integer)user.getAge()).toString());
+
+
+
+        Button btnLogout = (Button) findViewById(R.id.logoutButton);
+        //Create on click listener to switch to full survey view
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user = null;
+            }
+        });
+
 
 
 //        mRoot.child("User").child(user.getEmail().replace(".","")).child("Favorites").addValueEventListener(new ValueEventListener() {

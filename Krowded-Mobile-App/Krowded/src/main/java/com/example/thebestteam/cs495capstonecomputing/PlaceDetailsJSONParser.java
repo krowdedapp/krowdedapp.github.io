@@ -108,8 +108,6 @@ public class PlaceDetailsJSONParser {
                 priceLevel = jPlaceDetails.getString("price_level");
             }
 
-
-
             latitude = jPlaceDetails.getJSONObject("geometry").getJSONObject("location").getString("lat");
             longitude = jPlaceDetails.getJSONObject("geometry").getJSONObject("location").getString("lng");
 
