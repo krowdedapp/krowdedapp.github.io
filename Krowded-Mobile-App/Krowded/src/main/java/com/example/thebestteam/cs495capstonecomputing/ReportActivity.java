@@ -30,11 +30,13 @@ public class ReportActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final EditText address = findViewById(R.id.address);
 
-                final CheckBox avgAgeBox = findViewById(R.id.avgAgeBox);
-                final CheckBox avgTimeBox = findViewById(R.id.avgTimeBox);
-                final CheckBox sexBreakdownBox = findViewById(R.id.sexBreakdownBox);
+                final Boolean avgAgeBox = ((CheckBox)findViewById(R.id.avgAgeBox)).isChecked();
+                final Boolean avgTimeBox = ((CheckBox)findViewById(R.id.avgTimeBox)).isChecked();
+                final Boolean sexBreakdownBox = ((CheckBox)findViewById(R.id.sexBreakdownBox)).isChecked();
+
+                Boolean[] opts = {avgAgeBox, avgTimeBox, sexBreakdownBox};
                 
-                Report locationReport = new Report(address.getText().toString(), locationData);
+                Report locationReport = new Report(address.getText().toString(), locationData, opts);
 
                 Intent intent = new Intent(getBaseContext(), PlaceDetailsActivity.class);
                 intent.putExtra("reference", reference);

@@ -20,8 +20,8 @@ public class Report {
     HashMap<String, String> statistics;
     String report;
 
-    public Report(final String address, HashMap<String, String> data) {
-        statistics = generateStatistics(data);
+    public Report(final String address, HashMap<String, String> data, Boolean[] opts) {
+        statistics = generateStatistics(data, opts);
         report = generateReport();
 
         new Thread(new Runnable() {
@@ -39,7 +39,7 @@ public class Report {
         }).start();
     }
 
-    private HashMap<String, String> generateStatistics(final HashMap<String, String> data) {
+    private HashMap<String, String> generateStatistics(final HashMap<String, String> data, Boolean[] opts) {
 
         final HashMap<String, String> stats = new HashMap<String, String>();
 
