@@ -24,7 +24,7 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     User user = LoginActivity.user;
     private RatingBar ratingBar;
     private Button btnSurvey;
-    public float krowdedness;
+    public static float krowdedness = -1;
 
     private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
 
