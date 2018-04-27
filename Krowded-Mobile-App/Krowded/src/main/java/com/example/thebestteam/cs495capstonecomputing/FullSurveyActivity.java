@@ -54,6 +54,9 @@ public class FullSurveyActivity extends AppCompatActivity {
 
                 if (user != null) currSurvey.child("User").setValue(user);
 
+                if (krowdedness < 0)
+                    krowdedness = 0;
+
                 currSurvey.child("Krowdedness").setValue(Integer.toString(krowdedness) );
                 currSurvey.child("Wait").setValue(Integer.toString(wait));
                 currSurvey.child("Cover").setValue(Integer.toString(money));

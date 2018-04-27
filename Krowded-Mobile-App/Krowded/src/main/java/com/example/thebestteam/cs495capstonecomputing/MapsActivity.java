@@ -458,73 +458,89 @@ public class MapsActivity extends FragmentActivity
 
             for(int i=0;i<list.size();i++){
 
-                // Creating a marker
-                MarkerOptions markerOptions = new MarkerOptions();
+
 
                 // Getting a place from the places list
-                HashMap<String, String> hmPlace = list.get(i);
+                final HashMap<String, String> hmPlace = list.get(i);
 
                 // Getting latitude of the place
-                double lat = Double.parseDouble(hmPlace.get("lat"));
+                final double lat = Double.parseDouble(hmPlace.get("lat"));
 
                 // Getting longitude of the place
-                double lng = Double.parseDouble(hmPlace.get("lng"));
+                final double lng = Double.parseDouble(hmPlace.get("lng"));
 
                 // Getting name
-                String name = hmPlace.get("place_name");
+                final String name = hmPlace.get("place_name");
 
                 // Getting vicinity
                 String vicinity = hmPlace.get("vicinity");
 
-                LatLng latLng = new LatLng(lat, lng);
-
-                // Setting the position for the marker
-                markerOptions.position(latLng);
-
-                // Setting the title for the marker.
-                //This will be displayed on taping the marker
-                markerOptions.title(name);
-
-                //set marker color based on crowdedness, right now testing Rounders
-                if (name.equals("Billy's Sports Grill") || name.equals("Buffalo Wild Wings"))
-                {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }
-                else
-                {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-                }
-
-                // Placing a marker on the touched position
-                Marker m = mGoogleMap.addMarker(markerOptions);
-
-                // Linking Marker id and place reference
-                mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
-
-
+                final LatLng latLng = new LatLng(lat, lng);
                 final String placeID = hmPlace.get("place_name");
-                //TODO: Remove this when placeID is fully functional
 
                 final HashMap<String,String> foo = hmPlace;
-                if (placeID == null) Log.d("placeID","It's null, man.");
-                // Check if location exists in database
-                // Must be SingleValueEvent listener, or else it will fire every time any location is updated
+
+                // Database calls for each location/marker
                 mRoot.child("location").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Log.d("hmPlace ID:",placeID);
-                        if (!dataSnapshot.hasChild(placeID)) {
 
-                            /* TODO: REMOVE!!!!! */
-                            Random blah = new Random();
-                            Integer min = 0; Integer max = 55;
-                            double x = min + blah.nextDouble() * (max - min);
+
+                        // if location has no entry in Firebase, create one
+                        if (!dataSnapshot.hasChild(placeID)) {
 
                             Log.d("T A G","placeID obj is null in Firebase");
                             mRoot.child("location").child(placeID).child("Details").setValue(foo);
                             mRoot.child("location").child(placeID).child("Population").setValue(0);
-                            mRoot.child("location").child(placeID).child("Stay Time").setValue(String.valueOf(x));
                         }
+
+
+                        // Retrieve population and Krowdedness from FB and color marker accordingly
+                        double krowdedScore = 0;
+
+                        if (dataSnapshot.child(placeID).hasChild("krowdedness")) {
+                            krowdedScore = krowdedScore + dataSnapshot.child(placeID).child("krowdedness").getValue(Long.class).doubleValue();
+                        }
+
+                        if (dataSnapshot.child(placeID).hasChild("Population")) {
+                            krowdedScore = krowdedScore + dataSnapshot.child(placeID).child("Population").getValue(Long.class);
+                        }
+
+                        Log.d("KROWDED SCORE:",String.valueOf(krowdedScore));
+
+
+
+
+                        // Creating a marker
+                        MarkerOptions markerOptions = new MarkerOptions();
+
+                        // Setting the position for the marker
+                        markerOptions.position(latLng);
+
+                        // Setting the title for the marker.
+                        //This will be displayed on taping the marker
+                        markerOptions.title(name);
+
+
+                        //set marker color based on krowdedness
+                        if (krowdedScore > 10)
+                        {
+                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                        }
+                        else if (krowdedScore > 5) { markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)); }
+                        else
+                        {
+                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                        }
+
+
+                        // Placing a marker on the touched position
+                        Marker m = mGoogleMap.addMarker(markerOptions);
+
+                        // Linking Marker id and place reference
+                        mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
+
                     }
 
                     @Override
@@ -669,6 +685,7 @@ public class MapsActivity extends FragmentActivity
         latlng.add(0.0);
         Log.i(TAG, "startGeofence()");
 
+        /*
         ArrayList<Double> tester = new ArrayList<>();
         ArrayList<Double> tester1 = new ArrayList<>();
 
@@ -687,9 +704,9 @@ public class MapsActivity extends FragmentActivity
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);
 
-        }
+        }*/
 
-         /*
+
           for(JSONObject place : PlaceJSONParser.allPlaces) {
             try {
                 name = place.getString("name");
@@ -709,7 +726,7 @@ public class MapsActivity extends FragmentActivity
                 addGeofence(geofenceRequest);
             }
         }
-        */
+
 
 
     }

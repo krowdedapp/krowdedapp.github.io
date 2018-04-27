@@ -90,15 +90,14 @@ public class DisplayNotificationActivity extends AppCompatActivity {
 
                     DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
                     Log.d("SHORTPLACENAME",MapsActivity.placeName);
-                    Log.d("KROWDEDNESS",String.valueOf(krowdedness));
+                    Log.d("KROWDEDNESS",Integer.toString(krowdedness));
 
                     // Survey Type (S)hort
                     currSurvey.child("Type").setValue("S");
 
-                    if (user == null) { currSurvey.child("User").setValue("null"); }
-                    else currSurvey.child("User").setValue(user);
+                    if (user != null) currSurvey.child("User").setValue(user);
 
-                    currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
+                    currSurvey.child("Krowdedness").setValue(Integer.toString(krowdedness));
 
 
                     //newintent.putExtra("back", "nothin");
