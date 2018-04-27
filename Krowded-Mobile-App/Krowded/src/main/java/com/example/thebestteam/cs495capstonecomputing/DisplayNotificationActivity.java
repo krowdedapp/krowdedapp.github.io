@@ -24,6 +24,8 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     User user = LoginActivity.user;
     private RatingBar ratingBar;
     private Button btnSurvey;
+    private static final int EXIT = 2;
+    private static final int ENTER = 1;
     public static int krowdedness = -1;
 
     private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
@@ -33,34 +35,15 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        boolean isentering = getIntent().getBooleanExtra("enter",false);
-        if(!isentering)
+        int transitionType = getIntent().getIntExtra("transition",-1);
+        if(transitionType == EXIT)
             //setContentView(R.layout.activity_maps);
             setContentView(R.layout.activity_display_notification);
-        //addListenerOnRatingBar();
-
-        //boolean isentering = getIntent().getBooleanExtra("enter",false);
-
 
         //leaving
-        if(!isentering) {
-            if (getIntent().getBooleanExtra("start_map", false)) {
-                // EXITING?
+        if(transitionType == EXIT) {
 
-                Intent intent = new Intent(this, MapsActivity.class);
-                MapsActivity.notificationDisplayed = true;
-                startActivity(intent);
-            } else {
-                //CreateDialogFragment.setTransitionType(getIntent().getIntExtra("transition_type", -1));
-                // Intent intent = new Intent(this, CustomActivity.class);
-                //startActivity(intent);
-                //Toast.makeText(this,"displaying shit",Toast.LENGTH_LONG).show();
-                //DialogFragment newFragment = new CreateDialogFragment();
-                //newFragment.show(getSupportFragmentManager(), "TAG");
-            }
-
-
+            MapsActivity.notificationDisplayed = true;
             addListenerOnRatingBar();
             btnSurvey = (Button) findViewById(R.id.btnSurvey);
             //Create on click listener to switch to full survey view
@@ -72,13 +55,13 @@ public class DisplayNotificationActivity extends AppCompatActivity {
             });
 
 
-                Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
+            Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
 
-        Button btnCancel = (Button) findViewById(R.id.btnSubmit);
-        //Create on click listener to switch to full survey view
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            Button btnCancel = (Button) findViewById(R.id.btnSubmit);
+            //Create on click listener to switch to full survey view
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
 
                     String currTime = new java.util.Date().toString();
@@ -96,35 +79,19 @@ public class DisplayNotificationActivity extends AppCompatActivity {
                     currSurvey.child("Krowdedness").setValue(Integer.toString(krowdedness));
 
 
-                newintent.putExtra("back", "nothin");
+                    //newintent.putExtra("back", "nothin");
                     startActivity(newintent);
                 }
             });
         }
-        else{
-
+        else if(transitionType == ENTER){
+            MapsActivity.notificationDisplayed = true;
             DialogFragment newFragment = new CreateDialogFragment();
             newFragment.show(getSupportFragmentManager(), "TAG");
-
-
-            /*
-            AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
-            // Set the dialog title
-            builder.setTitle("entering")
-
-                    // Specify the list array, the items to be selected by default (null for none),
-                    // and the listener through which to receive callbacks when items are selected
-                    .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
-                            new DialogInterface.OnClickListener() {
-                                //@Override
-                                public void onClick(DialogInterface dialog, int which)
-                                {
-                                    startMapsActivity();
-                                }
-                            });
-            builder.create();
-            builder.show();
-            */
+        }
+        //should never be the case
+        else {
+            throw new java.lang.RuntimeException("geofencing error");
         }
     }
 

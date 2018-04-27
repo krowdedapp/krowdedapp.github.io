@@ -19,7 +19,6 @@ public class DialogActivity extends DialogFragment {
         builder.setMessage(internal_message)
                 .setPositiveButton("selected positive button", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
                     }
                 })
                 .setNegativeButton("selected negative button", new DialogInterface.OnClickListener() {

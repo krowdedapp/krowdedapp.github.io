@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class PlaceDetailsActivity extends Activity {
@@ -265,8 +266,14 @@ public class PlaceDetailsActivity extends Activity {
             locationAddress.setText(formatted_address);
             locationPhone.setText(formatted_phone);
             locationRating.setText(rating);
-            locationOpen.setText(isopen);
+
+            // Rather than open: false, make it Open: Yes (or No)
+            if (isopen.equals("false")) { locationOpen.setText("No"); }
+            else { locationOpen.setText("Yes"); }
+
             locationPrice.setText(priceLevel);
+
+            final String pName = name;
 
             // Retrieve cover charges from database, and average them
             mRoot.child("location").child(name).addValueEventListener(new ValueEventListener() {
@@ -295,15 +302,21 @@ public class PlaceDetailsActivity extends Activity {
                         locationWaitTime.setText("N/A");
                     } else {
                         for (DataSnapshot ds : dataSnapshot.child("Survey").getChildren()) {
-                            krowdednessRating = Integer.parseInt(ds.child("Krowdedness").getValue(String.class));
+                            if (!ds.hasChild("Krowdedness")) { continue; }
+
+                            // The information is retrieved as a long and immediately cast to an integer
+                            // because FireBase automatically stores all numbers as longs,
+                            // but the numbers put in will only ever be integers.
+                            krowdednessRating = (int) Long.parseLong(ds.child("Krowdedness").getValue().toString());
+                            Log.d("TEST","Processed correctly.");
                             krowdednessTotal += krowdednessRating;
                             krowdednessCount = krowdednessCount + 1;
 
 
                             if (ds.child("Type").getValue(String.class).equals("L")) {
                                 hasLongSurvey = 1;
-                                coverRating = Integer.parseInt(ds.child("Cover").getValue(String.class));
-                                waitRating = Integer.parseInt(ds.child("Wait").getValue(String.class));
+                                coverRating = (int) Long.parseLong(ds.child("Cover").getValue().toString());
+                                waitRating = (int) Long.parseLong(ds.child("Wait").getValue().toString());
 
                                 coverTotal = coverTotal + coverRating;
                                 waitTotal = waitTotal + waitRating;
@@ -317,8 +330,14 @@ public class PlaceDetailsActivity extends Activity {
 
                         double krowdednessAvg = krowdednessTotal / krowdednessCount;
                         locationData.put("average_krowdedness",Double.toString(krowdednessAvg));
+
+                        DecimalFormat df2 = new DecimalFormat(".##");
+                        double krowdedPercent = krowdednessAvg * 20;
+                        locationKrowdedness.setText(df2.format(krowdedPercent) + "%");
                         Log.e("AVG KROWDEDNESS",Double.toString(krowdednessAvg));
 
+
+                        mRoot.child("location").child(pName).child("krowdedness").setValue(krowdednessAvg);
 
                         if (hasLongSurvey == 1) {
                             int coverAvg = coverTotal / coverCount;
@@ -327,11 +346,9 @@ public class PlaceDetailsActivity extends Activity {
                             Log.e("AVG COVER",Integer.toString(coverAvg));
                             Log.e("AVG WAIT",Integer.toString(waitAvg));
 
-
                             locationData.put("average_wait", Integer.toString(waitAvg));
                             locationData.put("average_cover", Integer.toString(coverAvg));
-                            locationCover.setText(Integer.toString(coverAvg));
-                            locationKrowdedness.setText(Double.toString(krowdednessAvg));
+                            locationCover.setText("$" + Integer.toString(coverAvg));
                             locationWaitTime.setText(Integer.toString(waitAvg));
                         }
 

@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="Phone: "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/websiteLabel" />
@@ -88,7 +88,7 @@
         android:layout_height="19dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="Google Rating:"
         app:layout_constraintEnd_toStartOf="@+id/locationRating"
         app:layout_constraintTop_toBottomOf="@+id/websiteLabel" />
@@ -126,7 +126,7 @@
         android:id="@+id/priceLabel"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:text="Price: "
         app:layout_constraintStart_toStartOf="@+id/ratingLabel"
         app:layout_constraintTop_toBottomOf="@+id/locationRating" />
@@ -155,7 +155,7 @@
         android:id="@+id/coverLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="Cover Charge: "
         app:layout_constraintStart_toStartOf="@+id/priceLabel"
         app:layout_constraintTop_toBottomOf="@+id/priceLabel" />
@@ -174,13 +174,13 @@
         android:id="@+id/reportsBtn"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:text="Generate Reports"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -216,6 +216,7 @@
         android:id="@+id/waitTimeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Average Wait Time:"

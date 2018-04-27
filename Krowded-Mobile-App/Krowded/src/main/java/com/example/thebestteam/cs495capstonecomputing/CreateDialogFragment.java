@@ -23,25 +23,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.zip.Inflater;
 
 
 public class CreateDialogFragment extends DialogFragment {
-
-    private static final int ENTER = 1;
-    private static final int LEAVE = 2;
-    private static final int DEFAULT = -1;
 
 
     private RatingBar ratingBar;
     private Button btnSurvey;
     public float krowdedness;
 
-
     private static DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
 
-
-    private static int transitionType = DEFAULT;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle b){
@@ -57,8 +49,6 @@ public class CreateDialogFragment extends DialogFragment {
 
         ratingBar = (RatingBar) getView().findViewById(R.id.ratingBar);
         btnSurvey = (Button) getView().findViewById(R.id.btnSurvey);
-        //addListenerOnRatingBar();
-
 
         //for full activity
         btnSurvey.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +56,6 @@ public class CreateDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 Toast.makeText(getContext(), "onclick for survey button",Toast.LENGTH_LONG).show();
                 startActivity(new Intent(getContext(), FullSurveyActivity.class));
-                // startActivity(new Intent(DisplayNotificationActivity.this, FullSurveyActivity.class));
             }
         });
 
@@ -75,9 +64,7 @@ public class CreateDialogFragment extends DialogFragment {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
                 Toast.makeText(getContext(), "onclick for survey button",Toast.LENGTH_LONG).show();
-
                 krowdedness = rating;
-                //add this to location object
             }
         });
     }
@@ -85,49 +72,10 @@ public class CreateDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        //ViewGroup v = null;
-        //onCreateView(inflater,v ,b);
-       // onActivityCreated(b);
 
-        /*
-        //for full activity
-        btnSurvey.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "onclick for survey button",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getContext(), FullSurveyActivity.class));
-                // startActivity(new Intent(DisplayNotificationActivity.this, FullSurveyActivity.class));
-            }
-        });
-
-        //for rating change
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
-                Toast.makeText(getContext(), "onclick for survey button",Toast.LENGTH_LONG).show();
-
-                krowdedness = rating;
-                //add this to location object
-            }
-        });
-        */
-
-
-
-//        LayoutInflater inflater = getActivity().getLayoutInflater();
-
-
-        //addListenerOnRatingBar();
-
-        //btnSurvey = (Button) getView().findViewById(R.id.btnSurvey);
-        //Create on click listener to switch to full survey view
-
-        /*
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+       AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Set the dialog title
         builder.setTitle("entering")
-
                 // Specify the list array, the items to be selected by default (null for none),
                 // and the listener through which to receive callbacks when items are selected
                 .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
@@ -135,89 +83,39 @@ public class CreateDialogFragment extends DialogFragment {
                             //@Override
                             public void onClick(DialogInterface dialog, int which)
                             {
+
+                                Toast.makeText(getContext(),"Entering",Toast.LENGTH_SHORT).show();
+                                Date enterTime = Calendar.getInstance().getTime();
+                                DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(enterTime.toString());
+
+                                curr.child("EnterTime").setValue(enterTime);
+
+                                // Get and increment current population
+                                mRoot.child("location").child(MapsActivity.placeName).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        Integer currPop = (Integer.parseInt(dataSnapshot.child("Population").getValue(String.class)) + 1);
+
+                                        mRoot.child("location").child(MapsActivity.placeName).child("Population").setValue(currPop.toString());
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
                                 startMapsActivity();
                             }
                         });
-       return builder.create();
-*/
-
-
-       // if(transitionType == ENTER) {
-       // if(transitionType == LEAVE) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            // Set the dialog title
-            builder.setTitle("entering")
-                    // Specify the list array, the items to be selected by default (null for none),
-                    // and the listener through which to receive callbacks when items are selected
-                    .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
-                            new DialogInterface.OnClickListener() {
-                                //@Override
-                                public void onClick(DialogInterface dialog, int which)
-                                {
-                                    //MapsActivity.placeName = GeofenceTransitionService.triggeredFence.getRequestId();
-
-                                    Toast.makeText(getContext(),"Entering",Toast.LENGTH_SHORT).show();
-                                    Date enterTime = Calendar.getInstance().getTime();
-                                    DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(enterTime.toString());
-
-                                    curr.child("EnterTime").setValue(enterTime);
-
-                                    // Get and increment current population
-                                    mRoot.child("location").child(MapsActivity.placeName).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                            Integer currPop = (Integer.parseInt(dataSnapshot.child("Population").getValue(String.class)) + 1);
-                                            
-                                            mRoot.child("location").child(MapsActivity.placeName).child("Population").setValue(currPop.toString());
-                                        }
-
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-
-                                        }
-                                    });
-
-                                    startMapsActivity();
-                                }
-                            });
-            return builder.create();
-        //}
-        /*
-        //else if(transitionType == ENTER)
-        else if(transitionType == LEAVE) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            // Set the dialog title
-            builder.setView(inflater.inflate(R.layout.activity_display_notification, null))*/
-                    // Set the action buttons
-                    /*.setPositiveButton("more feedback", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            startMapsActivity();
-                        }
-                    })*/
-                        /*
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            startMapsActivity();
-                        }
-                    });
-
-            return builder.create();
-        }*/
-        //this should never get called
-        //else
-        //{
-         //   throw new java.lang.RuntimeException("geofencing error");
-        //}
+        return builder.create();
     }
 
 
     private void startMapsActivity()
     {
-        Intent intent = new Intent(getContext(), DisplayNotificationActivity.class);
-        intent.putExtra("start_map",true);
+        Intent intent = new Intent(getContext(), MapsActivity.class);
         startActivity(intent);
     }
 
@@ -264,10 +162,5 @@ public class CreateDialogFragment extends DialogFragment {
             }
         }
         return temp;
-    }
-
-    public static void setTransitionType(int type)
-    {
-        transitionType = type;
     }
 }

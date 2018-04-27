@@ -28,9 +28,6 @@ public class GeofenceTransitionService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        //TODO: 4/21/2018 need to have an if that pushes a notification if the screen is locked
-        //TODO: geofences and services might turn off if phone is locked
-        //TODO: will think about that once all this works correctly :/
 
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
 
@@ -82,7 +79,7 @@ public class GeofenceTransitionService extends IntentService {
 
                 MapsActivity.geofencesTriggered = adapter;
                 MapsActivity.transitionType = geoFenceTransition;
-                newintent.putExtra("triggered_fences", adapter);
+                newintent.putExtra("triggered", adapter);
                 newintent.putExtra("transition",geoFenceTransition);
                 startActivity(newintent);
             }
