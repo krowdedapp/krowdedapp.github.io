@@ -57,7 +57,8 @@ public class ProfileActivity extends AppCompatActivity {
                 for (DataSnapshot fav : theUser.child("favorites").getChildren()) {
                     favs.add(fav.getKey());
                 }
-                user = new User(user.getName(), user.getEmail(), user.getAge(), user.getSex(), user.isBusiness(), favs);
+                user = new User(user.getName(), user.getEmail(), user.getAge(), user.getSex(),
+                        user.isBusiness(), favs, user.getOwned());
                 ((TextView)findViewById(R.id.profileName)).setText(user.getName());
                 ((TextView)findViewById(R.id.profileEmail)).setText(user.getEmail());
                 ((TextView)findViewById(R.id.profileSex)).setText((user.getSex() == 1) ? "Male" : "Female");
