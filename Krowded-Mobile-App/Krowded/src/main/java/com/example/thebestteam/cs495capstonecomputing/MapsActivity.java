@@ -15,10 +15,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,10 +30,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -63,11 +59,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
 
@@ -84,34 +78,18 @@ public class MapsActivity extends FragmentActivity
     public static ArrayList<Geofence> geofencesTriggered =  new ArrayList<>();
     public static int transitionType = -1;
 
-
-    private Location lastLocation;
     public static String placeName = "Rounders"; // Holds name of last/current business
-    private Context context = this;
 
     public static boolean notificationDisplayed = false;
     private static boolean wereMarkersPlaced = false;
 
-    private LocationRequest locationRequest;
-    // Defined in mili seconds.
-    // This number in extremely low, and should be used only for debug
-    private final int UPDATE_INTERVAL =  1000;
-    private final int FASTEST_INTERVAL = 900;
-    int REQ_PERMISSION = 1;
-
     //holds the lat and long in locations 0 and 1 respectively
     ArrayList<Double> currentLocation = new ArrayList<>(Arrays.asList(0.0, 0.0));
 
-
-
-    private static final long GEO_DURATION = 60 * 60 * 1000;
-    private static final String GEOFENCE_REQ_ID = "My Geofence";
+    private static final long GEO_DURATION = 60 * 60 * 1000;//1 day
     private static final float GEOFENCE_RADIUS = 100.0f; // in meters
 
     private static final String TAG = "MapsActivity";
-
-    private SupportMapFragment mapFragment;
-    private GoogleApiClient googleApiClient;
 
     private GoogleMap mGoogleMap;
     Spinner mSprPlaceType;
@@ -128,18 +106,12 @@ public class MapsActivity extends FragmentActivity
 
     private static DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
 
-    private static Date enterTime; private static Date exitTime;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //add an if statement here that checks to see if there is
-        //something hidden in the intent
-        //then if there is use that to display the alert box
-
         user = LoginActivity.user;
         if(user != null) {
-            Log.e("FUCK", "onCreate: " + user.getEmail() );
+            Log.e("!!", "onCreate: " + user.getEmail() );
         }
 
 
@@ -203,16 +175,10 @@ public class MapsActivity extends FragmentActivity
 
         mGoogleMap = googleMap;
 
-
-
-
-        //THIS MAY NOT BE NEEDED NOW
         //reloading the map if it already existed
         MapStateManager mgr = new MapStateManager(this);
         CameraPosition position = mgr.getSavedCameraPosition();
-        //i'm guessing this is never going to be  non null
-        //since that class is inside this activity
-        //might need to change it to globals
+
         if(position != null){
             CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
             mGoogleMap.moveCamera(update);
@@ -220,7 +186,7 @@ public class MapsActivity extends FragmentActivity
         }
 
 
-        //THIS IS SUPPOSED TO CHECK PERMISSIONS I PROMISE FS%*D^&D&^D*(D)(D
+        //checking permissions
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mGoogleMap.setMyLocationEnabled(true);
@@ -274,12 +240,6 @@ public class MapsActivity extends FragmentActivity
             int temp = getIntent().getIntExtra("transition",-1);
             i.putExtra("transition",temp);
 
-            /*
-            if(temp == 1)
-                i.putExtra("enter",true);
-            else
-                i.putExtra("enter",false);
-            */
             startActivity(i);
         }
 
@@ -288,12 +248,8 @@ public class MapsActivity extends FragmentActivity
 
             @Override
             public void onClick(View v) {
-
                 wereMarkersPlaced = true;
                 placeMarkers();
-                //add remove old fences here
-                //FencesCreated.removeOldFences();
-                //startGeofences();
             }
         });
 
@@ -302,7 +258,6 @@ public class MapsActivity extends FragmentActivity
         if (user == null) loginButton.setText("Login");
         else loginButton.setText("Profile");
 
-        //defaultMarkers();
     }
 
 
@@ -314,25 +269,6 @@ public class MapsActivity extends FragmentActivity
                     .findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
         }
-    }
-
-    private void defaultMarkers(){
-
-        //int selectedPosition = mSprPlaceType.getSelectedItemPosition();
-        String type = mPlaceType[0];
-
-        StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        sb.append("location="+mLatitude+","+mLongitude);
-        sb.append("&radius=5000");
-        sb.append("&types="+type);
-        sb.append("&sensor=true");
-        sb.append("&key=AIzaSyBb4_AGSb9PWWsv3AfQQpvJMZpGV9oajiQ");
-
-        // Creating a new non-ui thread task to download Google place json data
-        PlacesTask placesTask = new PlacesTask();
-
-        // Invokes the "doInBackground()" method of the class PlaceTask
-        placesTask.execute(sb.toString());
     }
 
     private void placeMarkers()
@@ -500,16 +436,14 @@ public class MapsActivity extends FragmentActivity
                         double krowdedScore = 0;
 
                         if (dataSnapshot.child(placeID).hasChild("krowdedness")) {
-                            krowdedScore = krowdedScore + dataSnapshot.child(placeID).child("krowdedness").getValue(Long.class).doubleValue();
-                        }
+                            Double.parseDouble(dataSnapshot.child(placeID).child("krowdedness").getValue(String.class));
+                       }
 
                         if (dataSnapshot.child(placeID).hasChild("Population")) {
                             krowdedScore = krowdedScore + dataSnapshot.child(placeID).child("Population").getValue(Long.class);
                         }
 
                         Log.d("KROWDED SCORE:",String.valueOf(krowdedScore));
-
-
 
 
                         // Creating a marker
@@ -534,7 +468,6 @@ public class MapsActivity extends FragmentActivity
                             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                         }
 
-
                         // Placing a marker on the touched position
                         Marker m = mGoogleMap.addMarker(markerOptions);
 
@@ -549,7 +482,6 @@ public class MapsActivity extends FragmentActivity
                     }
                 });
             }
-            //allPlaces = list;
         }
     }
 
@@ -622,9 +554,7 @@ public class MapsActivity extends FragmentActivity
     private Geofence createGeofence( ArrayList<Double> latLong, float radius, String geofenceName ) {
         Log.d(TAG, "createGeofence");
         return new Geofence.Builder()
-                //change req id to be the index of the place
                 .setRequestId(geofenceName)
-                //.setCircularRegion( 33.211021, -87.543988, 250)
                 .setCircularRegion( latLong.get(0), latLong.get(1), radius)
                 .setExpirationDuration( GEO_DURATION )//change to full day probably
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |  Geofence.GEOFENCE_TRANSITION_EXIT )
@@ -666,11 +596,6 @@ public class MapsActivity extends FragmentActivity
                 == PackageManager.PERMISSION_GRANTED)
             //add fence to list of fences
             fence.addGeofences(request,createGeofencePendingIntent());
-        //LocationServices.GeofencingApi.addGeofences(
-        //       googleApiClient,
-        //       request,
-        //       createGeofencePendingIntent()
-        //).setResultCallback(getBaseContext());
     }
 
 
@@ -684,28 +609,6 @@ public class MapsActivity extends FragmentActivity
         latlng.add(0.0);
         latlng.add(0.0);
         Log.i(TAG, "startGeofence()");
-
-        /*
-        ArrayList<Double> tester = new ArrayList<>();
-        ArrayList<Double> tester1 = new ArrayList<>();
-
-
-        //tester.add(33.214830);//fountain
-        //tester.add(-87.542796);
-
-        tester.add(33.215546);//apartment
-        tester.add(-87.519756);
-
-        if(!FencesCreated.isIn("Buffalo Wild Wings") && !FencesCreated.isIn("fence2") ) {
-            //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
-
-            Geofence geofence = createGeofence(tester, 35, "Buffalo Wild Wings");
-            FencesCreated.storeFence(geofence,tester);
-            GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
-            addGeofence(geofenceRequest);
-
-        }*/
-
 
           for(JSONObject place : PlaceJSONParser.allPlaces) {
             try {
@@ -726,84 +629,7 @@ public class MapsActivity extends FragmentActivity
                 addGeofence(geofenceRequest);
             }
         }
-
-
-
     }
-
-    // Check for permission to access Location
-    private boolean checkPermission() {
-        Log.d(TAG, "checkPermission()");
-        // Ask for permission if it wasn't granted yet
-        return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED );
-    }
-
-    // Asks for permission
-    private void askPermission() {
-        Log.d(TAG, "askPermission()");
-        ActivityCompat.requestPermissions(
-                this,
-                new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
-                REQ_PERMISSION
-        );
-    }
-
-    static private String getGeofenceTrasitionDetails(int geoFenceTransition, List<Geofence> triggeringGeofences) {
-        // get the ID of each geofence triggered
-        ArrayList<String> triggeringGeofencesList = new ArrayList<>();
-        for (Geofence geofence : triggeringGeofences) {
-            triggeringGeofencesList.add(geofence.getRequestId());
-        }
-
-        String status = null;
-        if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
-            status = "Entering ";
-            enterTime = Calendar.getInstance().getTime();
-
-            mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
-
-//            mRoot.child("location").child(GeofenceTransitionService.triggeredFence.getRequestId()).set
-
-        } else if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
-            status = "Exiting ";
-            Log.d("TIMEREPORT","Enter:" + enterTime + " / Exit: " + exitTime);
-            exitTime = Calendar.getInstance().getTime();
-
-            // TODO: Wait for reply about geofences and business IDs, and implement
-
-
-            // When Business ID is obtained, this should be:
-            // DatabaseReference curr = mRoot.child("Location").child(businessID).child("Visits").child(exitTime.toString());
-             DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(exitTime.toString());
-
-             curr.child("EnterTime").setValue(enterTime);
-             curr.child("ExitTime").setValue(exitTime);
-             curr.child("User").setValue(user);
-
-
-             mRoot.child("GeofenceTest").child(exitTime.toString()).child("EnterTime").setValue(enterTime);
-             mRoot.child("GeofenceTest").child(exitTime.toString()).child("ExitTime").setValue(exitTime);
-
-            }
-        return status + TextUtils.join( ", ", triggeringGeofencesList);
-    }
-
-
-    // Handle errors
-    private static String getErrorString(int errorCode) {
-        switch (errorCode) {
-            case GeofenceStatusCodes.GEOFENCE_NOT_AVAILABLE:
-                return "GeoFence not available";
-            case GeofenceStatusCodes.GEOFENCE_TOO_MANY_GEOFENCES:
-                return "Too many GeoFences";
-            case GeofenceStatusCodes.GEOFENCE_TOO_MANY_PENDING_INTENTS:
-                return "Too many pending intents";
-            default:
-                return "Unknown error.";
-        }
-    }
-
 
     public static class MapStateManager {
 
@@ -822,18 +648,6 @@ public class MapsActivity extends FragmentActivity
             mapStatePrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         }
 
-        public void saveMapState(GoogleMap mapMie) {
-            SharedPreferences.Editor editor = mapStatePrefs.edit();
-            CameraPosition position = mapMie.getCameraPosition();
-
-            editor.putFloat(LATITUDE, (float) position.target.latitude);
-            editor.putFloat(LONGITUDE, (float) position.target.longitude);
-            editor.putFloat(ZOOM, position.zoom);
-            editor.putFloat(TILT, position.tilt);
-            editor.putFloat(BEARING, position.bearing);
-            editor.putInt(MAPTYPE, mapMie.getMapType());
-            editor.commit();
-        }
 
         public CameraPosition getSavedCameraPosition() {
             double latitude = mapStatePrefs.getFloat(LATITUDE, 0);

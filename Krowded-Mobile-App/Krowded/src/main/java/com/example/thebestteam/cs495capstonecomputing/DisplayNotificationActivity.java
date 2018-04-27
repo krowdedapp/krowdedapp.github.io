@@ -35,34 +35,13 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        //boolean isentering = getIntent().getBooleanExtra("enter",false);
         int transitionType = getIntent().getIntExtra("transition",-1);
         if(transitionType == EXIT)
             //setContentView(R.layout.activity_maps);
             setContentView(R.layout.activity_display_notification);
-        //addListenerOnRatingBar();
-
-        //boolean isentering = getIntent().getBooleanExtra("enter",false);
-
 
         //leaving
         if(transitionType == EXIT) {
-            /*if (getIntent().getBooleanExtra("start_map", false)) {
-                // EXITING?
-
-                Intent intent = new Intent(this, MapsActivity.class);
-                MapsActivity.notificationDisplayed = true;
-                startActivity(intent);
-            } else {
-                //CreateDialogFragment.setTransitionType(getIntent().getIntExtra("transition_type", -1));
-                // Intent intent = new Intent(this, CustomActivity.class);
-                //startActivity(intent);
-                //Toast.makeText(this,"displaying shit",Toast.LENGTH_LONG).show();
-                //DialogFragment newFragment = new CreateDialogFragment();
-                //newFragment.show(getSupportFragmentManager(), "TAG");
-            }*/
-
 
             MapsActivity.notificationDisplayed = true;
             addListenerOnRatingBar();
@@ -109,25 +88,6 @@ public class DisplayNotificationActivity extends AppCompatActivity {
             MapsActivity.notificationDisplayed = true;
             DialogFragment newFragment = new CreateDialogFragment();
             newFragment.show(getSupportFragmentManager(), "TAG");
-
-            /*
-            AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
-            // Set the dialog title
-            builder.setTitle("entering")
-
-                    // Specify the list array, the items to be selected by default (null for none),
-                    // and the listener through which to receive callbacks when items are selected
-                    .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
-                            new DialogInterface.OnClickListener() {
-                                //@Override
-                                public void onClick(DialogInterface dialog, int which)
-                                {
-                                    startMapsActivity();
-                                }
-                            });
-            builder.create();
-            builder.show();
-            */
         }
         //should never be the case
         else {
