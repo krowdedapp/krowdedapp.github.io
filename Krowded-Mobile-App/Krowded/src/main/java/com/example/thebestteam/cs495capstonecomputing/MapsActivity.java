@@ -203,9 +203,6 @@ public class MapsActivity extends FragmentActivity
 
         mGoogleMap = googleMap;
 
-
-
-
         //THIS MAY NOT BE NEEDED NOW
         //reloading the map if it already existed
         MapStateManager mgr = new MapStateManager(this);
@@ -520,7 +517,7 @@ public class MapsActivity extends FragmentActivity
 
                             Log.d("T A G","placeID obj is null in Firebase");
                             mRoot.child("location").child(placeID).child("Details").setValue(foo);
-                            mRoot.child("location").child(placeID).child("Population").setValue(0);
+                            mRoot.child("location").child(placeID).child("Population").setValue(String.valueOf(0));
                             mRoot.child("location").child(placeID).child("Stay Time").setValue(String.valueOf(x));
                         }
                     }

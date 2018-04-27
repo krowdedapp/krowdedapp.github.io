@@ -282,7 +282,7 @@ public class PlaceDetailsActivity extends Activity {
                     int krowdednessCount = 0;
                     int coverRating = 0;
                     int waitRating = 0;
-                    long krowdednessRating = (long)0;
+                    int krowdednessRating = 0;
 
                     locationData.put("average_stay_time", dataSnapshot.child("Stay Time").getValue(String.class));
 
@@ -295,7 +295,7 @@ public class PlaceDetailsActivity extends Activity {
                         locationWaitTime.setText("N/A");
                     } else {
                         for (DataSnapshot ds : dataSnapshot.child("Survey").getChildren()) {
-                            krowdednessRating = Long.parseLong(ds.child("Krowdedness").getValue(String.class));
+                            krowdednessRating = Integer.parseInt(ds.child("Krowdedness").getValue(String.class));
                             krowdednessTotal += krowdednessRating;
                             krowdednessCount = krowdednessCount + 1;
 

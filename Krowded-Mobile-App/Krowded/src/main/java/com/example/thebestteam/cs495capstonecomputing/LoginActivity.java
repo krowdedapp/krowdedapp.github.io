@@ -3,12 +3,11 @@ package com.example.thebestteam.cs495capstonecomputing;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,8 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -73,9 +70,9 @@ public class LoginActivity extends AppCompatActivity {
 
                         user = new User(name, email, age, sex, isBiz, favs, owned);
 
-                        Log.e("FUCK", "onDataChange: " + user.getEmail() );
+                        Log.e("!!!", "onDataChange: " + user.getEmail() );
 
-                        Log.e("FUCK", "onDataChange: " + user.getFavs() );
+                        Log.e("!!!", "onDataChange: " + user.getFavs() );
 
                         Intent myIntent = new Intent(context, MapsActivity.class);
                         startActivity(myIntent);
