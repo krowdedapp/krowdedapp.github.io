@@ -456,57 +456,27 @@ public class MapsActivity extends FragmentActivity
 
             for(int i=0;i<list.size();i++){
 
-                // Creating a marker
-                MarkerOptions markerOptions = new MarkerOptions();
+
 
                 // Getting a place from the places list
-                HashMap<String, String> hmPlace = list.get(i);
+                final HashMap<String, String> hmPlace = list.get(i);
 
                 // Getting latitude of the place
-                double lat = Double.parseDouble(hmPlace.get("lat"));
+                final double lat = Double.parseDouble(hmPlace.get("lat"));
 
                 // Getting longitude of the place
-                double lng = Double.parseDouble(hmPlace.get("lng"));
+                final double lng = Double.parseDouble(hmPlace.get("lng"));
 
                 // Getting name
-                String name = hmPlace.get("place_name");
+                final String name = hmPlace.get("place_name");
 
                 // Getting vicinity
                 String vicinity = hmPlace.get("vicinity");
 
-                LatLng latLng = new LatLng(lat, lng);
-
-                // Setting the position for the marker
-                markerOptions.position(latLng);
-
-                // Setting the title for the marker.
-                //This will be displayed on taping the marker
-                markerOptions.title(name);
-
-                //set marker color based on crowdedness, right now testing Rounders
-                if (name.equals("Billy's Sports Grill") || name.equals("Buffalo Wild Wings"))
-                {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }
-                else if (name.equals("Rounders")) { markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)); }
-                else
-                {
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-                }
-
-                // Placing a marker on the touched position
-                Marker m = mGoogleMap.addMarker(markerOptions);
-
-                // Linking Marker id and place reference
-                mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
-
-
+                final LatLng latLng = new LatLng(lat, lng);
                 final String placeID = hmPlace.get("place_name");
 
-
                 final HashMap<String,String> foo = hmPlace;
-                if (placeID == null) Log.d("placeID","It's null, man.");
-
 
                 // Database calls for each location/marker
                 mRoot.child("location").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -525,6 +495,49 @@ public class MapsActivity extends FragmentActivity
 
 
                         // Retrieve population and Krowdedness from FB and color marker accordingly
+                        double krowdedScore = 0;
+
+                        if (dataSnapshot.child(placeID).hasChild("krowdedness")) {
+                            krowdedScore = krowdedScore + dataSnapshot.child(placeID).child("krowdedness").getValue(Long.class).doubleValue();
+                        }
+
+
+                        krowdedScore = krowdedScore + dataSnapshot.child(placeID).child("Population").getValue(Long.class);
+
+                        Log.d("KROWDED SCORE:",String.valueOf(krowdedScore));
+
+
+
+
+                        // Creating a marker
+                        MarkerOptions markerOptions = new MarkerOptions();
+
+                        // Setting the position for the marker
+                        markerOptions.position(latLng);
+
+                        // Setting the title for the marker.
+                        //This will be displayed on taping the marker
+                        markerOptions.title(name);
+
+
+                        //set marker color based on krowdedness
+                        if (krowdedScore > 10)
+                        {
+                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                        }
+                        else if (krowdedScore > 5) { markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)); }
+                        else
+                        {
+                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                        }
+
+
+                        // Placing a marker on the touched position
+                        Marker m = mGoogleMap.addMarker(markerOptions);
+
+                        // Linking Marker id and place reference
+                        mMarkerPlaceLink.put(m.getId(), hmPlace.get("reference"));
+
                     }
 
                     @Override
