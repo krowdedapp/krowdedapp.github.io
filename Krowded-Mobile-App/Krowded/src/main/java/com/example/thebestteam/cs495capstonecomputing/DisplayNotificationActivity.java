@@ -24,7 +24,7 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     User user = LoginActivity.user;
     private RatingBar ratingBar;
     private Button btnSurvey;
-    public static int krowdedness = -1;
+    public static int krowdedness = 0;
 
     private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
 
@@ -85,6 +85,7 @@ public class DisplayNotificationActivity extends AppCompatActivity {
 
 
                     DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
+
                     Log.d("SHORTPLACENAME",MapsActivity.placeName);
                     Log.d("KROWDEDNESS",Integer.toString(krowdedness));
 

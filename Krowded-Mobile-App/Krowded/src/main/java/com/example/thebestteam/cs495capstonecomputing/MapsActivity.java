@@ -488,6 +488,7 @@ public class MapsActivity extends FragmentActivity
                 {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 }
+                else if (name.equals("Rounders")) { markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)); }
                 else
                 {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
@@ -501,28 +502,29 @@ public class MapsActivity extends FragmentActivity
 
 
                 final String placeID = hmPlace.get("place_name");
-                //TODO: Remove this when placeID is fully functional
+
 
                 final HashMap<String,String> foo = hmPlace;
                 if (placeID == null) Log.d("placeID","It's null, man.");
-                // Check if location exists in database
-                // Must be SingleValueEvent listener, or else it will fire every time any location is updated
+
+
+                // Database calls for each location/marker
                 mRoot.child("location").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Log.d("hmPlace ID:",placeID);
-                        if (!dataSnapshot.hasChild(placeID)) {
 
-                            /* TODO: REMOVE!!!!! */
-                            Random blah = new Random();
-                            Integer min = 0; Integer max = 55;
-                            double x = min + blah.nextDouble() * (max - min);
+
+                        // if location has no entry in Firebase, create one
+                        if (!dataSnapshot.hasChild(placeID)) {
 
                             Log.d("T A G","placeID obj is null in Firebase");
                             mRoot.child("location").child(placeID).child("Details").setValue(foo);
                             mRoot.child("location").child(placeID).child("Population").setValue(0);
-                            mRoot.child("location").child(placeID).child("Stay Time").setValue(String.valueOf(x));
                         }
+
+
+                        // Retrieve population and Krowdedness from FB and color marker accordingly
                     }
 
                     @Override
