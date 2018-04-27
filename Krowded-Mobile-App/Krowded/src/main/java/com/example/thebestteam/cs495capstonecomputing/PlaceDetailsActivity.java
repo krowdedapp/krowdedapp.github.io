@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -211,7 +210,13 @@ public class PlaceDetailsActivity extends Activity {
                     });
                 }
             } else {
-                fav.setVisibility(View.INVISIBLE);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        fav.setVisibility(View.INVISIBLE);
+                    }
+                });
+
             }
 
 
@@ -271,17 +276,17 @@ public class PlaceDetailsActivity extends Activity {
 
                     int coverTotal = 0;
                     int waitTotal = 0;
-                    int krowdednessTotal = 0;
+                    double krowdednessTotal = 0;
                     int coverCount = 0;
                     int waitCount = 0;
                     int krowdednessCount = 0;
                     int coverRating = 0;
                     int waitRating = 0;
-                    int krowdednessRating = 0;
+                    long krowdednessRating = (long)0;
 
                     locationData.put("average_stay_time", dataSnapshot.child("Stay Time").getValue(String.class));
 
-                    Log.e("FUCK", "onDataChange: " + locationData.get("average_stay_time"));
+                    Log.e("!!!", "onDataChange: " + locationData.get("average_stay_time"));
 
                     // If no surveys, report N/A for cover charge
                     if (!dataSnapshot.child("Survey").hasChildren()) {
@@ -290,7 +295,7 @@ public class PlaceDetailsActivity extends Activity {
                         locationWaitTime.setText("N/A");
                     } else {
                         for (DataSnapshot ds : dataSnapshot.child("Survey").getChildren()) {
-                            krowdednessRating = Integer.parseInt(ds.child("Krowdedness").getValue(String.class));
+                            krowdednessRating = Long.parseLong(ds.child("Krowdedness").getValue(String.class));
                             krowdednessTotal += krowdednessRating;
                             krowdednessCount = krowdednessCount + 1;
 
@@ -310,9 +315,9 @@ public class PlaceDetailsActivity extends Activity {
 
                         //locationData.put("string",variable);
 
-                        int krowdednessAvg = krowdednessTotal / krowdednessCount;
-                        locationData.put("average_krowdedness",Integer.toString(krowdednessAvg));
-                        Log.e("AVG KROWDEDNESS",Integer.toString(krowdednessAvg));
+                        double krowdednessAvg = krowdednessTotal / krowdednessCount;
+                        locationData.put("average_krowdedness",Double.toString(krowdednessAvg));
+                        Log.e("AVG KROWDEDNESS",Double.toString(krowdednessAvg));
 
 
                         if (hasLongSurvey == 1) {
@@ -326,7 +331,7 @@ public class PlaceDetailsActivity extends Activity {
                             locationData.put("average_wait", Integer.toString(waitAvg));
                             locationData.put("average_cover", Integer.toString(coverAvg));
                             locationCover.setText(Integer.toString(coverAvg));
-                            locationKrowdedness.setText(Integer.toString(krowdednessAvg));
+                            locationKrowdedness.setText(Double.toString(krowdednessAvg));
                             locationWaitTime.setText(Integer.toString(waitAvg));
                         }
 
