@@ -24,6 +24,8 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     User user = LoginActivity.user;
     private RatingBar ratingBar;
     private Button btnSurvey;
+    private static final int EXIT = 2;
+    private static final int ENTER = 1;
     public static int krowdedness = -1;
 
     private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
@@ -34,8 +36,9 @@ public class DisplayNotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        boolean isentering = getIntent().getBooleanExtra("enter",false);
-        if(!isentering)
+        //boolean isentering = getIntent().getBooleanExtra("enter",false);
+        int transitionType = getIntent().getIntExtra("transition",-1);
+        if(transitionType == EXIT)
             //setContentView(R.layout.activity_maps);
             setContentView(R.layout.activity_display_notification);
         //addListenerOnRatingBar();
@@ -44,8 +47,8 @@ public class DisplayNotificationActivity extends AppCompatActivity {
 
 
         //leaving
-        if(!isentering) {
-            if (getIntent().getBooleanExtra("start_map", false)) {
+        if(transitionType == EXIT) {
+            /*if (getIntent().getBooleanExtra("start_map", false)) {
                 // EXITING?
 
                 Intent intent = new Intent(this, MapsActivity.class);
@@ -58,9 +61,10 @@ public class DisplayNotificationActivity extends AppCompatActivity {
                 //Toast.makeText(this,"displaying shit",Toast.LENGTH_LONG).show();
                 //DialogFragment newFragment = new CreateDialogFragment();
                 //newFragment.show(getSupportFragmentManager(), "TAG");
-            }
+            }*/
 
 
+            MapsActivity.notificationDisplayed = true;
             addListenerOnRatingBar();
             btnSurvey = (Button) findViewById(R.id.btnSurvey);
             //Create on click listener to switch to full survey view
@@ -72,13 +76,13 @@ public class DisplayNotificationActivity extends AppCompatActivity {
             });
 
 
-                Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
+            Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
 
-        Button btnCancel = (Button) findViewById(R.id.btnSubmit);
-        //Create on click listener to switch to full survey view
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            Button btnCancel = (Button) findViewById(R.id.btnSubmit);
+            //Create on click listener to switch to full survey view
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent newintent = new Intent(DisplayNotificationActivity.this, MapsActivity.class);
 
                     String currTime = new java.util.Date().toString();
@@ -86,26 +90,26 @@ public class DisplayNotificationActivity extends AppCompatActivity {
 
                     DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
                     Log.d("SHORTPLACENAME",MapsActivity.placeName);
-                    Log.d("KROWDEDNESS",Integer.toString(krowdedness));
+                    Log.d("KROWDEDNESS",String.valueOf(krowdedness));
 
                     // Survey Type (S)hort
                     currSurvey.child("Type").setValue("S");
 
-                    if (user != null) currSurvey.child("User").setValue(user);
+                    if (user == null) { currSurvey.child("User").setValue("null"); }
+                    else currSurvey.child("User").setValue(user);
 
-                    currSurvey.child("Krowdedness").setValue(Integer.toString(krowdedness));
+                    currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
 
 
-                newintent.putExtra("back", "nothin");
+                    //newintent.putExtra("back", "nothin");
                     startActivity(newintent);
                 }
             });
         }
-        else{
-
+        else if(transitionType == ENTER){
+            MapsActivity.notificationDisplayed = true;
             DialogFragment newFragment = new CreateDialogFragment();
             newFragment.show(getSupportFragmentManager(), "TAG");
-
 
             /*
             AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
@@ -125,6 +129,10 @@ public class DisplayNotificationActivity extends AppCompatActivity {
             builder.create();
             builder.show();
             */
+        }
+        //should never be the case
+        else {
+            throw new java.lang.RuntimeException("geofencing error");
         }
     }
 

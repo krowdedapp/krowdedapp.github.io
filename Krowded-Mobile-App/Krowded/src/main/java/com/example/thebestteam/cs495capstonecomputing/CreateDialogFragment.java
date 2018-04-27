@@ -142,46 +142,46 @@ public class CreateDialogFragment extends DialogFragment {
 */
 
 
-       // if(transitionType == ENTER) {
-       // if(transitionType == LEAVE) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            // Set the dialog title
-            builder.setTitle("entering")
-                    // Specify the list array, the items to be selected by default (null for none),
-                    // and the listener through which to receive callbacks when items are selected
-                    .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
-                            new DialogInterface.OnClickListener() {
-                                //@Override
-                                public void onClick(DialogInterface dialog, int which)
-                                {
-                                    //MapsActivity.placeName = GeofenceTransitionService.triggeredFence.getRequestId();
+        // if(transitionType == ENTER) {
+        // if(transitionType == LEAVE) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // Set the dialog title
+        builder.setTitle("entering")
+                // Specify the list array, the items to be selected by default (null for none),
+                // and the listener through which to receive callbacks when items are selected
+                .setItems(changeToCharSequence(MapsActivity.FencesCreated.getTriggeredFence()),
+                        new DialogInterface.OnClickListener() {
+                            //@Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                //MapsActivity.placeName = GeofenceTransitionService.triggeredFence.getRequestId();
 
-                                    Toast.makeText(getContext(),"Entering",Toast.LENGTH_SHORT).show();
-                                    Date enterTime = Calendar.getInstance().getTime();
-                                    DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(enterTime.toString());
+                                Toast.makeText(getContext(),"Entering",Toast.LENGTH_SHORT).show();
+                                Date enterTime = Calendar.getInstance().getTime();
+                                DatabaseReference curr = mRoot.child("GeofenceTest").child("Visits").child(enterTime.toString());
 
-                                    curr.child("EnterTime").setValue(enterTime);
+                                curr.child("EnterTime").setValue(enterTime);
 
-                                    // Get and increment current population
-                                    mRoot.child("location").child(MapsActivity.placeName).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                // Get and increment current population
+                                mRoot.child("location").child(MapsActivity.placeName).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                            Integer currPop = (Integer.parseInt(dataSnapshot.child("Population").getValue(String.class)) + 1);
-                                            
-                                            mRoot.child("location").child(MapsActivity.placeName).child("Population").setValue(currPop.toString());
-                                        }
+                                        Integer currPop = (Integer.parseInt(dataSnapshot.child("Population").getValue(String.class)) + 1);
 
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
+                                        mRoot.child("location").child(MapsActivity.placeName).child("Population").setValue(currPop.toString());
+                                    }
 
-                                        }
-                                    });
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
-                                    startMapsActivity();
-                                }
-                            });
-            return builder.create();
+                                    }
+                                });
+
+                                startMapsActivity();
+                            }
+                        });
+        return builder.create();
         //}
         /*
         //else if(transitionType == ENTER)
@@ -189,7 +189,7 @@ public class CreateDialogFragment extends DialogFragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
             builder.setView(inflater.inflate(R.layout.activity_display_notification, null))*/
-                    // Set the action buttons
+        // Set the action buttons
                     /*.setPositiveButton("more feedback", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
@@ -209,15 +209,17 @@ public class CreateDialogFragment extends DialogFragment {
         //this should never get called
         //else
         //{
-         //   throw new java.lang.RuntimeException("geofencing error");
+        //   throw new java.lang.RuntimeException("geofencing error");
         //}
     }
 
 
     private void startMapsActivity()
     {
-        Intent intent = new Intent(getContext(), DisplayNotificationActivity.class);
-        intent.putExtra("start_map",true);
+        // Intent intent = new Intent(getContext(), DisplayNotificationActivity.class);
+        Intent intent = new Intent(getContext(), MapsActivity.class);
+        //intent.putExtra("back",true);//don't think this is needed anymore
+        //intent.putExtra("start_map",true);//don't think this is needed anymore
         startActivity(intent);
     }
 

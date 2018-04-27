@@ -210,9 +210,19 @@ public class PlaceDetailsActivity extends Activity {
                         }
                     });
                 }
-            } else {
-                fav.setVisibility(View.INVISIBLE);
             }
+            else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        fav.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }
+
+            //else {
+              //  fav.setVisibility(View.INVISIBLE);
+            //}
 
 
             return hPlaceDetails;

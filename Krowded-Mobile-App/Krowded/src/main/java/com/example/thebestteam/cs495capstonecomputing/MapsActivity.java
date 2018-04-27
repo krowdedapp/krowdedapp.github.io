@@ -267,17 +267,19 @@ public class MapsActivity extends FragmentActivity
             notificationDisplayed = false;
         }
 
-        if(getIntent().hasExtra("triggered") || getIntent().hasExtra("triggered_fences"))
+        if(getIntent().hasExtra("triggered"))
+        //    if(getIntent().hasExtra("triggered") || getIntent().hasExtra("triggered_fences"))
         {
             Intent i = new Intent(this,DisplayNotificationActivity.class);
             int temp = getIntent().getIntExtra("transition",-1);
-            i.putExtra("transition_type",temp);
+            i.putExtra("transition",temp);
 
+            /*
             if(temp == 1)
                 i.putExtra("enter",true);
             else
                 i.putExtra("enter",false);
-
+            */
             startActivity(i);
         }
 
@@ -660,24 +662,56 @@ public class MapsActivity extends FragmentActivity
     public void startGeofences() {
         FencesCreated.removeOldFences();
         String name = "NAME NOT FOUND";
+        double lat = 0.0;
+        double lng = 0.0;
+        ArrayList<Double> latlng = new ArrayList<>(2);
+        latlng.add(0.0);
+        latlng.add(0.0);
         Log.i(TAG, "startGeofence()");
 
         ArrayList<Double> tester = new ArrayList<>();
         ArrayList<Double> tester1 = new ArrayList<>();
 
 
-        tester.add(33.214830);//fountain
-        tester.add(-87.542796);
+        //tester.add(33.214830);//fountain
+        //tester.add(-87.542796);
 
-        if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
+        tester.add(33.215546);//apartment
+        tester.add(-87.519756);
+
+        if(!FencesCreated.isIn("Buffalo Wild Wings") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
 
-            Geofence geofence = createGeofence(tester, 30, "fence1");
+            Geofence geofence = createGeofence(tester, 35, "Buffalo Wild Wings");
             FencesCreated.storeFence(geofence,tester);
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);
 
         }
+
+         /*
+          for(JSONObject place : PlaceJSONParser.allPlaces) {
+            try {
+                name = place.getString("name");
+                String templat = place.getJSONObject("geometry").getJSONObject("location").getString("lat");
+                String templng = place.getJSONObject("geometry").getJSONObject("location").getString("lng");
+                lat = Double.parseDouble(templat);
+                lng = Double.parseDouble(templng);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if(!FencesCreated.isIn(name)) {
+                latlng.set(0, lat);
+                latlng.set(1, lng);
+                Geofence geofence = createGeofence(latlng, GEOFENCE_RADIUS, name);
+                FencesCreated.storeFence(geofence,latlng);
+                GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
+                addGeofence(geofenceRequest);
+            }
+        }
+        */
+
+
     }
 
     // Check for permission to access Location

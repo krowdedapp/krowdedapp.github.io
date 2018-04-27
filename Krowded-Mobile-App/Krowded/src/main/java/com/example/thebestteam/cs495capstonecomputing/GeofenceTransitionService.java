@@ -82,7 +82,7 @@ public class GeofenceTransitionService extends IntentService {
 
                 MapsActivity.geofencesTriggered = adapter;
                 MapsActivity.transitionType = geoFenceTransition;
-                newintent.putExtra("triggered_fences", adapter);
+                newintent.putExtra("triggered", adapter);
                 newintent.putExtra("transition",geoFenceTransition);
                 startActivity(newintent);
             }
