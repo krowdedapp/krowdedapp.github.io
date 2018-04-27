@@ -17,74 +17,72 @@ import java.util.HashMap;
  */
 
 public class Report {
-    HashMap<String, String> statistics;
-    String report;
 
-    public Report(final String address, HashMap<String, String> data) {
-        statistics = generateStatistics(data);
-        report = generateReport();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Email emailer = new Email();
-                    emailer.send("Your Report", report, address);
-
-                } catch (Exception e) {
-                    Log.e("SendMail", e.getMessage(), e);
-                }
-            }
-
-        }).start();
+    public Report(final String address, HashMap<String, String> data, Boolean[] opts) {
+        generateStatistics(address, data, opts);
     }
 
-    private HashMap<String, String> generateStatistics(final HashMap<String, String> data) {
+    private void generateStatistics(final String address, final HashMap<String, String> data, final Boolean[] opts) {
+
+        final HashMap<String, String> stats = new HashMap<String, String>();
+
         DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
-
-
-        mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+        // Retrieve cover charges from database, and average them
+        mRoot.child("location").child(data.get("name")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e("TEST", "Generating Statistics");
+                int count = 0, age = 0;
+                double sex = 0;
 
-                DataSnapshot loc = dataSnapshot.child("user").child(data.get("name"));
-                Log.e("TEST", "loc " + loc);
+                for (DataSnapshot ds : dataSnapshot.child("Survey").getChildren()) {
+                    if(ds.hasChild("User")) {
+                        sex += Integer.parseInt(ds.child("User").child("sex").getValue(String.class));
+                        age += Integer.parseInt(ds.child("User").child("age").getValue(String.class));
+                        count++;
+                    }
+                }
 
+                stats.put("name", data.get("name"));
+                stats.put("average_krowdedness", data.get("average_krowdedness"));
+                stats.put("average_wait", data.get("average_wait"));
+                stats.put("average_cover", data.get("average_cover"));
+
+                if(opts[0]) stats.put("average_age", (count != 0) ? ((Integer)(age/count)).toString() : "0");
+                if(opts[1]) stats.put("average_stay_time", data.get("average_stay_time"));
+                if(opts[2]) stats.put("average_sex", (count != 0) ? ((Double)(sex/count)).toString() : "-1");
+
+                final String report = generateReport(stats);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                    try {
+                        Email emailer = new Email();
+                        emailer.send("Your Report for " + stats.get("name"), report, address);
+
+                    } catch (Exception e) {
+                        Log.e("SendMail", e.getMessage(), e);
+                    }
+                    }
+
+                }).start();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-        return data;
     }
 
-    private String generateReport() {
-        String name = statistics.get("name");
-        String icon = statistics.get("icon");
-        String vicinity = statistics.get("vicinity");
-        String lat = statistics.get("lat");
-        String lng = statistics.get("lng");
-        String formatted_address = statistics.get("formatted_address");
-        String formatted_phone = statistics.get("formatted_phone");
-        String website = statistics.get("website");
-        String rating = statistics.get("rating");
-        String international_phone_number = statistics.get("international_phone_number");
-        String url = statistics.get("url");
+    private String generateReport(final HashMap<String, String> data) {
 
-        String report =
-            name +
-            "\n\nVicinity : " + vicinity +
-            "\nLocation : " + lat + "," + lng +
-            "\nAddress : " + formatted_address +
-            "\nPhone : " + formatted_phone +
-            "\nWebsite : " + website +
-            "\nRating : " + rating +
-            "\nInternational Phone : " + international_phone_number +
-            "\nURL : " + url;
-
+        String report = "Average Krowdedness:\t\t" + data.get("average_krowdedness") +
+                        "\nAverage Wait:\t\t" + data.get("average_wait") +
+                        "\nAverage Cover:\t\t" + data.get("average_cover") +
+                        (data.get("average_age") != null ? "\nAverage Age:\t\t" + data.get("average_age") : "") +
+                        (data.get("average_stay_time") != null ? "\nAverage Stay Time:\t\t" + Math.round(Float.parseFloat(data.get("average_stay_time"))) + " minutes" : "") +
+                        (data.get("average_sex") != null ? "\nMale Percentage:\t\t" + Math.round(Double.parseDouble(data.get("average_sex"))*100) + "%" : "") +
+                        (data.get("average_sex") != null ? "\nFemale Percentage:\t\t" + Math.round(100-(Double.parseDouble(data.get("average_sex"))*100)) + "%" : "");
         return report;
     }
 

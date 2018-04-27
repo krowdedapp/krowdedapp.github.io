@@ -35,7 +35,7 @@ import java.util.HashMap;
 
 public class PlaceDetailsActivity extends Activity {
 
-    User user = LoginActivity.user;
+    User user;
 
     HashMap<String, String> locationData;
 
@@ -47,6 +47,8 @@ public class PlaceDetailsActivity extends Activity {
     TextView locationOpen;
     TextView locationPrice; //google's price rating
     TextView locationCover; //cover charge
+    TextView locationKrowdedness; //cover charge
+    TextView locationWaitTime; //cover charge
     TextView locationAddress;
 
     //Used for location favorite button
@@ -60,6 +62,9 @@ public class PlaceDetailsActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
+
+        user = LoginActivity.user;
+
         locationImage = (ImageView) findViewById(R.id.locationImage);
         locationName = (TextView)findViewById(R.id.locationName);
         locationWebsite = (TextView)findViewById(R.id.locationWebsite);
@@ -68,6 +73,8 @@ public class PlaceDetailsActivity extends Activity {
         locationOpen = (TextView)findViewById(R.id.locationOpen);
         locationPrice = (TextView)findViewById(R.id.locationPrice); //google's price rating
         locationCover = (TextView)findViewById(R.id.locationCover); //cover charge
+        locationKrowdedness = (TextView)findViewById(R.id.locationKrowdedness); //cover charge
+        locationWaitTime = (TextView)findViewById(R.id.locationWaitTime); //cover charge
         locationAddress = (TextView)findViewById(R.id.locationAddress);
 
         // Getting place reference from the map
@@ -94,29 +101,6 @@ public class PlaceDetailsActivity extends Activity {
                 startActivity(reportIntent);
             }
         });
-
-        DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
-        final ImageButton fav = findViewById(R.id.favoriteButton);
-
-        if(user != null) {
-            mRoot.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String cleanEmail = user.getEmail().replace(".", "");
-                    if (dataSnapshot.child("user").child(cleanEmail).child("favorites").hasChild(locationData.get("name"))) {
-                        fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_on));
-                    } else {
-                        fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_off));
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-        } else {
-            fav.setVisibility(View.INVISIBLE);
-        }
     }
 
     /** A method to download json data from url */
@@ -207,6 +191,30 @@ public class PlaceDetailsActivity extends Activity {
             locationData = new HashMap<String, String>();
             locationData = hPlaceDetails;
 
+            final ImageButton fav = findViewById(R.id.favoriteButton);
+            if(user != null) {
+                if (user.getFavs().contains(locationData.get("name"))) {
+                    isEnabled = true;
+                    fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_on));
+                } else {
+                    isEnabled = false;
+                    fav.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.btn_star_big_off));
+                }
+
+                if(user.isBusiness() && locationData.get("name").equals(user.getOwned())) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final Button reportsBtn = findViewById(R.id.reportsBtn);
+                            reportsBtn.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            } else {
+                fav.setVisibility(View.INVISIBLE);
+            }
+
+
             return hPlaceDetails;
         }
 
@@ -241,19 +249,11 @@ public class PlaceDetailsActivity extends Activity {
 
 
             Picasso.get()
-<<<<<<< HEAD
-                    .load(picUrl)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .placeholder(null)
-                    .config(Bitmap.Config.RGB_565)//affects how many bits are used to store each color
-                    .into(locationImage);
-=======
                 .load(picUrl)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .placeholder(null)
                 .config(Bitmap.Config.RGB_565)//affects how many bits are used to store each color
                 .into(locationImage);
->>>>>>> master
 
             locationName.setText(name);
             locationWebsite.setText(website);
@@ -264,24 +264,24 @@ public class PlaceDetailsActivity extends Activity {
             locationPrice.setText(priceLevel);
 
             // Retrieve cover charges from database, and average them
-            mRoot.child("Location").child(MapsActivity.placeName).child("Survey").addListenerForSingleValueEvent(new ValueEventListener() {
+            mRoot.child("location").child(name).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Integer hasLongSurvey = 0;
 
-                    float coverTotal = 0;
-                    float waitTotal = 0;
-                    float krowdednessTotal = 0;
-                    Integer coverCount = 0;
-                    Integer waitCount = 0;
-                    Integer krowdednessCount = 0;
-                    float coverRating;
-                    float waitRating;
-                    float krowdednessRating;
+                    int coverTotal = 0;
+                    int waitTotal = 0;
+                    int krowdednessTotal = 0;
+                    int coverCount = 0;
+                    int waitCount = 0;
+                    int krowdednessCount = 0;
+                    int coverRating = 0;
+                    int waitRating = 0;
+                    int krowdednessRating = 0;
 
-                    // If no surveys, report N/A for cover charge
-                    if (!dataSnapshot.hasChildren()) locationCover.setText("N/A");
+                    locationData.put("average_stay_time", dataSnapshot.child("Stay Time").getValue(String.class));
 
+<<<<<<< HEAD
                         // Else, calculate the average reported cover charge
                     else {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -294,6 +294,26 @@ public class PlaceDetailsActivity extends Activity {
                                 hasLongSurvey = 1;
                                 coverRating = ds.child("Cover").getValue(float.class);
                                 waitRating = ds.child("Wait").getValue(float.class);
+=======
+                    Log.e("FUCK", "onDataChange: " + locationData.get("average_stay_time"));
+
+                    // If no surveys, report N/A for cover charge
+                    if (!dataSnapshot.child("Survey").hasChildren()) {
+                        locationCover.setText("N/A");
+                        locationKrowdedness.setText("N/A");
+                        locationWaitTime.setText("N/A");
+                    } else {
+                        for (DataSnapshot ds : dataSnapshot.child("Survey").getChildren()) {
+                            krowdednessRating = Integer.parseInt(ds.child("Krowdedness").getValue(String.class));
+                            krowdednessTotal += krowdednessRating;
+                            krowdednessCount = krowdednessCount + 1;
+
+
+                            if (ds.child("Type").getValue(String.class).equals("L")) {
+                                hasLongSurvey = 1;
+                                coverRating = Integer.parseInt(ds.child("Cover").getValue(String.class));
+                                waitRating = Integer.parseInt(ds.child("Wait").getValue(String.class));
+>>>>>>> master
 
                                 coverTotal = coverTotal + coverRating;
                                 waitTotal = waitTotal + waitRating;
@@ -302,27 +322,27 @@ public class PlaceDetailsActivity extends Activity {
                                 waitCount = waitCount + 1;
                             }
                         }
-                    }
 
                         //locationData.put("string",variable);
 
-                        double krowdednessAvg = krowdednessTotal / krowdednessCount;
-                        locationData.put("average_krowdedness",String.valueOf(krowdednessAvg));
-                        Log.d("AVG KROWDEDNESS",String.valueOf(krowdednessAvg));
+                        int krowdednessAvg = krowdednessTotal / krowdednessCount;
+                        locationData.put("average_krowdedness",Integer.toString(krowdednessAvg));
+                        Log.e("AVG KROWDEDNESS",Integer.toString(krowdednessAvg));
 
 
                         if (hasLongSurvey == 1) {
-                            double coverAvg = coverTotal / coverCount;
-                            double waitAvg = waitTotal / waitCount;
+                            int coverAvg = coverTotal / coverCount;
+                            int waitAvg = waitTotal / waitCount;
 
-                            Log.d("AVG COVER",String.valueOf(coverAvg));
-                            Log.d("AVG WAIT",String.valueOf(waitAvg));
+                            Log.e("AVG COVER",Integer.toString(coverAvg));
+                            Log.e("AVG WAIT",Integer.toString(waitAvg));
 
 
-                            locationData.put("average_wait", String.valueOf(waitAvg));
-                            locationData.put("average_cover", String.valueOf(coverAvg));
-                            locationCover.setText(Double.toString(coverAvg));
-
+                            locationData.put("average_wait", Integer.toString(waitAvg));
+                            locationData.put("average_cover", Integer.toString(coverAvg));
+                            locationCover.setText(Integer.toString(coverAvg));
+                            locationKrowdedness.setText(Integer.toString(krowdednessAvg));
+                            locationWaitTime.setText(Integer.toString(waitAvg));
                         }
 
                     }
@@ -353,6 +373,7 @@ public class PlaceDetailsActivity extends Activity {
                         if (dataSnapshot.child("user").child(cleanEmail).child("favorites").hasChild(locationData.get("name"))) {
                             mRoot.child("user").child(cleanEmail).child("favorites").child(locationData.get("name")).removeValue();
                         }
+                        user.getFavs().remove(locationData.get("name"));
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
@@ -364,6 +385,7 @@ public class PlaceDetailsActivity extends Activity {
                 DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
                 String cleanEmail = user.getEmail().replace(".","");
                 mRoot.child("user").child(cleanEmail).child("favorites").child(locationData.get("name")).setValue(true);
+                user.getFavs().add(locationData.get("name"));
             }
         }
 

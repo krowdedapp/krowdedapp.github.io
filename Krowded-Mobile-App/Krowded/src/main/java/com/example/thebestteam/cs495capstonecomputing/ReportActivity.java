@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,7 +29,14 @@ public class ReportActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final EditText address = findViewById(R.id.address);
-                Report locationReport = new Report(address.getText().toString(), locationData);
+
+                final Boolean avgAgeBox = ((CheckBox)findViewById(R.id.avgAgeBox)).isChecked();
+                final Boolean avgTimeBox = ((CheckBox)findViewById(R.id.avgTimeBox)).isChecked();
+                final Boolean sexBreakdownBox = ((CheckBox)findViewById(R.id.sexBreakdownBox)).isChecked();
+
+                Boolean[] opts = {avgAgeBox, avgTimeBox, sexBreakdownBox};
+                
+                Report locationReport = new Report(address.getText().toString(), locationData, opts);
 
                 Intent intent = new Intent(getBaseContext(), PlaceDetailsActivity.class);
                 intent.putExtra("reference", reference);

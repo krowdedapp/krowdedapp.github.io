@@ -41,6 +41,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -66,6 +67,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import static com.google.android.gms.location.LocationServices.getGeofencingClient;
 
@@ -74,13 +76,9 @@ public class MapsActivity extends FragmentActivity
         implements
         android.location.LocationListener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        //com.google.android.gms.location.LocationListener,
-        OnMapReadyCallback {
-    // GoogleApiClient.ConnectionCallbacks,
-    // GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
 
-    static User user = LoginActivity.user;
+    static User user;
 
 
     public static ArrayList<Geofence> geofencesTriggered =  new ArrayList<>();
@@ -135,10 +133,15 @@ public class MapsActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         //add an if statement here that checks to see if there is
         //something hidden in the intent
         //then if there is use that to display the alert box
+
+        user = LoginActivity.user;
+        if(user != null) {
+            Log.e("FUCK", "onCreate: " + user.getEmail() );
+        }
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
@@ -178,6 +181,9 @@ public class MapsActivity extends FragmentActivity
             SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
             fragment.getMapAsync(this);
         }
+
+        View legend=findViewById(R.id.legend);
+        legend.bringToFront();
 
         //Create on click listener to switch to list view
         listViewIB.setOnClickListener(new OnClickListener() {
@@ -307,35 +313,6 @@ public class MapsActivity extends FragmentActivity
             mapFragment.getMapAsync(this);
         }
     }
-
-/*
-    @Override
-    protected void onStop() {
-        super.onStop();
-        MapStateManager mgr = new MapStateManager(this);
-        mgr.saveMapState(mGoogleMap);
-        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MapStateManager mgr = new MapStateManager(this);
-        mgr.saveMapState(mGoogleMap);
-        Toast.makeText(this, "on pause", Toast.LENGTH_SHORT).show();
-    }
-*/
-
-    //worry about onResume later
-    //this is not gonna be called unless i push the
-    //back button
-    //which i'm ok with it the current spot(i think)
-    /*
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-    */
 
     private void defaultMarkers(){
 
@@ -506,6 +483,16 @@ public class MapsActivity extends FragmentActivity
                 //This will be displayed on taping the marker
                 markerOptions.title(name);
 
+                //set marker color based on crowdedness, right now testing Rounders
+                if (name.equals("Billy's Sports Grill") || name.equals("Buffalo Wild Wings"))
+                {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                }
+                else
+                {
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                }
+
                 // Placing a marker on the touched position
                 Marker m = mGoogleMap.addMarker(markerOptions);
 
@@ -525,9 +512,16 @@ public class MapsActivity extends FragmentActivity
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Log.d("hmPlace ID:",placeID);
                         if (!dataSnapshot.hasChild(placeID)) {
+
+                            /* TODO: REMOVE!!!!! */
+                            Random blah = new Random();
+                            Integer min = 0; Integer max = 55;
+                            double x = min + blah.nextDouble() * (max - min);
+
                             Log.d("T A G","placeID obj is null in Firebase");
                             mRoot.child("location").child(placeID).child("Details").setValue(foo);
                             mRoot.child("location").child(placeID).child("Population").setValue(0);
+                            mRoot.child("location").child(placeID).child("Stay Time").setValue(String.valueOf(x));
                         }
                     }
 
@@ -668,17 +662,9 @@ public class MapsActivity extends FragmentActivity
         String name = "NAME NOT FOUND";
         Log.i(TAG, "startGeofence()");
 
-//33.215538, -87.519765, 32
         ArrayList<Double> tester = new ArrayList<>();
         ArrayList<Double> tester1 = new ArrayList<>();
-        //tester.add(33.215344);
-        //tester.add(-87.519753);//apartment
 
-        //tester.add(33.215530);//lloyd
-        //tester.add(-87.519760);
-
-        //tester.add(33.214417);//serc
-        //tester.add(-87.543846);
 
         tester.add(33.214830);//fountain
         tester.add(-87.542796);
@@ -686,39 +672,12 @@ public class MapsActivity extends FragmentActivity
         if(!FencesCreated.isIn("fence1") && !FencesCreated.isIn("fence2") ) {
             //calling createGeofence wrong, need to pass the restaraunt latnlong, not mine
 
-            Geofence geofence = createGeofence(tester, 40, "fence1");
+            Geofence geofence = createGeofence(tester, 30, "fence1");
             FencesCreated.storeFence(geofence,tester);
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             addGeofence(geofenceRequest);
 
-           /* geofence = createGeofence(tester1, 39, "fence2");
-            FencesCreated.storeFence(geofence,tester1);
-            geofenceRequest = createGeofenceRequest(geofence);
-            addGeofence(geofenceRequest);
-            */
         }
-
-        /*
-        Geofence geofence = createGeofence(currentLocation, GEOFENCE_RADIUS, name);
-        FencesCreated.storeFence(geofence);
-        GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
-        addGeofence(geofenceRequest);
-        */
-/*
-        for(JSONObject place : PlaceJSONParser.allPlaces) {
-            try {
-                name = place.getString("name");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if(!FencesCreated.isIn(name)) {
-                Geofence geofence = createGeofence(currentLocation, GEOFENCE_RADIUS, name);
-                FencesCreated.storeFence(geofence);
-                GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
-                addGeofence(geofenceRequest);
-            }
-        }
-*/
     }
 
     // Check for permission to access Location

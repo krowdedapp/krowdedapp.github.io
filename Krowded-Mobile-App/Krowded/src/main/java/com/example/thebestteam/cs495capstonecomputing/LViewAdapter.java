@@ -127,17 +127,6 @@ public class LViewAdapter extends BaseAdapter {
                 .config(Bitmap.Config.RGB_565)//affects how many bits are used to store each color
                 .into(thumbnailImageView);
 
-        //var photoUrl = place.photos[0].getUrl({maxWidth: 400, maxHeight: 400});
-        /*
-        //inflates the image, and displays it
-        Picasso.get()
-                .load(getURL(position))
-                //.load("https://i.imgur.com/tGbaZCY.jpg")
-                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .placeholder(R.drawable.failed1)
-                .config(Bitmap.Config.RGB_565)
-                .into(thumbnailImageView);
-*/
 
         return convertView;
     }

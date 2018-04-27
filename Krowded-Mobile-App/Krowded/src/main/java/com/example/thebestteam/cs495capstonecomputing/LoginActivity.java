@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 import static android.support.v4.content.ContextCompat.startActivity;
 
 
@@ -60,8 +62,20 @@ public class LoginActivity extends AppCompatActivity {
                         Boolean isBiz = theUser.child("isBiz").getValue(Boolean.class);
                         int age = Integer.parseInt(theUser.child("age").getValue(String.class));
                         int sex = Integer.parseInt(theUser.child("sex").getValue(String.class));
+                        String owned = (isBiz) ? theUser.child("ownedLocation").getValue(String.class) : "";
 
-                        user = new User(name, email, age, sex, isBiz);
+                        ArrayList<String> favs = new ArrayList<>();
+
+                        for (DataSnapshot fav : theUser.child("favorites").getChildren()) {
+                            favs.add(fav.getKey());
+                        }
+
+
+                        user = new User(name, email, age, sex, isBiz, favs, owned);
+
+                        Log.e("FUCK", "onDataChange: " + user.getEmail() );
+
+                        Log.e("FUCK", "onDataChange: " + user.getFavs() );
 
                         Intent myIntent = new Intent(context, MapsActivity.class);
                         startActivity(myIntent);

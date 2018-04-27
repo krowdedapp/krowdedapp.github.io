@@ -24,7 +24,7 @@ public class DisplayNotificationActivity extends AppCompatActivity {
     User user = LoginActivity.user;
     private RatingBar ratingBar;
     private Button btnSurvey;
-    public static float krowdedness = -1;
+    public static int krowdedness = -1;
 
     private DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
 
@@ -86,15 +86,14 @@ public class DisplayNotificationActivity extends AppCompatActivity {
 
                     DatabaseReference currSurvey = mRoot.child("location").child(MapsActivity.placeName).child("Survey").child(currTime);
                     Log.d("SHORTPLACENAME",MapsActivity.placeName);
-                    Log.d("KROWDEDNESS",String.valueOf(krowdedness));
+                    Log.d("KROWDEDNESS",Integer.toString(krowdedness));
 
                     // Survey Type (S)hort
                     currSurvey.child("Type").setValue("S");
 
-                    if (user == null) { currSurvey.child("User").setValue("null"); }
-                    else currSurvey.child("User").setValue(user);
+                    if (user != null) currSurvey.child("User").setValue(user);
 
-                    currSurvey.child("Krowdedness").setValue(String.valueOf(krowdedness));
+                    currSurvey.child("Krowdedness").setValue(Integer.toString(krowdedness));
 
 
                 newintent.putExtra("back", "nothin");
@@ -137,7 +136,7 @@ public class DisplayNotificationActivity extends AppCompatActivity {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
-                krowdedness = rating;
+                krowdedness = Math.round(rating);
                 //add this to location object
             }
         });
