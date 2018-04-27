@@ -501,8 +501,9 @@ public class MapsActivity extends FragmentActivity
                             krowdedScore = krowdedScore + dataSnapshot.child(placeID).child("krowdedness").getValue(Long.class).doubleValue();
                         }
 
-
-                        krowdedScore = krowdedScore + dataSnapshot.child(placeID).child("Population").getValue(Long.class);
+                        if (dataSnapshot.child(placeID).hasChild("Population")) {
+                            krowdedScore = krowdedScore + dataSnapshot.child(placeID).child("Population").getValue(Long.class);
+                        }
 
                         Log.d("KROWDED SCORE:",String.valueOf(krowdedScore));
 
