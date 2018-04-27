@@ -28,31 +28,28 @@ public class Report {
 
         DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
         // Retrieve cover charges from database, and average them
-        mRoot.child("Location").child(data.get("name")).addListenerForSingleValueEvent(new ValueEventListener() {
+        mRoot.child("location").child(data.get("name")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int sex = 0, count = 0, age = 0;
-
-                String stayTime = dataSnapshot.child("locationStayTime").getValue(String.class);
+                int count = 0, age = 0;
+                double sex = 0;
 
                 for (DataSnapshot ds : dataSnapshot.child("Survey").getChildren()) {
                     if(ds.hasChild("User")) {
                         sex += Integer.parseInt(ds.child("User").child("sex").getValue(String.class));
                         age += Integer.parseInt(ds.child("User").child("age").getValue(String.class));
-                        count = count + 1;
+                        count++;
                     }
                 }
 
                 stats.put("name", data.get("name"));
                 stats.put("average_krowdedness", data.get("average_krowdedness"));
-
-                Log.e("FUCK", "krowded: " + data.get("average_krowdedness") );
                 stats.put("average_wait", data.get("average_wait"));
                 stats.put("average_cover", data.get("average_cover"));
 
                 if(opts[0]) stats.put("average_age", (count != 0) ? ((Integer)(age/count)).toString() : "0");
                 if(opts[1]) stats.put("average_stay_time", data.get("average_stay_time"));
-                if(opts[2]) stats.put("average_sex", (count != 0) ? ((Integer)(sex/count)).toString() : "0");
+                if(opts[2]) stats.put("average_sex", (count != 0) ? ((Double)(sex/count)).toString() : "-1");
 
                 final String report = generateReport(stats);
 
@@ -83,9 +80,9 @@ public class Report {
                         "\nAverage Wait:\t\t" + data.get("average_wait") +
                         "\nAverage Cover:\t\t" + data.get("average_cover") +
                         (data.get("average_age") != null ? "\nAverage Age:\t\t" + data.get("average_age") : "") +
-                        (data.get("average_stay_time") != null ? "\nAverage Stay Time:\t\t" + data.get("average_stay_time") : "") +
-                        (data.get("average_sex") != null ? "\nMale Percentage:\t\t" + (Integer.parseInt(data.get("average_sex"))*100) : "") +
-                        (data.get("average_sex") != null ? "\nFemale Percentage:\t\t" + (100-(Integer.parseInt(data.get("average_sex"))*100)) : "");
+                        (data.get("average_stay_time") != null ? "\nAverage Stay Time:\t\t" + Math.round(Float.parseFloat(data.get("average_stay_time"))) + " minutes" : "") +
+                        (data.get("average_sex") != null ? "\nMale Percentage:\t\t" + Math.round(Double.parseDouble(data.get("average_sex"))*100) + "%" : "") +
+                        (data.get("average_sex") != null ? "\nFemale Percentage:\t\t" + Math.round(100-(Double.parseDouble(data.get("average_sex"))*100)) + "%" : "");
         return report;
     }
 

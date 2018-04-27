@@ -18,9 +18,9 @@ public class FullSurveyActivity extends AppCompatActivity {
 
 
     private Button submit;
-    public float krowdedness;  // Survey.dateTime.Krowdedness
-    public float wait;         // Survey.dateTime.Wait
-    public float money;        // Survey.dateTime.Cover
+    public int krowdedness;  // Survey.dateTime.Krowdedness
+    public int wait;         // Survey.dateTime.Wait
+    public int money;        // Survey.dateTime.Cover
     public String clubMusic;   // Survey.dateTime.Music
     public String genre;       // Survey.dateTime.Genre
 
@@ -52,13 +52,11 @@ public class FullSurveyActivity extends AppCompatActivity {
 
                 User user = LoginActivity.user;
 
-                if (user == null) {
-                    currSurvey.child("User").setValue("null");
-                } else currSurvey.child("User").setValue(user);
+                if (user != null) currSurvey.child("User").setValue(user);
 
-                currSurvey.child("Krowdedness").setValue(krowdedness);
-                currSurvey.child("Wait").setValue(wait);
-                currSurvey.child("Cover").setValue(money);
+                currSurvey.child("Krowdedness").setValue(Integer.toString(krowdedness) );
+                currSurvey.child("Wait").setValue(Integer.toString(wait));
+                currSurvey.child("Cover").setValue(Integer.toString(money));
                 currSurvey.child("Music").setValue(clubMusic);
                 currSurvey.child("Genre").setValue(genre);
 
@@ -178,8 +176,5 @@ public class FullSurveyActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // Krowdedness
-        Integer x = 0;
     }
 }

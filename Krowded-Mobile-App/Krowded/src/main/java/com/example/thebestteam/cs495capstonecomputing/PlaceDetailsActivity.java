@@ -269,15 +269,15 @@ public class PlaceDetailsActivity extends Activity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Integer hasLongSurvey = 0;
 
-                    float coverTotal = 0;
-                    float waitTotal = 0;
-                    float krowdednessTotal = 0;
-                    Integer coverCount = 0;
-                    Integer waitCount = 0;
-                    Integer krowdednessCount = 0;
-                    float coverRating;
-                    float waitRating;
-                    float krowdednessRating;
+                    int coverTotal = 0;
+                    int waitTotal = 0;
+                    int krowdednessTotal = 0;
+                    int coverCount = 0;
+                    int waitCount = 0;
+                    int krowdednessCount = 0;
+                    int coverRating = 0;
+                    int waitRating = 0;
+                    int krowdednessRating = 0;
 
                     locationData.put("average_stay_time", dataSnapshot.child("Stay Time").getValue(String.class));
 
@@ -290,44 +290,44 @@ public class PlaceDetailsActivity extends Activity {
                         locationWaitTime.setText("N/A");
                     } else {
                         for (DataSnapshot ds : dataSnapshot.child("Survey").getChildren()) {
-                            krowdednessRating = ds.child("Krowdedness").getValue(float.class);
-                            krowdednessTotal = krowdednessTotal + krowdednessRating;
+                            krowdednessRating = Integer.parseInt(ds.child("Krowdedness").getValue(String.class));
+                            krowdednessTotal += krowdednessRating;
                             krowdednessCount = krowdednessCount + 1;
 
 
-                            if (ds.child("Type").getValue(String.class) == "L") {
-                            hasLongSurvey = 1;
-                            coverRating = ds.child("Cover").getValue(float.class);
-                            waitRating = ds.child("Wait").getValue(float.class);
+                            if (ds.child("Type").getValue(String.class).equals("L")) {
+                                hasLongSurvey = 1;
+                                coverRating = Integer.parseInt(ds.child("Cover").getValue(String.class));
+                                waitRating = Integer.parseInt(ds.child("Wait").getValue(String.class));
 
-                            coverTotal = coverTotal + coverRating;
-                            waitTotal = waitTotal + waitRating;
+                                coverTotal = coverTotal + coverRating;
+                                waitTotal = waitTotal + waitRating;
 
-                            coverCount = coverCount + 1;
-                            waitCount = waitCount + 1;
+                                coverCount = coverCount + 1;
+                                waitCount = waitCount + 1;
+                            }
                         }
-                    }
 
                         //locationData.put("string",variable);
 
-                        double krowdednessAvg = krowdednessTotal / krowdednessCount;
-                        locationData.put("average_krowdedness",String.valueOf(krowdednessAvg));
-                        Log.d("AVG KROWDEDNESS",String.valueOf(krowdednessAvg));
+                        int krowdednessAvg = krowdednessTotal / krowdednessCount;
+                        locationData.put("average_krowdedness",Integer.toString(krowdednessAvg));
+                        Log.e("AVG KROWDEDNESS",Integer.toString(krowdednessAvg));
 
 
                         if (hasLongSurvey == 1) {
-                            double coverAvg = coverTotal / coverCount;
-                            double waitAvg = waitTotal / waitCount;
+                            int coverAvg = coverTotal / coverCount;
+                            int waitAvg = waitTotal / waitCount;
 
-                            Log.d("AVG COVER",String.valueOf(coverAvg));
-                            Log.d("AVG WAIT",String.valueOf(waitAvg));
+                            Log.e("AVG COVER",Integer.toString(coverAvg));
+                            Log.e("AVG WAIT",Integer.toString(waitAvg));
 
 
-                            locationData.put("average_wait", String.valueOf(waitAvg));
-                            locationData.put("average_cover", String.valueOf(coverAvg));
-                            locationCover.setText(Double.toString(coverAvg));
-                            locationKrowdedness.setText(Double.toString(krowdednessAvg));
-                            locationWaitTime.setText(Double.toString(waitAvg));
+                            locationData.put("average_wait", Integer.toString(waitAvg));
+                            locationData.put("average_cover", Integer.toString(coverAvg));
+                            locationCover.setText(Integer.toString(coverAvg));
+                            locationKrowdedness.setText(Integer.toString(krowdednessAvg));
+                            locationWaitTime.setText(Integer.toString(waitAvg));
                         }
 
                     }
